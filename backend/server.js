@@ -1,6 +1,8 @@
 const express = require("express");
 require("dotenv").config();
 
+const mongoose = require("mongoose");
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -8,6 +10,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(4000, () => {
-  console.log("Listening to port 4000");
-});
+mongoose
+  .connect()
+  .then(() => {
+    app.listen(4000, () => {
+      console.log("Listening to port 4000");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
