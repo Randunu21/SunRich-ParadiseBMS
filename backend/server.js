@@ -11,7 +11,7 @@ app.use((req, res, next) => {
 });
 
 mongoose
-  .connect()
+  .connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(4000, () => {
       console.log("Listening to port 4000");
