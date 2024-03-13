@@ -1,9 +1,11 @@
 const express = require("express");
 const OrderModel = require("../models/order");
 const { default: mongoose } = require("mongoose");
+const OrderItemModel = require("../models/order-item");
 
 const router = express.Router();
 
+//Get all orders
 router.get("/", async (req, res) => {
   const allOrders = await OrderModel.find();
 
@@ -14,6 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get a specific order
 router.get("/:id", async (req, res) => {
   const { id } = await req.params.id;
 
@@ -30,12 +33,13 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//adding a new order
 router.post("/", async (req, res) => {
   const newOrderItemsIDs = Promise.all(
-    req.body.orderItems.map(async (orderItemsOBJ) => {
-      const newOrderItems = new orderItemsOBJ({
-        product: req.body.product,
-        quantity: req.body.quantity,
+    req.body.orderItems.map(async (orderItem) => {
+      const newOrderItems = new OrderItemModel({
+        product: orderItem.product,
+        quantity: orderItem.quantity,
       });
 
       await newOrderItems
@@ -53,7 +57,7 @@ router.post("/", async (req, res) => {
 
   const newOrderItemsIDsResolved = await newOrderItemsIDs;
 
-  const newOrder = new Order({
+  const newOrder = new OrderModel({
     orderItems: newOrderItemsIDsResolved,
     shippingAddress1: req.body.shippingAddress1,
     shippingAddress2: req.body.shippingAddress2,
@@ -72,4 +76,21 @@ router.post("/", async (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+//delete an order
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.json("Invalid Id");
+  }
+
+  const deletedItem = await OrderModel.findByIdAndDelete({ _id: id });
+
+  if (!deletedItem) {
+    res.json({ msg: "No Items Deleted" });
+  } else {
+    res.json(deletedItem);
+  }
 });
