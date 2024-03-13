@@ -2,6 +2,7 @@ const express = require("express");
 const OrderModel = require("../models/order");
 const { default: mongoose } = require("mongoose");
 const OrderItemModel = require("../models/order-item");
+const orderItem = require("../models/order-item");
 
 const router = express.Router();
 
@@ -18,13 +19,13 @@ router.get("/", async (req, res) => {
 
 //get a specific order
 router.get("/:id", async (req, res) => {
-  const { id } = await req.params.id;
+  const { id } = req.params.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json({ msg: "Invalid id" });
   }
 
-  const specOrder = OrderModel.findById(id);
+  const specOrder = await OrderModel.findById(id);
 
   if (!specOrder) {
     res.status(404).json({ msg: "IDs Not Found" });
@@ -86,11 +87,38 @@ router.delete("/:id", async (req, res) => {
     res.json("Invalid Id");
   }
 
-  const deletedItem = await OrderModel.findByIdAndDelete({ _id: id });
+  const deletedItem = await OrderModel.findByIdAndDelete({ _id: id })
+    .then(async (order) => {
+      if (order) {
+        await order.orderItems.map(async (orderItem) => {
+          await OrderItemModel.findByIdAndDelete(orderItem);
+        });
+        return res.json({ msg: "order deleted" });
+      } else {
+        return res.json({ msg: "order deletion failed" });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-  if (!deletedItem) {
-    res.json({ msg: "No Items Deleted" });
+//Updating status of an order
+
+router.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.json({ msg: "Invalid Id" });
+  }
+
+  const updatedOrder = await OrderModel.findByIdAndUpdate(id, {
+    status: req.body.status,
+  });
+
+  if (!updatedOrder) {
+    res.json({ msg: "Update failed" });
   } else {
-    res.json(deletedItem);
+    res.json({ msg: "updated successfully" });
   }
 });
