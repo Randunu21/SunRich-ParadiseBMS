@@ -22,6 +22,12 @@ router.get("/:id", (req, res) => {
   }
 
   const specOrder = OrderModel.findById(id);
+
+  if (!specOrder) {
+    res.status(404).json({ msg: "IDs Not Found" });
+  } else {
+    res.status(200).json(specOrder);
+  }
 });
 
 router.post("/", (req, res) => {});
