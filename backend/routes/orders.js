@@ -19,18 +19,18 @@ router.get("/", async (req, res) => {
 
 //get a specific order
 router.get("/:id", async (req, res) => {
-  const { id } = req.params.id;
+  const id = req.params.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json({ msg: "Invalid id" });
-  }
-
-  const specOrder = await OrderModel.findById(id);
-
-  if (!specOrder) {
-    res.status(404).json({ msg: "IDs Not Found" });
   } else {
-    res.status(200).json(specOrder);
+    const specOrder = await OrderModel.findById(id);
+
+    if (!specOrder) {
+      res.status(404).json({ msg: "IDs Not Found" });
+    } else {
+      res.status(200).json(specOrder);
+    }
   }
 });
 
@@ -43,14 +43,7 @@ router.post("/", async (req, res) => {
         quantity: orderItem.quantity,
       });
 
-      await newOrderItems
-        .save()
-        .then(() => {
-          res.json({ msg: "orderItems Added" });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      await newOrderItems.save();
 
       return newOrderItems._id;
     })
@@ -70,7 +63,8 @@ router.post("/", async (req, res) => {
     dateOfOrder: req.body.dateOfOrder,
   });
 
-  await Order.save()
+  newOrder
+    .save()
     .then(() => {
       res.json({ msg: "Order Added to the System" });
     })
@@ -122,3 +116,5 @@ router.patch("/:id", async (req, res) => {
     res.json({ msg: "updated successfully" });
   }
 });
+
+module.exports = router;

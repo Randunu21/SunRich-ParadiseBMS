@@ -39,7 +39,7 @@ const orderSchema = new Schema({
     type: Number,
   },
   userID: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
   },
   dateOfOrder: {
     type: Date,
