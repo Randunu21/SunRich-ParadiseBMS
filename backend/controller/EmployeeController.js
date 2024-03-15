@@ -112,5 +112,17 @@ const updateEmp = async (req, res) => {
     }
 }
 
+// Create a function to remove an employee by id
+const removeEmp= async (req, res) => {
+    const objectId = req.params.id;
+    try {
+        await EmployeeModel.findByIdAndDelete(objectId);
+        res.status(200).send('Employee removed successfully');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error occurred while deleting data');
+    }
+}
+
 // Export all the controller functions as an object
 module.exports = { addEmployees};

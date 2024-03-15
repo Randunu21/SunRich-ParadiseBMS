@@ -17,4 +17,7 @@ router.get('/getEmployee/:id', readSpecemployee);
 // update an employee by id
 router.put('/updateEmployee/:id', updateEmp);
 
+// delete an employee by id
+router.delete('/deleteEmployee/:id', removeEmp);
+
 module.exports=router;
