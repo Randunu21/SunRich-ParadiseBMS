@@ -7,7 +7,7 @@ const orderItem = require("../models/order-item");
 const router = express.Router();
 
 //Get all orders
-router.get("/", async (req, res) => {
+router.get("/all-orders", async (req, res) => {
   const allOrders = await OrderModel.find();
 
   if (!allOrders) {
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 //get a specific order
-router.get("/:id", async (req, res) => {
+router.get("/all-orders/:id", async (req, res) => {
   const id = req.params.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -116,5 +116,56 @@ router.patch("/:id", async (req, res) => {
     res.json({ msg: "updated successfully" });
   }
 });
+
+//getting orders with status = pending
+router.get("/pending-orders", async (req, res) => {
+  try {
+    const pendingOrders = await OrderModel.find({ status: "pending" });
+
+    if (pendingOrders.length == 0) {
+      res.json({ msg: "No orders found" });
+    } else {
+      res.json(pendingOrders);
+    }
+  } catch (err) {
+    res.json({ msg: err });
+  }
+});
+
+//getting orders with status = ongoing
+router.get("/current-orders", async (req, res) => {
+  try {
+    const currentOrders = await OrderModel.find({ status: "on going" });
+    if (currentOrders.length == 0) {
+      res.json({ msg: "No orders found" });
+    } else {
+      res.json(currentOrders);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+//getting orders with status = completed
+
+router.get("/past-orders", async (req, res) => {
+  try {
+    const pastOrders = await OrderModel.find({ status: "Completed" });
+
+    if (pastOrders.length == 0) {
+      res.json({ msg: "No Past Orders" });
+    } else {
+      res.json(pastOrders);
+    }
+  } catch (err) {
+    res.json({ msg: err });
+  }
+});
+
+//updating all order(specific orderID) details with user = admin
+
+// getting all orders specific to user
+
+//getting ongoing/pending orders specific to user
 
 module.exports = router;
