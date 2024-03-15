@@ -1,60 +1,48 @@
+const express = require("express");
+const EmployeeModel = require("../models/EmployeeModel.js");
+const {default: mongoose} = require("mongoose");
 
-const  mongoose = require("mongoose");
-// import autoIncrement from 'mongoose-auto-increment';
 
-const Schema  = mongoose.Schema;
+// Create a function to create a new employee
+const addEmployees = async (req, res) =>{
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const NIC = req.body.NIC
+    const role = req.body.role
+    const gender = req.body.gender
+    const DOB = req.body.DOB
+    const contactNo = req.body.contactNo
+    const email = req.body.email
+    const address = req.body.address
+    const joinedDate = req.body.joinedDate
 
-const EmployeeSchema = new Schema({
-    userId: {
-        type: String,
-        required: true
-    },
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    NIC: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        required: true
-    },
-    gender: {
-        type: String,
-        required: true
-    },
-    DOB: {
-        type: Date,
-        required: true
-    },
-    contactNo: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
-    
-    joinedDate: {
-        type: Date,
-        required: true
-    },
-    
-    totalSal: {
-        type: Number
+
+    console.log(firstName + lastName + NIC + role + gender + DOB + contactNo + email + address + joinedDate )
+
+    const employee = new EmployeeModel({
+
+        userId: "45821463#23669546",
+        firstName: firstName,
+        lastName: lastName,
+        NIC: NIC,
+        role: role,
+        gender: gender,
+        DOB: DOB,
+        contactNo: contactNo,
+        email: email,
+        address: address,
+        joinedDate: joinedDate
+    });
+
+    try {
+        await employee.save()
+        console.log("successfully data inserted")
+        res.status(200).send("Data inserted successfully");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error occurred while inserting data");
     }
-});
+}
 
-//Employee is collection name
-module.exports = mongoose.model('Employee', EmployeeSchema);
+// Export all the controller functions as an object
+module.exports = { addEmployees};
