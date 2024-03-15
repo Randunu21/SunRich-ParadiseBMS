@@ -125,4 +125,4 @@ const removeEmp= async (req, res) => {
 }
 
 // Export all the controller functions as an object
-module.exports = { addEmployees};
+module.exports = { addEmployees, removeEmp, updateEmp, readSpecemployee, fetchEmployees };
