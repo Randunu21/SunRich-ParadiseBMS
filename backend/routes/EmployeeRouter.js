@@ -14,4 +14,7 @@ router.get('/getEmployee', fetchEmployees);
 // get one employee by id
 router.get('/getEmployee/:id', readSpecemployee);
 
+// update an employee by id
+router.put('/updateEmployee/:id', updateEmp);
+
 module.exports=router;

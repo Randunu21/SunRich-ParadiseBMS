@@ -70,5 +70,47 @@ const readSpecemployee = async (req, res) => {
     }
 }
 
+// Create a function to update an employee by id
+const updateEmp = async (req, res) => {
+    const objectId = req.params.id;
+    const { firstName, 
+            lastName, 
+            NIC, 
+            role, 
+            gender, 
+            DOB, 
+            contactNo, 
+            email, 
+            address, 
+            joinedDate 
+    } = req.body;
+
+    try {
+        const updatedEmployee = await EmployeeModel.findByIdAndUpdate(
+            objectId,
+            {
+                firstName: firstName,
+                lastName: lastName,
+                NIC: NIC,
+                role: role,
+                gender: gender,
+                DOB: DOB,
+                contactNo: contactNo,
+                email: email,
+                address: address,
+                joinedDate: joinedDate
+
+            },
+            { new: true }
+        );
+        res.status(200).send(updatedEmployee);
+        console.log('Employee details updated successfully');
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error occurred while updating data');
+    }
+}
+
 // Export all the controller functions as an object
 module.exports = { addEmployees};
