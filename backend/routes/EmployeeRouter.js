@@ -8,5 +8,7 @@ console.log('IN employeeRouter');
 // create an employee
 router.post('/addEmployee', addEmployees);
 
+// get all employees
+router.get('/getEmployee', fetchEmployees);
 
 module.exports=router;

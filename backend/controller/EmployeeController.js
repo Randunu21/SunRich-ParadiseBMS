@@ -44,5 +44,19 @@ const addEmployees = async (req, res) =>{
     }
 }
 
+// Create a function to read all employees
+const fetchEmployees = async (req, res) => {
+
+    const userId = "45821463#23669546";
+
+    try {
+        const employee = await EmployeeModel.find({ userId });
+        res.status(200).json(employee);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error occurred while retrieving data');
+    }
+}
+
 // Export all the controller functions as an object
 module.exports = { addEmployees};
