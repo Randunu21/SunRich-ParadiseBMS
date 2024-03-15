@@ -121,12 +121,7 @@ router.patch("/:id", async (req, res) => {
 router.get("/pending-orders", async (req, res) => {
   try {
     const pendingOrders = await OrderModel.find({ status: "pending" });
-
-    if (pendingOrders.length == 0) {
-      res.json({ msg: "No orders found" });
-    } else {
-      res.json(pendingOrders);
-    }
+    res.json(pendingOrders);
   } catch (err) {
     res.json({ msg: err });
   }
@@ -136,11 +131,7 @@ router.get("/pending-orders", async (req, res) => {
 router.get("/current-orders", async (req, res) => {
   try {
     const currentOrders = await OrderModel.find({ status: "on going" });
-    if (currentOrders.length == 0) {
-      res.json({ msg: "No orders found" });
-    } else {
-      res.json(currentOrders);
-    }
+    res.json(currentOrders);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -151,12 +142,7 @@ router.get("/current-orders", async (req, res) => {
 router.get("/past-orders", async (req, res) => {
   try {
     const pastOrders = await OrderModel.find({ status: "Completed" });
-
-    if (pastOrders.length == 0) {
-      res.json({ msg: "No Past Orders" });
-    } else {
-      res.json(pastOrders);
-    }
+    res.json(pastOrders);
   } catch (err) {
     res.json({ msg: err });
   }
