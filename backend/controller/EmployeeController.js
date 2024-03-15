@@ -58,5 +58,17 @@ const fetchEmployees = async (req, res) => {
     }
 }
 
+// Create a function to read a single employee by id
+const readSpecemployee = async (req, res) => {
+    try {
+        const employee = await EmployeeModel.findById(req.params.id);
+        console.log('Employee read successfully for update');
+        res.status(200).json(employee);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error occurred while retrieving data');
+    }
+}
+
 // Export all the controller functions as an object
 module.exports = { addEmployees};
