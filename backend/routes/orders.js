@@ -165,6 +165,21 @@ router.get("/past-orders", async (req, res) => {
 //updating all order(specific orderID) details with user = admin
 
 // getting all orders specific to user
+router.get("/all-orders/user/:userID", async (req, res) => {
+  const user = req.params.userID;
+
+  /*if (!mongoose.Types.ObjectId.isValid(user)) {
+      res.json({ msg: "Invalid User Id" });
+    }*/
+
+  const userOrders = await OrderModel.find({ userID: user });
+
+  if (userOrders.length == 0) {
+    res.json({ msg: "No Orders Made By this User" });
+  } else {
+    res.json(userOrders);
+  }
+});
 
 //getting ongoing/pending orders specific to user
 
