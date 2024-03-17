@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const orderItemSchema = new Schema({
+const cartItemSchema = new Schema({
   product: {
     type: Number,
     required: true,
@@ -14,4 +14,4 @@ const orderItemSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("orderItem", orderItemSchema);
+module.exports = mongoose.model("cartitem", cartItemSchema);

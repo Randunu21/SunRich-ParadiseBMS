@@ -3,13 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
-  orderItems: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "orderItems",
-      required: true,
-    },
-  ],
+  cartID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "cart",
+  },
 
   shippingAddress1: {
     type: String,

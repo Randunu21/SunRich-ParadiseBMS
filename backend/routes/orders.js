@@ -1,8 +1,8 @@
 const express = require("express");
 const OrderModel = require("../models/order");
 const { default: mongoose } = require("mongoose");
-const OrderItemModel = require("../models/order-item");
-const orderItem = require("../models/order-item");
+const Cart = require("../models/cart");
+const CartItems = require("../models/cart-item");
 
 const router = express.Router();
 
@@ -35,24 +35,9 @@ router.get("/all-orders/:id", async (req, res) => {
 });
 
 //adding a new order
-router.post("/", async (req, res) => {
-  const newOrderItemsIDs = Promise.all(
-    req.body.orderItems.map(async (orderItem) => {
-      const newOrderItems = new OrderItemModel({
-        product: orderItem.product,
-        quantity: orderItem.quantity,
-      });
-
-      await newOrderItems.save();
-
-      return newOrderItems._id;
-    })
-  );
-
-  const newOrderItemsIDsResolved = await newOrderItemsIDs;
-
+router.post("/addOrder", async (req, res) => {
   const newOrder = new OrderModel({
-    orderItems: newOrderItemsIDsResolved,
+    cartID: req.body.cartID,
     shippingAddress1: req.body.shippingAddress1,
     shippingAddress2: req.body.shippingAddress2,
     city: req.body.city,
@@ -74,27 +59,30 @@ router.post("/", async (req, res) => {
 });
 
 //delete an order
-router.delete("/:id", async (req, res) => {
+router.delete("/deleteOrder/:id", async (req, res) => {
   const id = req.params.id;
+
+  const cart = await OrderModel.findById(id);
+  const cartId = await cart.cartID; //to get the cartID from the order ID
+
+  console.log(cartId);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.json("Invalid Id");
   }
 
-  const deletedItem = await OrderModel.findByIdAndDelete({ _id: id })
-    .then(async (order) => {
-      if (order) {
-        await order.orderItems.map(async (orderItem) => {
-          await OrderItemModel.findByIdAndDelete(orderItem);
-        });
-        return res.json({ msg: "order deleted" });
-      } else {
-        return res.json({ msg: "order deletion failed" });
-      }
-    })
-    .catch((err) => {
-      console.log(err);
+  //delete order along with its cart and its items
+  const deleteOrder = await OrderModel.findByIdAndDelete({ _id: id });
+  if (deleteOrder) {
+    await Cart.findByIdAndDelete(cartId).then(async (cart) => {
+      await cart.cartItems.map(async (cartitem) => {
+        await CartItems.findByIdAndDelete(cartitem);
+      });
     });
+    res.json({ msg: "Order deleted Successfully" });
+  } else {
+    res.json({ msg: "couldnt delete" });
+  }
 });
 
 //Updating status of an order
