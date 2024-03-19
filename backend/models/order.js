@@ -38,6 +38,10 @@ const orderSchema = new Schema({
   userID: {
     type: Number,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   dateOfOrder: {
     type: Date,
     default: Date.now,
