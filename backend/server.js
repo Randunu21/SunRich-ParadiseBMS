@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const orderRoutes = require("./routes/orders");
 const cartRoutes = require("./routes/shoppingCart");
+const cors = require("cors");
 
 const mongoose = require("mongoose");
 
@@ -9,6 +10,7 @@ const app = express();
 
 //middleware
 app.use(express.json());
+app.use(cors());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);

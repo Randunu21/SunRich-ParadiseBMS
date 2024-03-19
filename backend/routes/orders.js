@@ -38,6 +38,8 @@ router.get("/all-orders/:id", async (req, res) => {
 router.post("/addOrder", async (req, res) => {
   const newOrder = new OrderModel({
     cartID: req.body.cartID,
+    firstName: req.body.firstName,
+    secondName: req.body.secondName,
     shippingAddress1: req.body.shippingAddress1,
     shippingAddress2: req.body.shippingAddress2,
     city: req.body.city,
@@ -45,6 +47,7 @@ router.post("/addOrder", async (req, res) => {
     status: req.body.status,
     totlaPrice: req.body.totlaPrice,
     userID: req.body.userID,
+    email: req.body.email,
     dateOfOrder: req.body.dateOfOrder,
   });
 

@@ -7,6 +7,13 @@ const orderSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "cart",
   },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  secondName: {
+    type: String,
+  },
 
   shippingAddress1: {
     type: String,
