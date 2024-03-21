@@ -1,35 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-const PendingOrder = () => {
+const OngoingOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const getStudents = () => {
+    const getOnGoingOrders = () => {
       axios
-        .get("http://localhost:4000/api/orders/pending-orders")
+        .get("http://localhost:4000/api/orders/ongoing-orders")
         .then((res) => {
           setOrders(res.data);
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     };
-
-    getStudents();
+    getOnGoingOrders();
   }, []);
 
-  const handleAccept = () => {
-    axios.patch("http://localhost:4000/api/orders/").then(() => {
-      alert("Order Accepted");
-    });
-  };
-
-  const handleDecline = () => {};
+  const handleEdit = () => {};
 
   return (
     <div className="container">
-      <h2>Pending Orders</h2>
+      <h2>Ongoing Orders</h2>
       <table className="table">
         <thead>
           <tr>
@@ -48,16 +41,10 @@ const PendingOrder = () => {
                 <td>${order.postalCode}</td>
                 <td>
                   <button
-                    className="btn btn-success me-2"
-                    onClick={() => handleAccept(order.id)}
-                  >
-                    Accept
-                  </button>
-                  <button
                     className="btn btn-danger"
-                    onClick={() => handleDecline(order.id)}
+                    onClick={() => handleEdit(order.id)}
                   >
-                    Decline
+                    Edit
                   </button>
                 </td>
               </tr>
@@ -68,4 +55,4 @@ const PendingOrder = () => {
   );
 };
 
-export default PendingOrder;
+export default OngoingOrders;

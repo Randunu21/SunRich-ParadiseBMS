@@ -127,8 +127,8 @@ const DeliveryDetails = () => {
           >
             <option selected>Choose...</option>
             <option>Sri Lanka</option>
-            <option>Sri Lanka</option>
-            <option>Sri Lanka</option>
+            <option>Russia</option>
+            <option>India</option>
           </select>
         </div>
 
