@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PendingOrder from "./components/PendingOrders";
 import OngoingOrders from "./components/OngoingOrder";
 import PastOrders from "./components/PastOrders";
+import ShoppingCart from "./components/ShoppingCart";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <PendingOrder />
         <OngoingOrders />
         <PastOrders />
+        <ShoppingCart />
       </BrowserRouter>
     </div>
   );

@@ -14,8 +14,6 @@ const DeliveryDetails = () => {
   const checkOut = (e) => {
     e.preventDefault();
 
-    alert("damn");
-
     const newOrder = {
       firstName,
       secondName,
@@ -26,8 +24,6 @@ const DeliveryDetails = () => {
       email,
       country,
     };
-
-    console.log(newOrder);
 
     axios
       .post("http://localhost:4000/api/orders/addOrder", newOrder)
