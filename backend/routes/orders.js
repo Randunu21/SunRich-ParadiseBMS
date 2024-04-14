@@ -90,7 +90,7 @@ router.delete("/deleteOrder/:id", async (req, res) => {
 
 //Updating status of an order
 
-router.patch("/:id", async (req, res) => {
+router.patch("/order-status/:id", async (req, res) => {
   const id = req.params.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -111,7 +111,9 @@ router.patch("/:id", async (req, res) => {
 //getting orders with status = pending
 router.get("/pending-orders", async (req, res) => {
   try {
-    const pendingOrders = await OrderModel.find({ status: "pending" });
+    const pendingOrders = await OrderModel.find({ status: "pending" }).populate(
+      "cartID"
+    );
     res.json(pendingOrders);
   } catch (err) {
     res.json({ msg: err });
@@ -121,7 +123,9 @@ router.get("/pending-orders", async (req, res) => {
 //getting orders with status = ongoing
 router.get("/current-orders", async (req, res) => {
   try {
-    const currentOrders = await OrderModel.find({ status: "on going" });
+    const currentOrders = await OrderModel.find({
+      status: "on going",
+    }).populate("cartID");
     res.json(currentOrders);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -132,7 +136,9 @@ router.get("/current-orders", async (req, res) => {
 
 router.get("/past-orders", async (req, res) => {
   try {
-    const pastOrders = await OrderModel.find({ status: "Completed" });
+    const pastOrders = await OrderModel.find({ status: "Completed" }).populate(
+      "cartID"
+    );
     res.json(pastOrders);
   } catch (err) {
     res.json({ msg: err });

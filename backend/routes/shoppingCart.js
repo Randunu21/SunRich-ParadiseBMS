@@ -10,12 +10,16 @@ const router = express.Router();
 router.get("/getCart/:id", async (req, res) => {
   const cartID = req.params.id;
 
-  const specCart = await Cart.findById(cartID);
-
-  if (!specCart) {
-    res.json({ msg: "You Dont Have A Cart Currently" });
+  if (!mongoose.Types.ObjectId.isValid(cartID)) {
+    res.json({ msg: "invalid ID" });
   } else {
-    res.json(specCart);
+    const specCart = await Cart.findById(cartID).populate("cartItems");
+
+    if (!specCart) {
+      res.json({ msg: "You Dont Have A Cart Currently" });
+    } else {
+      res.json(specCart);
+    }
   }
 });
 
