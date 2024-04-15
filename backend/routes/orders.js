@@ -88,9 +88,9 @@ router.delete("/deleteOrder/:id", async (req, res) => {
   }
 });
 
-//Updating status of an order
+//Updating an order
 
-router.patch("/order-status/:id", async (req, res) => {
+router.patch("/updateOrder/:id", async (req, res) => {
   const id = req.params.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -98,13 +98,21 @@ router.patch("/order-status/:id", async (req, res) => {
   }
 
   const updatedOrder = await OrderModel.findByIdAndUpdate(id, {
+    firstName: req.body.firstName,
+    secondName: req.body.secondName,
+    shippingAddress1: req.body.shippingAddress1,
+    shippingAddress2: req.body.shippingAddress2,
+    city: req.body.city,
+    postalCode: req.body.postalCode,
     status: req.body.status,
   });
+
+  const updatedVersion = await OrderModel.findById(id);
 
   if (!updatedOrder) {
     res.json({ msg: "Update failed" });
   } else {
-    res.json({ msg: "updated successfully" });
+    res.json(updatedVersion);
   }
 });
 
@@ -119,7 +127,7 @@ router.get("/pending-orders", async (req, res) => {
 });
 
 //getting orders with status = ongoing
-router.get("/current-orders", async (req, res) => {
+router.get("/ongoing-orders", async (req, res) => {
   try {
     const currentOrders = await OrderModel.find({
       status: "on going",
