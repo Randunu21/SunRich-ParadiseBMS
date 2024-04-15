@@ -6,6 +6,7 @@ const PendingOrder = () => {
   const [selectedOrder, setSelectedOrder] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [specCart, setSpecCart] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const getStudents = () => {
@@ -47,10 +48,28 @@ const PendingOrder = () => {
 
   const handleDecline = () => {};
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredOrder = orders.filter((order) => {
+    return order._id.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
   return (
     <div className="container">
       <h2>Pending Orders</h2>
-      <table className="table">
+
+      <div className="d-flex justify-content-center mt-3 input-group mb-3">
+        <input
+          type="text"
+          placeholder="Search by Order ID or Cart ID"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
+
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Order ID</th>
@@ -60,8 +79,8 @@ const PendingOrder = () => {
           </tr>
         </thead>
         <tbody>
-          {orders &&
-            orders.map((order) => (
+          {filteredOrder &&
+            filteredOrder.map((order) => (
               <tr key={order.id}>
                 <td>{order._id}</td>
                 <td>{order.cartID}</td>
@@ -113,16 +132,28 @@ const PendingOrder = () => {
                 <div>
                   Cart Items:
                   <table>
-                    {specCart.cartItems &&
-                      specCart.cartItems.map((cartItem) => (
-                        <tr key={cartItem._id}>
-                          <td>{cartItem._id}</td>
-                          <td>{cartItem.product}</td>
-                          <td>{cartItem.quantity}</td>
-                        </tr>
-                      ))}
-                    <tr>Total Price : {specCart.totalPrice}</tr>
+                    <tbody>
+                      {specCart.cartItems &&
+                        specCart.cartItems.map((cartItem) => (
+                          <tr key={cartItem._id}>
+                            <td>{cartItem._id}</td>
+                            <td>{cartItem.product}</td>
+                            <td>{cartItem.quantity}</td>
+                          </tr>
+                        ))}
+                      <tr>
+                        <td colSpan="3">Total Price: {specCart.totalPrice}</td>
+                      </tr>
+                    </tbody>
                   </table>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" class="btn btn-success">
+                    Accept
+                  </button>
+                  <button type="button" class="btn btn-danger">
+                    Decline
+                  </button>
                 </div>
               </div>
             </div>

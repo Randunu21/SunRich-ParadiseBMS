@@ -111,9 +111,7 @@ router.patch("/order-status/:id", async (req, res) => {
 //getting orders with status = pending
 router.get("/pending-orders", async (req, res) => {
   try {
-    const pendingOrders = await OrderModel.find({ status: "pending" }).populate(
-      "cartID"
-    );
+    const pendingOrders = await OrderModel.find({ status: "pending" });
     res.json(pendingOrders);
   } catch (err) {
     res.json({ msg: err });
