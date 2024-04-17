@@ -2,7 +2,7 @@ import React from 'react'
 
 function WathayakUnaneMeka() {
   return (
-    <div>WathayakUnaneMekadsad</div>
+    <div>dadsbasgbsgabasgddsadnashdsa</div>
   )
 }
 
