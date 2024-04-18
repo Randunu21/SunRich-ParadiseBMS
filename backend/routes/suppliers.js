@@ -4,7 +4,7 @@ let Supplier=require("../models/Supplier");
 router.route("/add").post((req,res)=>{
 
     const supplier_nameNew=req.body.supplier_name;
-    const nicNew=req.body.nic;
+    const nicNew=req.body.NIC;
     const emailNew=req.body.email;
     const addressNew=req.body.address;
     const phone_numberNew=req.body.phone_number
