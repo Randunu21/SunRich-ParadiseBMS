@@ -1,7 +1,9 @@
-const express = require("express");
 require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose")
+const productRouter = require("./routes/products.js");
 
-const mongoose = require("mongoose");
+
 
 const app = express();
 
@@ -12,13 +14,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/product",productRouter);
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(4000, () => {
       console.log("Listening to port 4000");
     });
-  })
-  .catch((error) => {
+  }).catch((error) => {
     console.log(error);
   });
+
+   
