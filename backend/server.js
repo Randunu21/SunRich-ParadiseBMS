@@ -2,6 +2,8 @@ const express = require("express");
 require("dotenv").config();
 
 const mongoose = require("mongoose");
+const supplierRouter=require("./routes/suppliers.js");
+const supplierorder = require("./models/supplierorder.js");
 
 const app = express();
 
@@ -12,7 +14,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/suppliers",supplierRouter);
 
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
+
+app.use("/supplierorder",supplierRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
