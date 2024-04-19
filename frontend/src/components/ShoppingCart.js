@@ -98,7 +98,9 @@ function ShoppingCart() {
             <div className="card-body">
               <h3 className="card-title">Total</h3>
               <p className="card-text">Total Price: </p>
-              <button className="btn btn-success">Checkout</button>
+              <a href="/delivery-details">
+                <button className="btn btn-success">Checkout</button>
+              </a>
             </div>
           </div>
         </div>

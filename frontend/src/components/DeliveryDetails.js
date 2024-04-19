@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom"; //get details from order history
 
 const DeliveryDetails = () => {
-  const [firstName, setFirstName] = useState("");
-  const [secondName, setSecondName] = useState("");
-  const [shippingAddress1, setShippingAdddress1] = useState("");
-  const [shippingAddress2, setShippingAdddress2] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
+  const location = useLocation();
+
+  const { orderDetails } = location.state || { orderDetails: {} };
+
+  const [firstName, setFirstName] = useState(orderDetails.firstName || "");
+  const [secondName, setSecondName] = useState(orderDetails.secondName || "");
+  const [shippingAddress1, setShippingAdddress1] = useState(
+    orderDetails.shippingAddress1 || ""
+  );
+  const [shippingAddress2, setShippingAdddress2] = useState(
+    orderDetails.shippingAddress2 || ""
+  );
+  const [city, setCity] = useState(orderDetails.city || "");
+  const [postalCode, setPostalCode] = useState(orderDetails.postalCode || "");
+  const [email, setEmail] = useState(orderDetails.email || "");
+  const [country, setCountry] = useState(orderDetails.country || "");
 
   const checkOut = (e) => {
     e.preventDefault();
@@ -46,6 +55,7 @@ const DeliveryDetails = () => {
             type="text"
             class="form-control"
             id="inputFirstName"
+            value={firstName}
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
@@ -60,6 +70,7 @@ const DeliveryDetails = () => {
             type="text"
             class="form-control"
             id="inputSecondName"
+            value={secondName}
             onChange={(e) => {
               setSecondName(e.target.value);
             }}
@@ -75,6 +86,7 @@ const DeliveryDetails = () => {
             class="form-control"
             id="inputAddress"
             placeholder="1234 Main St"
+            value={shippingAddress1}
             onChange={(e) => {
               setShippingAdddress1(e.target.value);
             }}
@@ -90,6 +102,7 @@ const DeliveryDetails = () => {
             class="form-control"
             id="inputAddress2"
             placeholder="Apartment, studio, or floor"
+            value={shippingAddress2}
             onChange={(e) => {
               setShippingAdddress2(e.target.value);
             }}
@@ -104,6 +117,7 @@ const DeliveryDetails = () => {
             type="text"
             class="form-control"
             id="inputCity"
+            value={city}
             onChange={(e) => {
               setCity(e.target.value);
             }}
@@ -117,6 +131,7 @@ const DeliveryDetails = () => {
           <select
             id="inputCountry"
             class="form-select"
+            value={country}
             onChange={(e) => {
               setCountry(e.target.value);
             }}
@@ -136,6 +151,7 @@ const DeliveryDetails = () => {
             type="text"
             class="form-control"
             id="inputZip"
+            value={postalCode}
             onChange={(e) => {
               setPostalCode(e.target.value);
             }}
@@ -150,6 +166,7 @@ const DeliveryDetails = () => {
             type="email"
             class="form-control"
             id="inputEmail4"
+            value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}

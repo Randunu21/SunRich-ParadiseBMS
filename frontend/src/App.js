@@ -6,6 +6,7 @@ import OngoingOrders from "./components/OngoingOrder";
 import PastOrders from "./components/PastOrders";
 import ShoppingCart from "./components/ShoppingCart";
 import OrderHome from "./components/OrderHome";
+import CustomerOrderHistory from "./components/CustomerOrderHistory";
 
 function App() {
   return (
@@ -17,7 +18,12 @@ function App() {
           <Route path="/pending-orders" exact Component={PendingOrder} />
           <Route path="/ongoing-orders" exact Component={OngoingOrders} />
           <Route path="/past-orders" exact Component={PastOrders} />
-          <Route path="shopping-cart" exact Component={ShoppingCart} />
+          <Route path="/shopping-cart" exact Component={ShoppingCart} />
+          <Route
+            path="/customer-order-history"
+            exact
+            Component={CustomerOrderHistory}
+          />
         </Routes>
       </BrowserRouter>
     </div>

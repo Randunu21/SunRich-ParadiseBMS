@@ -6,7 +6,7 @@ const CartItem = require("../models/cart-item");
 
 const router = express.Router();
 
-//get router by an ID
+//get cart by an ID
 router.get("/getCart/:id", async (req, res) => {
   const cartID = req.params.id;
 

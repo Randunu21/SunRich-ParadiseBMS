@@ -170,6 +170,22 @@ router.get("/all-orders/user/:userID", async (req, res) => {
   }
 });
 
-//getting ongoing/pending orders specific to user
+//getting psst orders specific to user(for order history page)
+router.get("/past-orders/user/:id", async (req, res) => {
+  const user = req.params.id;
+
+  try {
+    const userPastOrders = await OrderModel.find({
+      status: "completed",
+      userID: user,
+    }).populate({
+      path: "cartID",
+      populate: { path: "cartItems", model: "cartitem" },
+    });
+    res.json(userPastOrders);
+  } catch (error) {
+    res.json(error);
+  }
+});
 
 module.exports = router;
