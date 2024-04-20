@@ -1,10 +1,11 @@
 
-import './App.css';
-import Navbar from "./Components/Navbar/Navbar";
 import { BrowserRouter,Routes,Route } from 'react-router-dom'; 
 import Home from './Pages/ProductManagement/Home';
 import HomeCategory from './Pages/ProductManagement/HomeCategory';
 import LoginSignup from './Pages/ProductManagement/LoginSignup';
+import Product from './Pages/ProductManagement/Product';
+import Cart from './Pages/ProductManagement/Cart';
+import Navbar from './Components/Navbar/Navbar';
 
 function App() {
   return (
