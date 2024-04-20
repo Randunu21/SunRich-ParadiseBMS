@@ -12,7 +12,7 @@ function ShoppingCart() {
   useEffect(() => {
     const loadCart = () => {
       axios
-        .get("http://localhost:4000/api/cart/userCart/:userID")
+        .get("http://localhost:4000/api/cart/userCart/122")
         .then((res) => {
           setShoppingCart(res.data);
         })
@@ -20,7 +20,9 @@ function ShoppingCart() {
           console.log(err);
         });
     };
-  });
+
+    loadCart();
+  }, []);
 
   const addToCart = () => {
     const newItem = {
@@ -57,40 +59,41 @@ function ShoppingCart() {
         <div className="col-md-8">
           <h2>Items in Cart</h2>
           <ul className="list-group">
-            {shoppingCart.map((item) => (
-              <li
-                key={item._id}
-                className="list-group-item d-flex justify-content-between align-items-center"
-              >
-                {item.product}
-                <div class="col-md-4">
-                  <label for="inputQuantity" class="form-label">
-                    quantity
-                  </label>
-                  <select
-                    id="inputQuantity"
-                    class="form-select"
-                    onChange={(e) => {
-                      setQuantity(e.target.value);
-                    }}
-                  >
-                    <option selected>Choose...</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
-                </div>
-                <span className="badge bg-primary rounded-pill">
-                  ${item.price.toFixed(2)}
-                </span>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => removeFromCart(item)}
+            {shoppingCart &&
+              shoppingCart.map((item) => (
+                <li
+                  key={item._id}
+                  className="list-group-item d-flex justify-content-between align-items-center"
                 >
-                  Remove
-                </button>
-              </li>
-            ))}
+                  {item.product}
+                  <div class="col-md-4">
+                    <label for="inputQuantity" class="form-label">
+                      quantity
+                    </label>
+                    <select
+                      id="inputQuantity"
+                      class="form-select"
+                      onChange={(e) => {
+                        setQuantity(e.target.value);
+                      }}
+                    >
+                      <option selected>Choose...</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </select>
+                  </div>
+                  <span className="badge bg-primary rounded-pill">
+                    ${item.totalPrice.toFixed(2)}
+                  </span>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => removeFromCart(item)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
         <div className="col-md-4">

@@ -188,4 +188,22 @@ router.get("/past-orders/user/:id", async (req, res) => {
   }
 });
 
+//getting orders specific to user which are ongoing
+router.get("/current-orders/user/:id", async (req, res) => {
+  const user = req.params.id;
+
+  try {
+    const userPastOrders = await OrderModel.find({
+      status: { $ne: "completed" }, //$ne excludes all the results that have completed
+      userID: user,
+    }).populate({
+      path: "cartID",
+      populate: { path: "cartItems", model: "cartitem" },
+    });
+    res.json(userPastOrders);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 module.exports = router;

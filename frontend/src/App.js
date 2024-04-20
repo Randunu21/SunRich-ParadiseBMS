@@ -7,6 +7,7 @@ import PastOrders from "./components/PastOrders";
 import ShoppingCart from "./components/ShoppingCart";
 import OrderHome from "./components/OrderHome";
 import CustomerOrderHistory from "./components/CustomerOrderHistory";
+import CustomerOrderTracking from "./components/CustomerOrderTrack";
 
 function App() {
   return (
@@ -23,6 +24,11 @@ function App() {
             path="/customer-order-history"
             exact
             Component={CustomerOrderHistory}
+          />
+          <Route
+            path="/customer-order-track"
+            exact
+            Component={CustomerOrderTracking}
           />
         </Routes>
       </BrowserRouter>
