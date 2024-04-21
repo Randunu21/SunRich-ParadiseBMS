@@ -10,18 +10,20 @@ const Hero = () => {
      <div className="hero-left">
       <h2>#EATBETTER #FEELBETTER #LIVEBETTER</h2>
       <div>
-        <div className="hand-hand-icon">
-          <p>100%</p>
+        <div className="hero-heart-icon">
+          <p><b>100%</b></p>
           <img src={heart_icon} alt="" />
-        </div>
-       <p>Natural</p> 
-       <p>Organic Products</p>
-       <p>With Best Quality</p>
+          </div>
+       <p><b>Natural</b></p> 
+       <p><b>Organic Products</b></p>
+       <p><b>With Best Quality</b></p>
       </div>
-      <div className="hero-latest-btn"></div>
       
+      <div className="hero-latest-btn">
+      <div>View Products</div>
       <img src={arrow_icon} alt="" />
       </div>   
+      </div>
       <div className="hero-right">
         <img src={hero_image} alt="" />
 
