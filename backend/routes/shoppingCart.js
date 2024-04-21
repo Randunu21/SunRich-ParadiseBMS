@@ -104,7 +104,7 @@ router.patch("/updateCart/:id", async (req, res) => {
       existingCart
         .save()
         .then((t) => t.populate("cartItems"))
-        .then((x) => res.json({ msg: "Cart updated successfully", cart: x }));
+        .then((x) => res.json({ cart: x }));
     } catch (error) {
       console.error("Error updating cart:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -127,7 +127,9 @@ function calculateTotalPrice(cartItems) {
 router.get("/userCart/:userID", async (req, res) => {
   const user = req.params.userID;
 
-  const getUserCart = await Cart.find({ userID: user });
+  const getUserCart = await Cart.findOne({ userID: user }).populate(
+    "cartItems"
+  );
 
   if (getUserCart.length == 0) {
     res.json({ msg: "No Cart found" });

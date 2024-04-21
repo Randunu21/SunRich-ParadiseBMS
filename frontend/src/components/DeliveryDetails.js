@@ -5,7 +5,11 @@ import { useLocation } from "react-router-dom"; //get details from order history
 const DeliveryDetails = () => {
   const location = useLocation();
 
-  const { orderDetails } = location.state || { orderDetails: {} };
+  const { orderDetails = {} } = location.state || { orderDetails: {} };
+  const { cart = {} } = location.state || { cart: {} };
+
+  const cartID = cart._id || cart;
+  //const [cartDetails, setCartDetails] = useState(cart);
 
   const [firstName, setFirstName] = useState(orderDetails.firstName || "");
   const [secondName, setSecondName] = useState(orderDetails.secondName || "");
@@ -24,6 +28,7 @@ const DeliveryDetails = () => {
     e.preventDefault();
 
     const newOrder = {
+      cartID,
       firstName,
       secondName,
       shippingAddress1,
@@ -46,6 +51,7 @@ const DeliveryDetails = () => {
 
   return (
     <div class="container">
+      <p>cart : {cartID}</p>
       <form class="row g-3">
         <div class="col-md-6">
           <label for="inputFirstName" class="form-label">
@@ -178,7 +184,7 @@ const DeliveryDetails = () => {
             type="submit"
             class="btn btn-primary"
             style={{ backgroundColor: "#00ff00" }}
-            onClick={checkOut}
+            onClick={(e) => checkOut(e)}
           >
             Check Out
           </button>

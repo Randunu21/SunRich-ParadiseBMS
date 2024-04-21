@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 const CustomerOrderHistory = () => {
   const [orders, setOrders] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [newCart, setNewCart] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/orders/past-orders/user/102")
+      .get("http://localhost:4000/api/orders/past-orders/user/122")
       .then((res) => {
         setOrders(res.data);
       })
@@ -37,9 +38,12 @@ const CustomerOrderHistory = () => {
         cartItems: cartID.cartItems,
         totalPrice: cartID.totalPrice,
       })
-      .then(() => {
+      .then(async (res) => {
+        //setNewCart(res.data);
         alert("cart Created");
-        navigate("/delivery-details", { state: { orderDetails: order } });
+        navigate("/delivery-details", {
+          state: { orderDetails: order, cart: res.data },
+        });
       })
       .catch((err) => {
         alert(err);
