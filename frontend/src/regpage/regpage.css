@@ -1,0 +1,22 @@
+.reg-cards{
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.form-label{
+    font-weight: bold;
+}
+
+.modal-footer {
+    display: block !important;
+
+}
+
+.modal-btn{
+    width: 100% !important;
+}
+
+.link{
+    border-bottom: none !important;
+    color: #000;
+}
