@@ -1,22 +1,22 @@
-const express = require("express");
-require("dotenv").config();
-
-const mongoose = require("mongoose");
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors'); // Import the cors middleware
+const userRoutes = require('./server/routes/userRoutes');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+app.use(express.json());
+app.use(cors());
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(4000, () => {
-      console.log("Listening to port 4000");
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+app.use('/api/users', userRoutes);
+
+const mongoURI = 'mongodb+srv://sunrichorg21:kC4bPr5ZEIlOYik9@sunrichdb.so4vg1i.mongodb.net/?retryWrites=true&w=majority&appName=SunRichDB';
+
+mongoose.connect(mongoURI, {
+   useNewUrlParser: true,
+   useUnifiedTopology: true
+}).then(() => {
+   console.log('MongoDB connected');
+   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}).catch(err => console.log(err));
