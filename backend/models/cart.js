@@ -18,6 +18,10 @@ const cart = new Schema({
   totalPrice: {
     type: Number,
   },
+
+  status: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("cart", cart);

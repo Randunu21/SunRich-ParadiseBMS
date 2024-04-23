@@ -7,7 +7,7 @@ import "../css/shoppingCart.css";
 import { useNavigate } from "react-router-dom";
 
 function ShoppingCart() {
-  const [shoppingCart, setShoppingCart] = useState("");
+  const [shoppingCart, setShoppingCart] = useState({ cartItems: [] });
   const [selectedCart, setSelectedCart] = useState("");
   //const [product, setProduct] = useState("");
   //const [quantity, setQuantity] = useState("");
@@ -91,6 +91,13 @@ function ShoppingCart() {
   const checkOut = () => {
     navigate("/delivery-details", { state: { cart: shoppingCart } });
   };
+
+  // Calculate total quantity of items in the cart
+
+  const totalQuantity = shoppingCart.cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#d2c9ff" }}>
@@ -240,11 +247,43 @@ function ShoppingCart() {
                         className="btn btn-dark btn-block btn-lg"
                         data-mdb-ripple-color="dark"
                         onClick={() => {
-                          checkOut();
+                          if (totalQuantity > 10) {
+                            alert(
+                              "You can only get a quotation as you have exceeded the maximum items limit."
+                            );
+                          } else {
+                            checkOut();
+                          }
                         }}
+                        disabled={totalQuantity > 10}
                       >
                         Checkout
                       </button>
+
+                      <button
+                        type="button"
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        className="btn btn-dark btn-block btn-lg"
+                        data-mdb-ripple-color="dark"
+                        onClick={() => {
+                          checkOut();
+                        }}
+                      >
+                        Get Quotation
+                      </button>
+                      {totalQuantity > 10 ? (
+                        <div>
+                          <p style={{ color: "red" }}>
+                            You have exceeded the maximum items limit to
+                            deliver(10).
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p></p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

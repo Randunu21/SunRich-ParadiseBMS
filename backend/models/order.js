@@ -49,6 +49,9 @@ const orderSchema = new Schema({
     type: String,
     required: true,
   },
+  shippingCost: {
+    type: Number,
+  },
   dateOfOrder: {
     type: Date,
     default: Date.now,

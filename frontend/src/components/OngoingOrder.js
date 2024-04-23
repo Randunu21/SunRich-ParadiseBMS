@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import swal from "sweetalert2";
 
 const OngoingOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -52,6 +53,7 @@ const OngoingOrders = () => {
       .then((res) => {
         setSelectedOrder(res.data);
         setIsEditing(false);
+        swal.fire("Do You Wish To save");
       });
   };
 

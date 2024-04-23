@@ -91,6 +91,7 @@ router.patch("/updateCart/:id", async (req, res) => {
         const newCartItem = CartItem.create({
           product: req.body.cartItems.product,
           quantity: req.body.cartItems.quantity,
+          // price: req.body.cartItems.product.price,
         });
 
         existingCart.cartItems.push((await newCartItem)._id);
@@ -145,6 +146,7 @@ router.post("/createCart", async (req, res) => {
       const newCartItems = new CartItem({
         product: cartItem.product,
         quantity: cartItem.quantity,
+        price: cartItem.price,
       });
 
       await newCartItems.save();

@@ -8,6 +8,10 @@ import ShoppingCart from "./components/ShoppingCart";
 import OrderHome from "./components/OrderHome";
 import CustomerOrderHistory from "./components/CustomerOrderHistory";
 import CustomerOrderTracking from "./components/CustomerOrderTrack";
+//import AdminOrderProducts from "./components/AdminOrderProducts";
+import CustomerQuotations from "./components/CustomerQuotations";
+import AdminQuotationReply from "./components/AdminQuotationReply";
+import AdminQuotationList from "./components/AdminQuotationList";
 
 function App() {
   return (
@@ -29,6 +33,24 @@ function App() {
             path="/customer-order-track"
             exact
             Component={CustomerOrderTracking}
+          />
+
+          <Route
+            path="/customer-quotations"
+            exact
+            Component={CustomerQuotations}
+          />
+
+          <Route
+            path="/admin-quotation-reply"
+            exact
+            Component={AdminQuotationReply}
+          />
+
+          <Route
+            path="/admin-quotation-list"
+            exact
+            Component={AdminQuotationList}
           />
         </Routes>
       </BrowserRouter>
