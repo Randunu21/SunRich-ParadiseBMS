@@ -6,15 +6,15 @@ const Inquiry = require("../models/inquiry");
 
 // Route to retrieve inquiries with only title and body
 router.get('/inquiries', async (req, res) => {
-    try {
-      const inquiries = await Inquiry.find({},{ inquiryTitle: 1, inquiryBody: 1 }); // Select only desired fields
-      res.json(inquiries);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error retrieving inquiries' });
-    }
-  });
-  
+  try {
+    const inquiries = await Inquiry.find({},{ inquiryTitle: 1, inquiryBody: 1 }); // Select only desired fields
+    res.json(inquiries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error retrieving inquiries' });
+  }
+});
+
 //add inquiry
 router.route("/add").post((req, res) => {
     const name= req.body.name;
