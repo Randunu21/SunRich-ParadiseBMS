@@ -4,9 +4,10 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 const pdfkit = require('pdfkit');
 const IncomesModel = require('../models/incomeModel');
-const OrderModel = require('../models/orderModel');
+const OrderModel = require('../models/order');
 const PayrollModel = require('../models/payrollModel');
 const CalculatedSalaryModel = require('../models/calculatedSalaryModel');
+const EmployeeAdvanceRequest = require('../models/employeeAdvanceRequestModel')
 
 const router = express.Router()
 
@@ -14,13 +15,13 @@ const router = express.Router()
 // Initialize change stream for Order collection
 const orderChangeStream = OrderModel.watch();
 
-// Set up listener for change events on Order collection
+
 orderChangeStream.on('change', async (change) => {
     if (change.operationType === 'insert') {
-        // When a new document is inserted into Order collection
+        
         try {
             const { _id, totalPrice } = change.fullDocument;
-            // Insert new document into Income collection with formatted date and amount
+            
             await IncomesModel.create({
                 detail: `Customer Order - Order ID: ${_id}`,
                 amount: totalPrice,
@@ -40,10 +41,10 @@ router.get('/totals', async (req, res) => {
     try {
         let filter = {};
 
-        // Get the selected time frame from the query parameter
+        
         const timeframe = req.query.timeframe || 'all';
 
-        // Filter data based on the selected timeframe
+        
         if (timeframe === 'thisMonth') {
             filter = {
                 date: {
@@ -92,10 +93,10 @@ router.get('/daily-totals', async (req, res) => {
     try {
         let pipeline = [];
 
-        // Get the selected time frame from the query parameter
+        
         const timeframe = req.query.timeframe || 'all';
 
-        // Filter data based on the selected timeframe
+        
         if (timeframe === 'thisMonth') {
             pipeline = [
                 {
@@ -413,27 +414,33 @@ router.post('/sendpayrolls', async (req, res) => {
         const emailPromises = usersData.map(async (userData) => {
             const doc = new pdfkit();
 
-            doc.fontSize(20).text(`Employee Pay Sheet`, { align: 'center', underline: true }).moveDown(2);
-            doc.fontSize(13).text(`~ Username: ${userData.username}`).moveDown(); 
+            doc.fontSize(20).text(`Employee Pay Sheet`, { align: 'center', underline: true }).moveDown(1);
+            doc.fontSize(13).text(`~ Username: ${userData.username}`).moveDown();
             doc.fontSize(13).text(`~ Employee ID: ${userData.userId}`).moveDown();
             doc.fontSize(13).text(`~ Email: ${userData.email}`).moveDown();
             doc.fontSize(13).text(`~ Employee Type: ${userData.employeeType}`).moveDown();
             doc.fontSize(13).text(`~ Month: ${userData.month}`).moveDown();
-            doc.fontSize(13).text(`~ Basic Salary: ${userData.basicSalary} /=`).moveDown(2);
+            doc.fontSize(13).text(`~ Basic Salary: ${userData.basicSalary} /=`).moveDown(1);
 
-            doc.fontSize(14).text('~ Additions:', { underline: true }).moveDown();
+            doc.moveTo(50, doc.y + 10).lineTo(doc.page.width - 50, doc.y + 10).stroke();
+
+            doc.fontSize(14).text('\n\n~ Additions:').moveDown();
             for (const bonus of userData.additionalBonuses) {
                 doc.fontSize(12).text(`• ${bonus.detail}: ${bonus.amount}`).moveDown(0.5);
             }
             doc.moveDown();
 
-            doc.fontSize(14).text('~ Deductions:', { underline: true }).moveDown();
+            doc.moveTo(50, doc.y + 10).lineTo(doc.page.width - 50, doc.y + 10).stroke();
+
+            doc.fontSize(14).text('\n\n~ Deductions:').moveDown();
             for (const deduction of userData.generalDeductions) {
                 doc.fontSize(12).text(`• ${deduction.detail}: ${deduction.amount}`).moveDown(0.5);
             }
             doc.moveDown();
 
-            doc.fontSize(14).text(`~ Net Salary: ${userData.baseSalary} /=`).moveDown();
+            doc.moveTo(50, doc.y + 10).lineTo(doc.page.width - 50, doc.y + 10).stroke();
+
+            doc.fontSize(14).text(`\n\n~ Net Salary: ${userData.baseSalary} /=`).moveDown();
 
             doc.rect(30, 30, doc.page.width - 60, doc.page.height - 60).stroke();
 
@@ -562,7 +569,7 @@ router.get('/summary', async (req, res) => {
 //calculate payrolls and add it to the income table
 router.post('/addTotalEmployeePayroll', async (req, res) => {
     try {
-        
+
         const calculatedSalaries = await CalculatedSalaryModel.find();
         const sumBaseSalary = calculatedSalaries.reduce((acc, curr) => acc + curr.baseSalary, 0);
 
@@ -580,6 +587,233 @@ router.post('/addTotalEmployeePayroll', async (req, res) => {
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
+// Route to generate and download the PDF report
+
+router.get('/report', async (req, res) => {
+    try {
+        const currentMonthIncomes = await IncomesModel.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                        $lt: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+                    },
+                    type: "Income"
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalIncomes: { $sum: "$amount" }
+                }
+            }
+        ]);
+
+        const currentMonthExpenses = await IncomesModel.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                        $lt: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+                    },
+                    type: "Expense"
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalExpenses: { $sum: "$amount" }
+                }
+            }
+        ]);
+
+        const lastMonthIncomes = await IncomesModel.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+                        $lt: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+                    },
+                    type: "Income"
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalIncomes: { $sum: "$amount" }
+                }
+            }
+        ]);
+
+        const lastMonthExpenses = await IncomesModel.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+                        $lt: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+                    },
+                    type: "Expense"
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalExpenses: { $sum: "$amount" }
+                }
+            }
+        ]);
+
+        const currentMonthIncomesCategorized = await IncomesModel.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                        $lt: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+                    },
+                    type: "Income"
+                }
+            },
+            {
+                $group: {
+                    _id: "$category",
+                    totalAmount: { $sum: "$amount" }
+                }
+            }
+        ]);
+
+        const currentMonthExpensesCategorized = await IncomesModel.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                        $lt: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1)
+                    },
+                    type: "Expense"
+                }
+            },
+            {
+                $group: {
+                    _id: "$category",
+                    totalAmount: { $sum: "$amount" }
+                }
+            }
+        ]);
+
+        const doc = new pdfkit();
+
+        doc.fontSize(20).text(`SunRich Paradise - Financial Report`, { align: 'center' }).moveDown(0.5);
+
+        doc.moveTo(50, doc.y + 10).lineTo(doc.page.width - 50, doc.y + 10).stroke();
+
+        doc.font('Helvetica-Bold').fontSize(15).text('\n\n~ This Month’s Financial summary').moveDown(1);
+
+        doc.font('Helvetica').fontSize(11)
+            .text(` •  Total Incomes : ${currentMonthIncomes[0].totalIncomes.toFixed(2)}`)
+            .text(` •  Total Expenses : ${currentMonthExpenses[0].totalExpenses.toFixed(2)}`)
+            .text(` •  Total Profits : ${(currentMonthIncomes[0].totalIncomes - currentMonthExpenses[0].totalExpenses).toFixed(2)}`);
+
+        doc.font('Helvetica-Bold').fontSize(12).text('\n > Summary of Incomes').moveDown(1);
+        currentMonthIncomesCategorized.forEach((category, index) => {
+            doc.font('Helvetica').fontSize(11).text(` •  Total ${category._id} : ${category.totalAmount.toFixed(2)}`);
+        });
+
+        doc.font('Helvetica-Bold').fontSize(12).text('\n > Summary of Expenses').moveDown(1);
+        currentMonthExpensesCategorized.forEach((category, index) => {
+            doc.font('Helvetica').fontSize(11).text(` •  Total ${category._id} : ${category.totalAmount.toFixed(2)}`);
+        });
+
+        doc.moveTo(50, doc.y + 10).lineTo(doc.page.width - 50, doc.y + 10).stroke();
+
+        doc.font('Helvetica-Bold').fontSize(15).text('\n\n~ Last Month’s Financial Summary').moveDown();;
+
+        doc.font('Helvetica').fontSize(11)
+            .text(` •  Total Incomes : ${lastMonthIncomes[0].totalIncomes.toFixed(2)}`)
+            .text(` •  Total Expenses : ${lastMonthExpenses[0].totalExpenses.toFixed(2)}`)
+            .text(` •  Total Profits : ${(lastMonthIncomes[0].totalIncomes - lastMonthExpenses[0].totalExpenses).toFixed(2)}`).moveDown();
+
+        doc.moveTo(50, doc.y + 10).lineTo(doc.page.width - 50, doc.y + 10).stroke();
+
+        doc.font('Helvetica-Bold').fontSize(15).text('\n\n~ Company`s Financial reconciliation and reflection').moveDown(1);;
+
+        doc.font('Helvetica').fontSize(11)
+            .text(` •  This month’s and last month’s Income difference : ${(currentMonthIncomes[0].totalIncomes - lastMonthIncomes[0].totalIncomes).toFixed(2)}`)
+            .text(` •  This month’s and last month’s Expense difference : ${(currentMonthExpenses[0].totalExpenses - lastMonthExpenses[0].totalExpenses).toFixed(2)}`).moveDown(1);
+
+
+        doc.font('Helvetica-Bold').fontSize(15).text(`\n •  Profit growth :  ${(currentMonthIncomes[0].totalIncomes - currentMonthExpenses[0].totalExpenses) - (lastMonthIncomes[0].totalIncomes - lastMonthExpenses[0].totalExpenses).toFixed(2)}`);
+
+        doc.rect(30, 30, doc.page.width - 60, doc.page.height - 60).stroke();
+
+        res.setHeader('Content-Disposition', 'attachment; filename=report.pdf');
+        res.setHeader('Content-Type', 'application/pdf');
+        doc.pipe(res);
+
+        doc.end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Add a new advance request
+router.post('/advance-request', async (req, res) => {
+    const { employeeName, employeeID, advanceAmount, detail } = req.body;
+
+    try {
+        const newRequest = await EmployeeAdvanceRequest.create({
+            employeeName,
+            employeeID,
+            advanceAmount,
+            detail
+        });
+        res.json(newRequest);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.get('/advance-request/:id', async (req, res) => {
+    const requestId = req.params.id;
+
+    try {
+        const request = await EmployeeAdvanceRequest.findById(requestId);
+        if (!request) {
+            return res.status(404).json({ error: 'Request not found' });
+        }
+        res.json(request);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get all advance requests
+router.get('/advance-requests', async (req, res) => {
+    try {
+        const requests = await EmployeeAdvanceRequest.find();
+        res.json(requests);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Update the status of an advance request
+router.patch('/advance-request/:id', async (req, res) => {
+    const requestId = req.params.id;
+    const { status } = req.body;
+
+    try {
+        const updatedRequest = await EmployeeAdvanceRequest.findByIdAndUpdate(
+            requestId,
+            { status },
+            { new: true }
+        );
+        res.json(updatedRequest);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 

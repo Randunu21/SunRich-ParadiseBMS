@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const CalculatedSalarySchema = new mongoose.Schema({
-  userId: {
+  empId: {
     type: String,
     required: true,
     unique: true
