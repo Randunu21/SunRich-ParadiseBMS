@@ -40,7 +40,9 @@ const PendingOrder = () => {
         if (result.isConfirmed) {
           // Handle accept logic here
           axios
-            .patch("http://localhost:4000/api/orders/order-status/:id")
+            .patch(
+              `http://localhost:4000/api/orders/order-status/${selectedOrder.id}`
+            )
             .then(() => {
               swal.fire("Accepted!", "The order has been accepted.", "success");
             })
@@ -66,7 +68,33 @@ const PendingOrder = () => {
       });
   };
 
-  const handleDecline = () => {}; ////alert
+  const handleDecline = () => {
+    swal
+      .fire({
+        title: "Are you sure?",
+        text: "Are You Sure You Want To Decline This Order?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Delete it!",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          // Handle delete logic here
+          axios
+            .delete(
+              `http://localhost:4000/api/orders/deleteOrder/${selectedOrder.id}`
+            )
+            .then(() => {
+              swal.fire("Accepted!", "The order has been deleted.", "success");
+            })
+            .catch((err) => {
+              swal.fire("Error", "Failed to delete order", "error");
+            });
+        }
+      });
+  }; ////alert
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -197,10 +225,22 @@ const PendingOrder = () => {
                     </table>
                   </div>
                   <div className="modal-footer">
-                    <button type="button" class="btn btn-success">
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      onClick={() => {
+                        handleAccept();
+                      }}
+                    >
                       Accept
                     </button>
-                    <button type="button" class="btn btn-danger">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      onClick={() => {
+                        handleDecline();
+                      }}
+                    >
                       Decline
                     </button>
                   </div>
