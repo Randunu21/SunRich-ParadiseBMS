@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import swal from "sweetalert2";
 
 const AdminQuotationReply = () => {
   const location = useLocation();
@@ -31,19 +32,30 @@ const AdminQuotationReply = () => {
   };
 
   const handleReply = (id) => {
-    axios.post(
-      `http://localhost:4000/api/quotations/deleteQuotation/${selectedQuotation._id}`,
-      {
-        reply: "Completed",
-        cartID: {
-          cartItems: {
-            product: id,
-            price: totalPrice,
+    const updatedCartItems = quotation.cartID.cartItems.map((item) => ({
+      product: item.product,
+      price: item.price,
+    }));
+
+    alert("are you sure"); //alert
+
+    axios
+      .patch(
+        `http://localhost:4000/api/quotations/updateQuotation/${selectedQuotation._id}`,
+        {
+          reply: "Completed",
+          cartID: {
+            cartItems: updatedCartItems,
           },
-        },
-        totalPrice: cost,
-      }
-    );
+          totalPrice: calculateTotal(),
+        }
+      )
+      .then((res) => {
+        alert("quotation replied");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const handleItemPriceChange = (index, value) => {

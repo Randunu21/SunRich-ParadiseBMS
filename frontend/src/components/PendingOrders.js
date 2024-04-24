@@ -27,7 +27,7 @@ const PendingOrder = () => {
     axios
       .patch("http://localhost:4000/api/orders/order-status/:id")
       .then(() => {
-        alert("Order Accepted");
+        alert("Order Accepted"); //alert
       });
   };
 
@@ -46,7 +46,7 @@ const PendingOrder = () => {
       });
   };
 
-  const handleDecline = () => {};
+  const handleDecline = () => {}; ////alert
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);

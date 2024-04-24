@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import "../css/shoppingCart.css";
 import { useNavigate } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function ShoppingCart() {
   const [shoppingCart, setShoppingCart] = useState({ cartItems: [] });
@@ -99,6 +100,8 @@ function ShoppingCart() {
     0
   );
 
+  const removeItem = (itemID) => {};
+
   return (
     <section className="h-100 h-custom" style={{ backgroundColor: "#d2c9ff" }}>
       <div className="container py-5 h-100">
@@ -144,7 +147,7 @@ function ShoppingCart() {
                                 className="btn btn-link px-2"
                                 onClick={() => handleDecrease(item.product)}
                               >
-                                <i className="fas fa-minus"></i>
+                                <i className="bi bi-dash"></i>
                               </button>
 
                               <input
@@ -166,24 +169,24 @@ function ShoppingCart() {
                                 className="btn btn-link px-2"
                                 onClick={() => handleIncrease(item.product)}
                               >
-                                <i className="fas fa-plus"></i>
+                                <i className="bi bi-plus"></i>
                               </button>
                             </div>
                             <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                              <h6 className="mb-0">€ 44.00</h6>
+                              <h6 className="mb-0">${item.price}</h6>
                             </div>
                             <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                              <a href="#!" className="text-muted">
-                                <i className="fas fa-times"></i>
+                              <a
+                                href="#!"
+                                className="text-muted"
+                                onClick={() => removeItem(item.product)}
+                              >
+                                <i className="bi bi-trash"></i>
                               </a>
                             </div>
                           </div>
                         ))}
-
-                      {/* Repeat the same structure for other items */}
-
                       <hr className="my-4" />
-
                       <div className="pt-5">
                         <h6 className="mb-0">
                           <a href="#!" className="text-body">
@@ -198,14 +201,11 @@ function ShoppingCart() {
                     <div className="p-5">
                       <h3 className="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                       <hr className="my-4" />
-
                       <div className="d-flex justify-content-between mb-4">
                         <h5 className="text-uppercase">items 3</h5>
                         <h5>€ 132.00</h5>
                       </div>
-
                       <h5 className="text-uppercase mb-3">Shipping</h5>
-
                       <div className="mb-4 pb-2">
                         <select data-mdb-select-init>
                           <option value="1">Standard-Delivery- €5.00</option>
@@ -214,9 +214,7 @@ function ShoppingCart() {
                           <option value="4">Four</option>
                         </select>
                       </div>
-
                       <h5 className="text-uppercase mb-3">Give code</h5>
-
                       <div className="mb-5">
                         <div data-mdb-input-init className="form-outline">
                           <input
@@ -232,14 +230,11 @@ function ShoppingCart() {
                           </label>
                         </div>
                       </div>
-
                       <hr className="my-4" />
-
                       <div className="d-flex justify-content-between mb-5">
                         <h5 className="text-uppercase">Total price</h5>
-                        <h5>€ 137.00</h5>
+                        <h5>${shoppingCart.totalPrice}</h5>
                       </div>
-
                       <button
                         type="button"
                         data-mdb-button-init
@@ -259,7 +254,6 @@ function ShoppingCart() {
                       >
                         Checkout
                       </button>
-
                       <button
                         type="button"
                         data-mdb-button-init

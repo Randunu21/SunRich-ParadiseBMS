@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert2";
 
 const AdminQuotationList = () => {
   const [quotations, setQuotations] = useState([]);
@@ -60,7 +61,7 @@ const AdminQuotationList = () => {
     axios
       .delete(`http://localhost:4000/api/quotations/deleteQuotation/${id}`)
       .then((res) => {
-        alert(res);
+        alert("are you sure"); //alert
       })
       .catch((err) => {
         alert(err);

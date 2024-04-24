@@ -21,7 +21,7 @@ router.get("/getAllQuotations", async (req, res) => {
 
 //Read quotations of a user
 
-router.get("/getQuotations/:userID", async (req, res) => {
+router.get("/getQuotations/user/:userID", async (req, res) => {
   const specQuotations = await quotationModel
     .find({ userID: req.body.userID })
     .populate({
@@ -37,19 +37,43 @@ router.get("/getQuotations/:userID", async (req, res) => {
 });
 
 //Update Quotation
+//Update Quotation
 router.patch("/updateQuotation/:id", async (req, res) => {
   const quotationID = req.params.id;
 
-  const updatedQuotes = await quotationModel.findByIdAndUpdate(quotationID, {
-    price: req.body.cartID.cartItems.price,
-    totalPrice: req.body.totalPrice,
-    reply: req.body.reply,
-  });
+  try {
+    const existingQuotation = await quotationModel
+      .findById(quotationID)
+      .populate({
+        path: "cartID",
+        populate: { path: "cartItems", model: "cartitem" },
+      });
 
-  if (updatedQuotes) {
-    res.json(updatedQuotes);
-  } else {
-    res.json({ msg: "Quote update failed" });
+    existingQuotation.cartID.cartItems.forEach((item, index) => {
+      existingQuotation.cartID.cartItems[index].price =
+        req.body.cartID.cartItems[index].price;
+    });
+
+    if (req.body.reply) existingQuotation.reply = req.body.reply;
+
+    existingQuotation.cartID.totalPrice = req.body.totalPrice;
+
+    const cartItemPromises = existingQuotation.cartID.cartItems.map((item) =>
+      item.save()
+    );
+
+    await Promise.all(cartItemPromises); //a code to look again
+
+    const updatedQuotes = await existingQuotation.save();
+    await existingQuotation.cartID.save();
+
+    if (updatedQuotes) {
+      res.json(updatedQuotes);
+    } else {
+      res.json({ msg: "Quote update failed" });
+    }
+  } catch (error) {
+    res.json({ error });
   }
 });
 

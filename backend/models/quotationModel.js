@@ -33,11 +33,19 @@ const quotationsSchema = new Schema({
     type: String,
   },
 
+  phoneNumber: {
+    type: String,
+  },
+
   reply: {
     type: String,
   },
   shippingCost: {
     type: Number,
+  },
+
+  dateOfQuotation: {
+    type: Date,
   },
 });
 

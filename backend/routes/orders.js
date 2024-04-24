@@ -66,7 +66,7 @@ router.delete("/deleteOrder/:id", async (req, res) => {
   const id = req.params.id;
 
   const cart = await OrderModel.findById(id);
-  const cartId = await cart.cartID; //to get the cartID from the order ID
+  const cartId = cart.cartID; //to get the cartID from the order ID
 
   console.log(cartId);
 

@@ -53,7 +53,7 @@ const OngoingOrders = () => {
       .then((res) => {
         setSelectedOrder(res.data);
         setIsEditing(false);
-        swal.fire("Do You Wish To save");
+        swal.fire("Do You Wish To save"); //alert
       });
   };
 

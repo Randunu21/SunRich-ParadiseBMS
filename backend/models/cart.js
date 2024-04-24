@@ -21,6 +21,7 @@ const cart = new Schema({
 
   status: {
     type: String,
+    default: "current",
   },
 });
 

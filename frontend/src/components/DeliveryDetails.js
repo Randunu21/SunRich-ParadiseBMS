@@ -29,7 +29,7 @@ const DeliveryDetails = () => {
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCqQQBR570AJLhGDn8E8xy5xEMi17G23AM&libraries=places`;
     script.defer = true;
     script.async = true;
     document.head.appendChild(script);
@@ -80,7 +80,11 @@ const DeliveryDetails = () => {
     axios
       .post("http://localhost:4000/api/orders/addOrder", newOrder)
       .then(() => {
-        alert("Order Successful");
+        axios.patch(
+          `http://localhost:4000/api/cart/updateCart/status/${cartID}`,
+          { status: "Completed" }
+        );
+        alert("Order Successful"); //alert
       })
       .catch((err) => {
         alert(err);
@@ -104,7 +108,11 @@ const DeliveryDetails = () => {
     axios
       .post("http://localhost:4000/api/quotations/addQuotation", newQuotation)
       .then(() => {
-        alert("Quotation added");
+        axios.patch(
+          `http://localhost:4000/api/cart/updateCart/status/${cartID}`,
+          { status: "Completed" }
+        );
+        alert("Quotation added"); //alert
       })
       .catch((err) => {
         alert(err);

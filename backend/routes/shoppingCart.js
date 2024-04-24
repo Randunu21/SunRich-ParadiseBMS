@@ -47,7 +47,7 @@ router.delete("/deleteCart/:id", async (req, res) => {
   }
 });
 
-//update cart
+//update items in the cart
 
 router.patch("/updateCart/:id", async (req, res) => {
   const cartID = req.params.id;
@@ -98,6 +98,18 @@ router.patch("/updateCart/:id", async (req, res) => {
       }
 
       // Calculate the total price of the cart
+      // Function to calculate the total price of the cart based on cart items
+      const totalPrice = function calculateTotalPrice(cartItems) {
+        let totalPrice = 0;
+        for (const item of cartItems) {
+          // You can calculate the total price based on product prices or any other logic specific to your application
+          totalPrice += item.product.price * item.quantity;
+        }
+        return totalPrice;
+      };
+
+      existingCart.totalPrice = parseFloat(totalPrice);
+
       //existingCart.totalPrice = calculateTotalPrice(existingCart.cartItems);
 
       // Save the updated cart
@@ -112,16 +124,6 @@ router.patch("/updateCart/:id", async (req, res) => {
     }
   }
 });
-
-// Function to calculate the total price of the cart based on cart items
-function calculateTotalPrice(cartItems) {
-  let totalPrice = 0;
-  for (const item of cartItems) {
-    // You can calculate the total price based on product prices or any other logic specific to your application
-    totalPrice += item.product.price * item.quantity;
-  }
-  return totalPrice;
-}
 
 //get a cart of an user
 
@@ -162,6 +164,7 @@ router.post("/createCart", async (req, res) => {
       userID: req.body.userID,
       cartItems: newCartItemsIDsResolved,
       totalPrice: req.body.totalPrice,
+      status: req.body.status,
     });
 
     newCart.save();
@@ -169,6 +172,25 @@ router.post("/createCart", async (req, res) => {
     res.json(newCart);
   } catch (error) {
     res.json({ msg: error });
+  }
+});
+
+//update cart status
+router.patch("/updateCart/status/:id", async (req, res) => {
+  const cartID = req.params.id;
+
+  try {
+    const updatedCart = await Cart.findByIdAndUpdate(cartID, {
+      status: req.body.status,
+    });
+
+    if (updatedCart) {
+      res.json(updatedCart);
+    } else {
+      res.json({ msg: "couldnt update the status of the cart" });
+    }
+  } catch (error) {
+    res.json({ error });
   }
 });
 
