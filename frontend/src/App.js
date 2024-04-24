@@ -12,12 +12,14 @@ import CustomerOrderTracking from "./components/CustomerOrderTrack";
 import CustomerQuotations from "./components/CustomerQuotations";
 import AdminQuotationReply from "./components/AdminQuotationReply";
 import AdminQuotationList from "./components/AdminQuotationList";
+import Navbar from "./components/OrdersNavBar";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="/nav-bar" exact Component={Navbar} />
           <Route path="/" exact Component={OrderHome} />
           <Route path="/delivery-details" exact Component={DeliveryDetails} />
           <Route path="/pending-orders" exact Component={PendingOrder} />

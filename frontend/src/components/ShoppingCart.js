@@ -6,6 +6,7 @@ import axios from "axios";
 import "../css/shoppingCart.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import swal from "sweetalert2";
 
 function ShoppingCart() {
   const [shoppingCart, setShoppingCart] = useState({ cartItems: [] });

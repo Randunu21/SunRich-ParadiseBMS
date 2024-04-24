@@ -1,0 +1,27 @@
+@keyframes slideInFromTop {
+  from {
+    top: -100%;
+  }
+  to {
+    top: 0;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: top 0.5s ease;
+  display: none; /* Make sure modal is not visible when not in use */
+}
+
+.modal.show {
+  display: block; /* Ensures that modal is visible when 'show' class is applied */
+}
+
+.modal.animate {
+  animation: slideInFromTop 0.5s ease forwards;
+}

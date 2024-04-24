@@ -78,7 +78,11 @@ router.patch("/updateCart/:id", async (req, res) => {
           existingCart.cartItems[existingCartItemIndex].quantity +
           req.body.cartItems.quantity;
 
-        console.log(newQuantity);
+        if (newQuantity == 0) {
+          CartItem.findByIdAndDelete(
+            existingCart.cartItems[existingCartItemIndex]._id //newly added?
+          );
+        }
 
         await CartItem.findByIdAndUpdate(
           existingCart.cartItems[existingCartItemIndex]._id,

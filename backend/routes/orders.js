@@ -48,17 +48,22 @@ router.post("/addOrder", async (req, res) => {
     totlaPrice: req.body.totlaPrice,
     userID: req.body.userID,
     email: req.body.email,
+    phone: req.body.phone,
     dateOfOrder: req.body.dateOfOrder,
   });
 
-  newOrder
-    .save()
-    .then(() => {
-      res.json({ msg: "Order Added to the System" });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await newOrder.save();
+    res.json({ msg: "Order Added to the System" });
+  } catch (err) {
+    if (err.errors && err.errors.phoneNumber) {
+      // If there's a validation error on the phone number
+      res.status(400).json({ msg: err.errors.phoneNumber.message });
+    } else {
+      // Other errors
+      res.status(500).json({ msg: "An error occurred", error: err });
+    }
+  }
 });
 
 //delete an order

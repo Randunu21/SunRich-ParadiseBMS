@@ -37,24 +37,40 @@ const AdminQuotationReply = () => {
       price: item.price,
     }));
 
-    alert("are you sure"); //alert
-
-    axios
-      .patch(
-        `http://localhost:4000/api/quotations/updateQuotation/${selectedQuotation._id}`,
-        {
-          reply: "Completed",
-          cartID: {
-            cartItems: updatedCartItems,
-          },
-          totalPrice: calculateTotal(),
-        }
-      )
-      .then((res) => {
-        alert("quotation replied");
+    swal
+      .fire({
+        title: "Are you sure?",
+        text: "Do you want to reply to this quotation?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, reply!",
       })
-      .catch((err) => {
-        alert(err);
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .patch(
+              `http://localhost:4000/api/quotations/updateQuotation/${selectedQuotation._id}`,
+              {
+                reply: "Completed",
+                cartID: {
+                  cartItems: updatedCartItems,
+                },
+                totalPrice: calculateTotal(),
+              }
+            )
+            .then((res) => {
+              swal.fire(
+                "Replied!",
+                "The quotation has been replied.",
+                "success"
+              );
+            })
+            .catch((err) => {
+              swal.fire("Error!", "Failed to reply to the quotation.", "error");
+            });
+        }
       });
   };
 
@@ -70,65 +86,76 @@ const AdminQuotationReply = () => {
     });
   };
   return (
-    <div className="container mt-5">
-      <h1>Quotation Reply</h1>
-      <hr />
+    <div>
+      <style>
+        {`
+      body {
+        background: #dbf8e3;
+      }
+    `}
+      </style>
+      <div className="container mt-5" style={{ background: "#dcfce7" }}>
+        <h1>Quotation Reply</h1>
+        <hr />
 
-      <div className="mb-3">
-        <h5>Quotation Items</h5>
-        <ul className="list-group">
-          {quotation.cartID.cartItems.map((item, index) => (
-            <li key={index} className="list-group-item">
-              <div>{item.product}</div>
-              <div>Requested Quantity: {item.quantity}</div>
-              <div>
-                <label htmlFor={`price-${index}`}>Price:</label>
-                <input
-                  type="text"
-                  id={`price-${index}`}
-                  value={item.price}
-                  onChange={(e) => handleItemPriceChange(index, e.target.value)}
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="mb-3">
+          <h5>Quotation Items</h5>
+          <ul className="list-group list-group-flush striped">
+            {quotation.cartID.cartItems.map((item, index) => (
+              <li key={index} className="list-group-item">
+                <div>{item.product}</div>
+                <div>Requested Quantity: {item.quantity}</div>
+                <div>
+                  <label htmlFor={`price-${index}`}>Price:</label>
+                  <input
+                    type="text"
+                    id={`price-${index}`}
+                    value={item.price}
+                    onChange={(e) =>
+                      handleItemPriceChange(index, e.target.value)
+                    }
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="cost" className="form-label">
+            Cost:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="cost"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="shippingCost" className="form-label">
+            Shipping Cost:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="shippingCost"
+            value={shippingCost}
+            onChange={(e) => setShippingCost(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label>Total Price</label>
+          <p>{calculateTotal()}</p>
+        </div>
+
+        <button className="btn btn-primary" onClick={() => handleReply()}>
+          Reply to Quotation
+        </button>
       </div>
-
-      <div className="mb-3">
-        <label htmlFor="cost" className="form-label">
-          Cost:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="cost"
-          value={cost}
-          onChange={(e) => setCost(e.target.value)}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="shippingCost" className="form-label">
-          Shipping Cost:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="shippingCost"
-          value={shippingCost}
-          onChange={(e) => setShippingCost(e.target.value)}
-        />
-      </div>
-
-      <div>
-        <label>Total Price</label>
-        <p>{calculateTotal()}</p>
-      </div>
-
-      <button className="btn btn-primary" onClick={() => handleReply()}>
-        Reply to Quotation
-      </button>
     </div>
   );
 };

@@ -1,0 +1,56 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers items in the navbar */
+  background-color: green;
+  color: white;
+  padding: 5px 0; /* Reduced padding for a smaller bar */
+  width: 100%; /* Full width if you want it to extend across the screen */
+  box-sizing: border-box; /* Ensures padding doesn't add to the width */
+}
+
+.nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  background: white; /* Color of the underline */
+  transition: width 0.3s ease; /* Smooth transition for the animation */
+  position: absolute;
+  bottom: -5px; /* Distance of the underline from the bottom of the link text */
+  left: 50%; /* Start from the middle */
+  transform: translateX(-50%); /* Center the pseudo-element */
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%; /* Full width on hover or when active */
+}
+
+.navbar-nav {
+  list-style: none;
+  display: flex !important;
+
+  flex-direction: row !important;
+  justify-content: center; /* Ensures list items are centered */
+  align-items: center; /* Centers items vertically */
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  padding: 0 10px; /* Adjust the spacing between the list items */
+}
+
+.nav-link {
+  position: relative;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block; /* Allows the ::after pseudo-element to position itself relative to the link */
+  overflow: hidden;
+}
+
+.nav-link.active {
+  text-decoration: underline;
+}
