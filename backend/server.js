@@ -24,10 +24,10 @@ app.use('/api/incomes', incomesRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
  .then(() => {
-    app.listen(process.env.PORT, () => {
-        console.log('connected to db and listening on port', process.env.PORT)
+    app.listen(4000, () => {
+        console.log("Listening to port 4000");
     })
  })
  .catch((error) => {
-    console.log(error)
+    console.log(error);
  })
