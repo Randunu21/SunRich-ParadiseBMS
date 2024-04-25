@@ -11,6 +11,7 @@ import Carousel from "react-bootstrap/Carousel";
 import ExampleCarouselImage1 from "../img/Frame 2.png";
 import ExampleCarouselImage2 from "../img/banner_coconut.png";
 import ExampleCarouselImage3 from "../img/Frame 3.png";
+import Navbar from "./navbar";
 
 export default function Homepage() {
   const [spicesProducts, setSpicesProducts] = useState([]);
@@ -18,7 +19,9 @@ export default function Homepage() {
   const [show, setShow] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [ratingValue, setRatingValue] = useState(0);
+  const [cart, setCart] = useState("");
 
+  let userID = 15;
   const handleClose = () => {
     setShow(false);
     window.location.reload(); // Refresh the page
@@ -27,7 +30,20 @@ export default function Homepage() {
 
   useEffect(() => {
     fetchProducts();
+    getCart();
   }, []);
+
+  const getCart = () => {
+    axios
+      .get(`http://localhost:4000/api/cart/userCart/${userID}`)
+      .then((res) => {
+        setCart(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const fetchProducts = async () => {
     try {
@@ -67,8 +83,42 @@ export default function Homepage() {
     }
   };
 
+  const addToCart = (productID) => {
+    const newItem = {
+      cartItems: {
+        product: productID,
+        quantity: 1,
+      },
+    };
+
+    const quantity = 1;
+
+    const newCartItem = {
+      userID: userID,
+      cartItems: {
+        product: productID,
+        quantity: quantity,
+      },
+    };
+
+    if (cart.msg) {
+      axios
+        .post("http://localhost:4000/api/cart/createCart", newCartItem)
+        .then((res) => {
+          setCart(res.data);
+        });
+    } else {
+      axios
+        .patch(`http://localhost:4000/api/cart/updateCart/${cart._id}`, newItem)
+        .then((res) => {
+          setCart(res.data.cart);
+          alert("Item added");
+        });
+    }
+  };
   return (
     <div>
+      <Navbar />
       <div
         id="carouselExampleIndicators"
         class="carousel slide"
@@ -158,7 +208,7 @@ export default function Homepage() {
                         variant="primary"
                         className="w-100 rating-btn"
                         onClick={() => {
-                          setSelectedProductId(product._id);
+                          setSelectedProductId(product.id);
                           handleShow();
                         }}
                       >
@@ -166,7 +216,11 @@ export default function Homepage() {
                       </Button>
                       <p>Ratings: {product.averageRating}</p>
                       <div>
-                        <button type="button" className="btn btn-danger">
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => addToCart(product._id)}
+                        >
                           Add to cart
                         </button>
                       </div>

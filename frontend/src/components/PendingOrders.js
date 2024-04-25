@@ -41,7 +41,8 @@ const PendingOrder = () => {
           // Handle accept logic here
           axios
             .patch(
-              `http://localhost:4000/api/orders/order-status/${selectedOrder.id}`
+              `http://localhost:4000/api/orders/updateOrder/${selectedOrder._id}`,
+              { status: "" }
             )
             .then(() => {
               swal.fire("Accepted!", "The order has been accepted.", "success");

@@ -14,12 +14,14 @@ function ShoppingCart() {
   //const [product, setProduct] = useState("");
   //const [quantity, setQuantity] = useState("");
 
+  const userID = 11;
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadCart = async () => {
       await axios
-        .get("http://localhost:4000/api/cart/userCart/122")
+        .get(`http://localhost:4000/api/cart/userCart/${userID}`)
         .then((res) => {
           console.log(res.data);
           setShoppingCart(res.data);
@@ -91,7 +93,7 @@ function ShoppingCart() {
   };
 
   const checkOut = () => {
-    navigate("/delivery-details", { state: { cart: shoppingCart } });
+    navigate("/orders/delivery-details", { state: { cart: shoppingCart } });
   };
 
   // Calculate total quantity of items in the cart
@@ -132,13 +134,13 @@ function ShoppingCart() {
                           >
                             <div className="col-md-2 col-lg-2 col-xl-2">
                               <img
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                src=""
                                 className="img-fluid rounded-3"
                                 alt="Cotton T-shirt"
                               />
                             </div>
                             <div className="col-md-3 col-lg-3 col-xl-3">
-                              <h6 className="text-muted">Shirt</h6>
+                              <h6 className="text-muted">{item.type}</h6>
                               <h6 className="text-black mb-0">
                                 {item.product}
                               </h6>

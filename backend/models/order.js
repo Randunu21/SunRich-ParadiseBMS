@@ -21,7 +21,6 @@ const orderSchema = new Schema({
   },
   shippingAddress2: {
     type: String,
-    required: true,
   },
   city: {
     type: String,
@@ -51,14 +50,6 @@ const orderSchema = new Schema({
   },
   phoneNumber: {
     type: String,
-    validate: {
-      validator: function (v) {
-        return /\d{10,}/.test(v); // This regex checks for at least 10 digits
-      },
-      message: (props) =>
-        `${props.value} is not a valid phone number! It must have at least 10 digits.`,
-    },
-    required: [true, "User phone number required"],
   },
 
   shippingCost: {

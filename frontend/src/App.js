@@ -13,7 +13,7 @@ import CustomerOrderTracking from "./components/CustomerOrderTrack";
 import CustomerQuotations from "./components/CustomerQuotations";
 import AdminQuotationReply from "./components/AdminQuotationReply";
 import AdminQuotationList from "./components/AdminQuotationList";
-import Navbar from "./components/OrdersNavBar";
+import OrdersNavbar from "./components/OrdersNavBar";
 import Homepage from "./home/homepage";
 import Navbar from "./home/navbar";
 import Footer from "./home/footer";
@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/orders/nav-bar" exact Component={Navbar} />
+          <Route path="/orders/nav-bar" exact Component={OrdersNavbar} />
           <Route path="/orders/" exact Component={OrderHome} />
           <Route
             path="/orders/delivery-details"
@@ -73,7 +73,11 @@ function App() {
           <Route path="/products/" element={<Homepage />} />
           <Route path="/products/rating" element={<Rating />} />
           <Route path="/products/addp" element={<Dashboard />} />
-          <Route path="/products/aboutus" element={<AboutUsComponent />} />
+          <Route
+            path="/products/aboutus"
+            exact
+            Component={<AboutUsComponent />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

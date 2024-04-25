@@ -72,23 +72,22 @@ const OrderHome = () => {
             {
               title: "Pending Orders",
               text: "Manage customer Pending Orders",
-              to: "/pending-orders",
-            },
-            { title: "OnGoing Orders", text: "View Current Order Details" },
-            { title: "Past Orders", text: "View Completed Order information" },
-            { title: "Quotations", text: "Manage Customer Quotations" },
-            {
-              title: "Inventory Management",
-              text: "Manage Inventory information",
+              to: "/orders/pending-orders",
             },
             {
-              title: "Inquiry Management",
-              text: "Manage Customer inquiry information",
+              title: "OnGoing Orders",
+              text: "View Current Order Details",
+              to: "/orders/ongoing-orders",
             },
-            { title: "Order Management", text: "Customer order information" },
             {
-              title: "Supplier Management",
-              text: "Manage supplier information",
+              title: "Past Orders",
+              text: "View Completed Order information",
+              to: "/orders/past-orders",
+            },
+            {
+              title: "Quotations",
+              text: "Manage Customer Quotations",
+              to: "/orders/admin-quotation-list",
             },
           ].map((item, idx) => (
             <Col md={6} key={idx} className="mb-4">

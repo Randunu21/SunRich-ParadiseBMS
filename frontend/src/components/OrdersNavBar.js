@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/ordersNavBar.css"; // Import the CSS file for styles
 
-function Navbar() {
+function OrdersNavbar() {
   const [activeLink, setActiveLink] = useState("");
 
   const handleClick = (link) => {
@@ -26,7 +26,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
-              href="/customer-order-history"
+              href="/orders/customer-order-history"
               className={`nav-link ${
                 activeLink === "features" ? "active" : ""
               }`}
@@ -37,7 +37,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
-              href="/customer-quotations"
+              href="/orders/customer-quotations"
               className={`nav-link ${activeLink === "pricing" ? "active" : ""}`}
               onClick={() => handleClick("pricing")}
             >
@@ -50,4 +50,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default OrdersNavbar;

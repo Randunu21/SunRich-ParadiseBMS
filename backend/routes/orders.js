@@ -56,13 +56,7 @@ router.post("/addOrder", async (req, res) => {
     await newOrder.save();
     res.json({ msg: "Order Added to the System" });
   } catch (err) {
-    if (err.errors && err.errors.phoneNumber) {
-      // If there's a validation error on the phone number
-      res.status(400).json({ msg: err.errors.phoneNumber.message });
-    } else {
-      // Other errors
-      res.status(500).json({ msg: "An error occurred", error: err });
-    }
+    res.status(500).json({ msg: "An error occurred", error: err });
   }
 });
 
@@ -147,7 +141,7 @@ router.get("/ongoing-orders", async (req, res) => {
 
 router.get("/past-orders", async (req, res) => {
   try {
-    const pastOrders = await OrderModel.find({ status: "Completed" }).populate(
+    const pastOrders = await OrderModel.find({ status: "completed" }).populate(
       "cartID"
     );
     res.json(pastOrders);

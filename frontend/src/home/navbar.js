@@ -34,7 +34,7 @@ export default function navbar() {
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/orders/shopping-cart">
                 <img src={cart} className="img-fluid w-75" />
               </a>
             </li>
