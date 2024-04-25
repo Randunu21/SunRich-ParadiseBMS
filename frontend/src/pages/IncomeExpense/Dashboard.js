@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../Components/Navbar';
-import SideNavbarFin from '../../Components/SideNavbarFin';
-import ChartPage from '../../Components/ChartPage';
-import Sidebar from '../../Components/Sidebar';
-import RecentTransactions from '../../Components/RecentTransactions';
-import LineBarSum from '../../Components/LineBarSum';
+import Navbar from '../../components/Navbar';
+import ChartPage from '../../components/ChartPage';
+import Sidebar from '../../components/Sidebar';
+import RecentTransactions from '../../components/RecentTransactions';
+import LineBarSum from '../../components/LineBarSum';
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 

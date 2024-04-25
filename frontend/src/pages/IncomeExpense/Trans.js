@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../Components/Navbar';
-import Sidebar from '../../Components/Sidebar'
+import Navbar from '../../components/Navbar';
+import Sidebar from '../../components/Sidebar'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import UpdateIncomeModal from '../../Components/UpdateIncomeModal';
-import AddTransactionModal from '../../Components/AddTransactionModal';
-import DropdownMethod from '../../Components/DropdownMethod';
+import UpdateIncomeModal from '../../components/UpdateIncomeModal';
+import AddTransactionModal from '../../components/AddTransactionModal';
+import DropdownMethod from '../../components/DropdownMethod';
 
 function Trans() {
     const [incomes, setIncomes] = useState([]);

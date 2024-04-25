@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import AddPayrollModal from '../Components/AddNewGenPay';
-import UpdatePayrollModal from '../Components/UpdatePayrollModal';
+import AddPayrollModal from '../components/AddNewGenPay';
+import UpdatePayrollModal from '../components/UpdatePayrollModal';
 
 const DisplayGenPay = () => {
   const [payrolls, setPayrolls] = useState([]);

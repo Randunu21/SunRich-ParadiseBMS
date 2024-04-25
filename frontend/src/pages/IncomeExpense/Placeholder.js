@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import EmployeeAdvanceForm from '../../Components/EmployeeAdvanceForm';
+import EmployeeAdvanceForm from '../../components/EmployeeAdvanceForm';
 
 const PayrollPortal = () => {
   const [userId, setUserId] = useState('');
