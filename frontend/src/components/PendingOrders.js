@@ -120,18 +120,97 @@ const PendingOrder = () => {
 
   return (
     <div>
-      <style>
+      <style type="text/css">
         {`
-      body {
-        background: #dbf8e3;
-      }
-    `}
+        body {
+          background: #dbf8e3;
+        }
+
+        .container {
+          margin-top: 30px;
+        }
+
+        .search-section input[type="search"] {
+          border-radius: 20px 0 0 20px;
+          padding: .5rem .75rem;
+        }
+
+        .search-section .input-group-text {
+          background: white;
+          border-radius: 0 20px 20px 0;
+          border: none;
+        }
+
+        .table-container {
+          background: #fff;
+          border-radius: 8px;
+          box-shadow: 0 6px 12px rgba(0,0,0,.1);
+          overflow: hidden;
+        }
+
+        .table {
+          margin-bottom: 0;
+        }
+
+        .table thead {
+          background: #065535;
+          color: white;
+        }
+
+        .table td, .table th {
+          vertical-align: middle;
+        }
+
+        .btn-view-details {
+          color: #fff;
+          background-color: #f0ad4e;
+          border-color: #f0ad4e;
+        }
+
+        .btn-view-details:hover {
+          background-color: #ec971f;
+          border-color: #d58512;
+        }
+
+        .modal-dialog {
+          margin-top: 10vh;
+        }
+
+        .modal-content {
+          border-radius: 15px;
+          overflow: hidden;
+        }
+
+        .modal-header {
+          background: #065535;
+          color: white;
+        }
+
+        .modal-body {
+          padding: 2rem;
+        }
+
+        .modal-footer {
+          border-top: none;
+          padding: 1rem 2rem;
+        }
+
+        .btn-accept, .btn-decline {
+          width: 100px;
+          margin-right: 10px;
+        }
+
+        .modal-backdrop.show {
+          opacity: 0.5;
+        }
+      `}
       </style>
+
       <div className="container">
-        <h2>Pending Orders</h2>
+        <h2 className="mb-3">Pending Orders</h2>
         <hr />
 
-        <div className="input-group rounded mb-3">
+        <div className="input-group search-section rounded mb-3">
           <input
             type="search"
             className="form-control rounded"
@@ -140,42 +219,45 @@ const PendingOrder = () => {
             aria-describedby="search-addon"
             onChange={handleSearch}
           />
-          <span class="input-group-text border-0" id="search-addon">
-            <i class="bi bi-search"></i>
+          <span className="input-group-text border-0" id="search-addon">
+            <i className="bi bi-search"></i>
           </span>
         </div>
 
-        <table className="table table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th>Order ID</th>
-              <th>Cart ID</th>
-              <th>Total Amount</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredOrder &&
-              filteredOrder.map((order) => (
-                <tr key={order.id}>
-                  <td>{order._id}</td>
-                  <td>{order.cartID}</td>
-                  <td>${order.postalCode}</td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-warning"
-                      onClick={() => viewDetails(order._id)}
-                    >
-                      View Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <div className="table-container">
+          <table className="table table-striped">
+            <thead className="table-dark">
+              <tr>
+                <th>Order ID</th>
+                <th>Cart ID</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredOrder &&
+                filteredOrder.map((order) => (
+                  <tr key={order.id}>
+                    <td>{order._id || "N/A"}</td>
+                    <td>{order.cartID || "N/A"}</td>
+                    <td>${order.postalCode || "N/A"}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-warning btn-view-details"
+                        onClick={() => viewDetails(order._id)}
+                      >
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
 
-        {selectedOrder && (
+        {/* Modal */}
+        {modalVisible && (
           <div
             className={`modal ${modalVisible ? "show" : ""} ${
               modalAnimated ? "animate" : ""
@@ -198,6 +280,7 @@ const PendingOrder = () => {
                   ></button>
                 </div>
                 <div className="modal-body">
+                  {" "}
                   <p>Order ID:{selectedOrder._id}</p>
                   <p>First Name:{selectedOrder.firstName}</p>
                   <p>Second Name : {selectedOrder.secondName}</p>
@@ -224,32 +307,29 @@ const PendingOrder = () => {
                       </tbody>
                     </table>
                   </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      onClick={() => {
-                        handleAccept();
-                      }}
-                    >
-                      Accept
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      onClick={() => {
-                        handleDecline();
-                      }}
-                    >
-                      Decline
-                    </button>
-                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-success btn-accept"
+                    onClick={() => handleAccept()}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-decline"
+                    onClick={() => handleDecline()}
+                  >
+                    Decline
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         )}
 
+        {/* Modal backdrop */}
         {modalVisible && <div className="modal-backdrop fade show"></div>}
       </div>
     </div>

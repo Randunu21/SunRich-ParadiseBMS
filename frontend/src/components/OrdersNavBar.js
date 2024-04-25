@@ -20,8 +20,8 @@ function Navbar() {
         <ul className="navbar-nav">
           <li className="nav-item">
             <a
+              href="/customer-order-tracking"
               className={`nav-link ${activeLink === "home" ? "active" : ""}`}
-              href="#"
               onClick={() => handleClick("home")}
             >
               Ongoing
@@ -29,10 +29,10 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
+              href="customer-order-history"
               className={`nav-link ${
                 activeLink === "features" ? "active" : ""
               }`}
-              href="#"
               onClick={() => handleClick("features")}
             >
               Completed
@@ -40,8 +40,8 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
+              href="customer-quotations"
               className={`nav-link ${activeLink === "pricing" ? "active" : ""}`}
-              href="#"
               onClick={() => handleClick("pricing")}
             >
               Quotations

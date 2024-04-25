@@ -89,12 +89,76 @@ const AdminQuotationReply = () => {
     <div>
       <style>
         {`
-      body {
-        background: #dbf8e3;
-      }
-    `}
+        body {
+          background: #dbf8e3;
+        }
+  
+        .container {
+          background: #dcfce7;
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+  
+        h1 {
+          color: #333;
+          margin-bottom: 20px;
+        }
+  
+        .mb-3 {
+          margin-bottom: 20px;
+        }
+  
+        .list-group-item {
+          border: none;
+          border-radius: 8px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          padding: 15px;
+          background-color: #ffffff;
+          margin-bottom: 10px;
+        }
+  
+        .list-group-item div {
+          margin-bottom: 5px;
+        }
+  
+        .list-group-item input[type="text"] {
+          width: 100px;
+        }
+  
+        label {
+          font-weight: bold;
+        }
+  
+        button {
+          width: 200px;
+        }
+  
+        .btn-primary {
+          background-color: #007bff;
+          color: #ffffff;
+        }
+  
+        .btn-primary:hover {
+          background-color: #0056b3;
+        }
+
+        .list-group-item input[type="text"] {
+          width: 100px;
+          border: 1px solid #ced4da; /* Add border */
+          padding: 8px; /* Add padding */
+          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; 
+        }
+    
+        .list-group-item input[type="text"]:focus {
+          border-color: #80bdff; /* Change border color on focus */
+          outline: 0; /* Remove default focus outline */
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Add box shadow on focus */
+        }
+      `}
       </style>
-      <div className="container mt-5" style={{ background: "#dcfce7" }}>
+
+      <div className="container mt-5">
         <h1>Quotation Reply</h1>
         <hr />
 

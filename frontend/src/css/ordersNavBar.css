@@ -1,45 +1,12 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centers items in the navbar */
+  justify-content: space-between; /* Adjusted for better spacing */
   background-color: green;
   color: white;
-  padding: 5px 0; /* Reduced padding for a smaller bar */
-  width: 100%; /* Full width if you want it to extend across the screen */
-  box-sizing: border-box; /* Ensures padding doesn't add to the width */
-}
-
-.nav-link::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 2px; /* Thickness of the underline */
-  background: white; /* Color of the underline */
-  transition: width 0.3s ease; /* Smooth transition for the animation */
-  position: absolute;
-  bottom: -5px; /* Distance of the underline from the bottom of the link text */
-  left: 50%; /* Start from the middle */
-  transform: translateX(-50%); /* Center the pseudo-element */
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%; /* Full width on hover or when active */
-}
-
-.navbar-nav {
-  list-style: none;
-  display: flex !important;
-
-  flex-direction: row !important;
-  justify-content: center; /* Ensures list items are centered */
-  align-items: center; /* Centers items vertically */
-  padding: 0;
-  margin: 0;
-}
-
-.nav-item {
-  padding: 0 10px; /* Adjust the spacing between the list items */
+  padding: 15px; /* Increased padding for better spacing */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .nav-link {
@@ -47,10 +14,43 @@
   color: white;
   cursor: pointer;
   text-decoration: none;
-  display: inline-block; /* Allows the ::after pseudo-element to position itself relative to the link */
-  overflow: hidden;
+  padding: 10px 15px; /* Increased padding for better click area */
+}
+
+.nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: transparent; /* Changed initial background to transparent */
+  transition: width 0.3s ease, background-color 0.3s ease; /* Added transition for background-color */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+  background-color: white; /* Changed background color on hover or when active */
+}
+
+.navbar-nav {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  padding: 0 15px; /* Adjusted spacing between list items */
 }
 
 .nav-link.active {
-  text-decoration: underline;
+  text-decoration: none; /* Removed underline for active link */
+  font-weight: bold; /* Added bold font weight for active link */
 }
