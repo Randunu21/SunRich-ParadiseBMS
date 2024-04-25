@@ -49,6 +49,33 @@ const CustomerQuotations = () => {
       body {
         background: #dbf8e3;
       }
+
+      .no-items-text {
+        color: #888; /* Text color */
+        font-size: 20px; /* Font size */
+        text-align: center; /* Center alignment */
+        padding: 20px; /* Add padding for better spacing */
+        background-color: #f8f9fa; /* Background color */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+        max-width: 400px; /* Limit the width for better readability */
+        margin: 0 auto; /* Center horizontally */
+      }
+      
+      /* Optionally, you can add some animation for a more dynamic appearance */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      .no-items-text {
+        animation: fadeIn 0.5s ease; /* Apply fade-in animation */
+      }
+      
     `}
       </style>
       <div className="card" id="quotation">
@@ -216,8 +243,8 @@ const CustomerQuotations = () => {
           </div>
         ) : (
           <div
-            className="row justify-content-center align-items-center"
-            style={{ minHeight: "50vh", marginLeft: "50vh" }}
+            className="row justify-content-center align-items-center no-items-text"
+            style={{ minHeight: "50vh" }}
           >
             <p className="text-muted fs-5">No items to show</p>
           </div>

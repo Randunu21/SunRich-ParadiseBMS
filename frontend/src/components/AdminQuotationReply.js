@@ -89,72 +89,78 @@ const AdminQuotationReply = () => {
     <div>
       <style>
         {`
-        body {
-          background: #dbf8e3;
-        }
+      body {
+        background: #effaf3;
+      }
   
-        .container {
-          background: #dcfce7;
-          border-radius: 8px;
-          padding: 20px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+      .container {
+        background: linear-gradient(to bottom, #dcfce7 0%, #bef8d8 100%);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+        transition: all 0.3s ease;
+      }
   
-        h1 {
-          color: #333;
-          margin-bottom: 20px;
-        }
+      .container:hover {
+        box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+      }
   
-        .mb-3 {
-          margin-bottom: 20px;
-        }
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-family: 'Helvetica Neue', sans-serif;
+      }
   
-        .list-group-item {
-          border: none;
-          border-radius: 8px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          padding: 15px;
-          background-color: #ffffff;
-          margin-bottom: 10px;
-        }
+      .mb-3 {
+        margin-bottom: 20px;
+      }
   
-        .list-group-item div {
-          margin-bottom: 5px;
-        }
+      .list-group-item {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        padding: 20px;
+        background-color: #ffffff;
+        margin-bottom: 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
   
-        .list-group-item input[type="text"] {
-          width: 100px;
-        }
+      .list-group-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      }
   
-        label {
-          font-weight: bold;
-        }
+      label {
+        font-weight: bold;
+        color: #34495e;
+      }
   
-        button {
-          width: 200px;
-        }
+      input[type="text"], .form-control {
+        border: 2px solid #bdc3c7;
+        padding: 10px;
+        border-radius: 8px;
+        transition: border 0.2s ease-in-out;
+      }
   
-        .btn-primary {
-          background-color: #007bff;
-          color: #ffffff;
-        }
+      input[type="text"]:focus, .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+      }
   
-        .btn-primary:hover {
-          background-color: #0056b3;
-        }
-
-        .list-group-item input[type="text"] {
-          width: 100px;
-          border: 1px solid #ced4da; /* Add border */
-          padding: 8px; /* Add padding */
-          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; 
-        }
-    
-        .list-group-item input[type="text"]:focus {
-          border-color: #80bdff; /* Change border color on focus */
-          outline: 0; /* Remove default focus outline */
-          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Add box shadow on focus */
-        }
+      button {
+        width: 250px;
+        background-color: #2ecc71;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease-in-out;
+      }
+  
+      button:hover {
+        background-color: #27ae60;
+        cursor: pointer;
+      }
       `}
       </style>
 

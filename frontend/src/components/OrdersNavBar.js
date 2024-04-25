@@ -9,10 +9,7 @@ function Navbar() {
   };
 
   return (
-    <nav
-      className="navbar"
-      style={{ backgroundColor: "green", color: "white" }}
-    >
+    <nav className="navbar">
       <a href="#" className="navbar-brand" style={{ color: "white" }}>
         Orders
       </a>
@@ -29,7 +26,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
-              href="customer-order-history"
+              href="/customer-order-history"
               className={`nav-link ${
                 activeLink === "features" ? "active" : ""
               }`}
@@ -40,7 +37,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
-              href="customer-quotations"
+              href="/customer-quotations"
               className={`nav-link ${activeLink === "pricing" ? "active" : ""}`}
               onClick={() => handleClick("pricing")}
             >

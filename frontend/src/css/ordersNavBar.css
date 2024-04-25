@@ -1,12 +1,13 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Adjusted for better spacing */
-  background-color: green;
+  justify-content: space-between;
+  background-color: #4caf50; /* Updated color for a more refined green */
   color: white;
-  padding: 15px; /* Increased padding for better spacing */
+  padding: 15px;
   width: 100%;
   box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Added subtle shadow for depth */
 }
 
 .nav-link {
@@ -14,7 +15,8 @@
   color: white;
   cursor: pointer;
   text-decoration: none;
-  padding: 10px 15px; /* Increased padding for better click area */
+  padding: 10px 15px;
+  transition: color 0.3s; /* Smooth transition for color change */
 }
 
 .nav-link::after {
@@ -22,18 +24,23 @@
   display: block;
   width: 0;
   height: 2px;
-  background: transparent; /* Changed initial background to transparent */
-  transition: width 0.3s ease, background-color 0.3s ease; /* Added transition for background-color */
+  background: transparent;
+  transition: width 0.3s ease, background-color 0.3s ease;
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
 }
 
+.nav-link:hover,
+.nav-link.active {
+  color: #e8f5e9; /* Lighter shade for hover and active states */
+}
+
 .nav-link:hover::after,
 .nav-link.active::after {
   width: 100%;
-  background-color: white; /* Changed background color on hover or when active */
+  background-color: white; /* Ensuring underline is visible */
 }
 
 .navbar-nav {
@@ -47,10 +54,9 @@
 }
 
 .nav-item {
-  padding: 0 15px; /* Adjusted spacing between list items */
+  margin: 0 15px; /* Balanced spacing around items */
 }
 
 .nav-link.active {
-  text-decoration: none; /* Removed underline for active link */
-  font-weight: bold; /* Added bold font weight for active link */
+  font-weight: bold;
 }
