@@ -10,7 +10,7 @@ const CustomerQuotations = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/quotations/user/getQuotations/122")
+      .get("http://localhost:4000/api/quotations/user/getQuotations/33")
       .then((res) => {
         setQuotations(res.data);
         console.log(res.data);

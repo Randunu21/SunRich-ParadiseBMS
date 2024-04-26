@@ -104,7 +104,7 @@ const PastOrders = () => {
               filteredOrder.map((order) => (
                 <tr key={order.id}>
                   <td>{order._id}</td>
-                  <td>{order.cartID}</td>
+                  <td>{order.cartID._id}</td>
                   <td>${order.postalCode}</td>
                   <td>
                     <button

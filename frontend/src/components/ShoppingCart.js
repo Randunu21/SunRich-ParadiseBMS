@@ -19,7 +19,7 @@ function ShoppingCart() {
   useEffect(() => {
     const loadCart = async () => {
       await axios
-        .get("http://localhost:4000/api/cart/userCart/122")
+        .get("http://localhost:4000/api/cart/userCart/69")
         .then((res) => {
           console.log(res.data);
           setShoppingCart(res.data);
@@ -132,13 +132,13 @@ function ShoppingCart() {
                           >
                             <div className="col-md-2 col-lg-2 col-xl-2">
                               <img
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                                src=""
                                 className="img-fluid rounded-3"
-                                alt="Cotton T-shirt"
+                                alt=""
                               />
                             </div>
                             <div className="col-md-3 col-lg-3 col-xl-3">
-                              <h6 className="text-muted">Shirt</h6>
+                              <h6 className="text-muted"></h6>
                               <h6 className="text-black mb-0">
                                 {item.product}
                               </h6>

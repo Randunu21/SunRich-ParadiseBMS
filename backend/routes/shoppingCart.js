@@ -103,7 +103,7 @@ router.patch("/updateCart/:id", async (req, res) => {
 
       // Calculate the total price of the cart
       // Function to calculate the total price of the cart based on cart items
-      const totalPrice = function calculateTotalPrice(cartItems) {
+      /*const totalPrice = function calculateTotalPrice(cartItems) {
         let totalPrice = 0;
         for (const item of cartItems) {
           // You can calculate the total price based on product prices or any other logic specific to your application
@@ -112,7 +112,7 @@ router.patch("/updateCart/:id", async (req, res) => {
         return totalPrice;
       };
 
-      existingCart.totalPrice = parseFloat(totalPrice);
+      existingCart.totalPrice = parseFloat(totalPrice);*/
 
       //existingCart.totalPrice = calculateTotalPrice(existingCart.cartItems);
 

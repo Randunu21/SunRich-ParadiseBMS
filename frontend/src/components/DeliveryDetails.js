@@ -27,7 +27,7 @@ const DeliveryDetails = () => {
   const [postalCode, setPostalCode] = useState(orderDetails.postalCode || "");
   const [email, setEmail] = useState(orderDetails.email || "");
   const [country, setCountry] = useState(orderDetails.country || "");
-  const [phone, setPhone] = useState(orderDetails.phone || "");
+  const [phoneNumber, setPhoneNumber] = useState(orderDetails.phone || "");
 
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
@@ -78,6 +78,7 @@ const DeliveryDetails = () => {
       postalCode,
       email,
       country,
+      phoneNumber,
     };
 
     swal
@@ -276,9 +277,9 @@ const DeliveryDetails = () => {
                   type="phone"
                   class="form-control"
                   id="inputPhone"
-                  value={phone}
+                  value={phoneNumber}
                   onChange={(e) => {
-                    setPhone(e.target.value);
+                    setPhoneNumber(e.target.value);
                   }}
                 />
               </div>

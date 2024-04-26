@@ -48,7 +48,7 @@ router.post("/addOrder", async (req, res) => {
     totlaPrice: req.body.totlaPrice,
     userID: req.body.userID,
     email: req.body.email,
-    phone: req.body.phone,
+    phoneNumber: req.body.phoneNumber,
     dateOfOrder: req.body.dateOfOrder,
   });
 

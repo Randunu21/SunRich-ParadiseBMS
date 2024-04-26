@@ -219,7 +219,7 @@ const OngoingOrders = () => {
                 filteredOrder.map((order) => (
                   <tr key={order.id}>
                     <td>{order._id || "N/A"}</td>
-                    <td>{order.cartID || "N/A"}</td>
+                    <td>{order.cartID._id || "N/A"}</td>
                     <td>${order.postalCode || "N/A"}</td>
                     <td>
                       <button
