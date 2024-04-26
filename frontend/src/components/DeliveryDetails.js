@@ -32,7 +32,7 @@ const DeliveryDetails = () => {
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCqQQBR570AJLhGDn8E8xy5xEMi17G23AM&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`;
     script.defer = true;
     script.async = true;
     document.head.appendChild(script);
