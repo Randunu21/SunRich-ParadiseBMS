@@ -4,7 +4,7 @@ const feedbackSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true, // Remove leading/trailing whitespace
+   
   },
   email: {
     type: String,
@@ -19,15 +19,11 @@ const feedbackSchema = new mongoose.Schema({
   rating: {
     type: String, // Or adjust data type based on your rating options (e.g., Number)
     required: true,
-    trim: true,
+  
   },
   reviewTitle: {
     type: String,
     required: true,
-    trim: true,
-  },
-  image: {
-    type: String, // Store the filename of the uploaded image
   },
   createdAt: { // Optional: Timestamp for feedback creation
     type: Date,
@@ -38,9 +34,6 @@ const feedbackSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-// Optional: Add indexes for efficient querying (consider email, rating, etc.)
-// feedbackSchema.index({ email: 1 });
 
 const Feedback = mongoose.model('Feedback', feedbackSchema);
 
