@@ -18,6 +18,25 @@ export default function DisplayFeedback({ productId }) {
     fetchFeedback();
   }, [productId]);
 
+    // Function to calculate time difference
+    const timeDifference = (timestamp) => {
+      const currentTime = Date.now();
+      const diff = currentTime - new Date(timestamp);
+      const seconds = Math.floor(diff / 1000);
+      if (seconds < 60) {
+        return `${seconds} seconds ago`;
+      }
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) {
+        return `${minutes} minutes ago`;
+      }
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) {
+        return `${hours} hours ago`;
+      }
+      const days = Math.floor(hours / 24);
+      return `${days} days ago`;
+    };
   // Automated response based on rating
   const getAutomatedResponse = (rating) => {
     const replies = {
@@ -30,29 +49,30 @@ export default function DisplayFeedback({ productId }) {
     return replies[rating];
   };
 
+
   return (
     <div className="product-details">
-      <div className="ratings-section mb-3 bg-success"> {/* Add custom class and Bootstrap bg-success */}
-        <h2>Ratings & Reviews</h2>
+      <div className="ratings-section mb-3 bg-light p-4">
+        <h2 style={{ fontSize: "19px"}}>Ratings & Reviews</h2>
         <hr className="ratings-line" />
-        {/* AddFeedback component */}
         <AddFeedback />
         {feedback.length > 0 ? (
           <ul className="list-group list-group-flush">
             {feedback.map((feedbackItem) => (
-              <li key={feedbackItem._id} className="list-group-item d-flex align-items-center border-bottom">
-                <div className="media-body mr-auto">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h5 className="mt-0">{feedbackItem.rating}</h5>
+              <li key={feedbackItem._id} className="list-group-item border-0">
+                <div style={{ border: "2px black", padding: "10px", borderRadius: "5px", marginBottom: "10px" }}>
+                  <h6 className="mb-2" >{feedbackItem.rating.charAt(0).toUpperCase() + feedbackItem.rating.slice(1)}</h6>
+                  <p className="text-muted mb-1 medium" style={{ fontSize: "13px",fontWeight: "bold"}}>by {feedbackItem.name}</p>
+                  <p className="text-muted mb-3" style={{ fontSize: "12px", marginBottom: "1px",lineHeight: "0.8" }}>{timeDifference(feedbackItem.createdAt)}</p>
+                  <p className="text-justify mb-3" style={{ fontSize: "14px", marginBottom: "2px",lineHeight: "0.8" }}>{feedbackItem.reviewTitle}</p>
+                  <div className="d-flex flex-wrap" style={{lineHeight: "0.8"}}>
+                    {feedbackItem.images && feedbackItem.images.map(imagePath => (
+                      <img key={imagePath} src={`http://localhost:4000/${imagePath}`} alt="Feedback Image" className="rounded mr-2 mb-2" style={{ width: "80px", height: "80px", objectFit: "cover", marginRight: "8px", marginBottom: "5px" }} />
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-muted mb-0 small">{feedbackItem.name}</p>
-                    <p className="text-muted font-italic mb-0 small">Date: {new Date(feedbackItem.createdAt).toLocaleDateString()}</p>
-                  </div>
-                  <p className="text-justify small">{feedbackItem.reviewTitle}</p>
-                  <div className="alert alert-light small" role="alert">
-                    <h4 className="alert-heading">Response</h4>
-                    <p>{getAutomatedResponse(feedbackItem.rating)}</p>
+                  <div className="alert alert-light small mt-3" role="alert" style={{ marginTop: "2px",marginBottom: "0", color: "green" ,lineHeight: "0.8"}}>
+                    <h4 className="alert-heading" style={{ fontSize: "15px"}}>Response</h4>
+                    <p style={{ fontSize: "13px", margin: "0", color: "green" }}>{getAutomatedResponse(feedbackItem.rating)}</p>
                   </div>
                 </div>
               </li>
@@ -64,4 +84,4 @@ export default function DisplayFeedback({ productId }) {
       </div>
     </div>
   );
-};
+}  

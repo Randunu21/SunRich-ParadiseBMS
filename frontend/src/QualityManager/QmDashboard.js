@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Include Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
-import QualityManagerTable from '../Components/InquiryReply'; // Assuming InquiryReply is the correct component name
+import QualityManagerTable from '../Components/InquiryReply';
 import DisplayFeedback from '../Components/AdminFeedback';
 import GenerateReport from '../Components/AdminReport';
 

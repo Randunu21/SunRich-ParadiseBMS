@@ -9,7 +9,7 @@ const QualityManagerTable = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const inquiriesResponse = await axios.get("http://localhost:4000/Inquiry/all-inquiries");
+        const inquiriesResponse = await axios.get("http://localhost:4000/Inquiry/");
         setInquiries(inquiriesResponse.data);
       } catch (error) {
         console.error(error);

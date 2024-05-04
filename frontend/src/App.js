@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <div>
         <Routes>
-          <Route path="/" element={<ProductDetails/>} />
+          <Route path="/" element={<QmDashboard/>} />
           <Route path="/quality-manager/inquiries" element={<QualityManagerTable />} />
         </Routes>
       </div>

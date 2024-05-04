@@ -1,18 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const Feedback = require('../models/feedbackModel');
+const multer = require('multer');
+
+// Configure Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify destination directory for file uploads
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix=Date.now();
+    cb(null,uniqueSuffix+file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Add feedback route
-router.post("/add", (req, res) => {
-  // Retrieve form data
+router.post("/add", upload.array('images', 5), (req, res) => {
   const { name, email, rating, reviewTitle } = req.body;
+  const images = req.files.map(file => file.path.replace(/\\/g, '/')); // Replace backslashes with forward slashes in paths
 
-  // Create new feedback object
   const newFeedback = new Feedback({
     name,
     email,
     rating,
-    reviewTitle
+    reviewTitle,
+    images // Assign image paths to the images field
   });
 
   newFeedback.save()
@@ -79,3 +93,4 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 module.exports = router;
+  
