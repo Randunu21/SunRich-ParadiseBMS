@@ -1,9 +1,16 @@
 const express = require("express");
 require("dotenv").config();
+const productModels = require("./models/prodcuts");
+const productRoutes = require("./routes/productRoutes");
+const cors = require("cors");
 
 const mongoose = require("mongoose");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/products", productRoutes);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
