@@ -1,8 +1,8 @@
 const express = require("express");
 require("dotenv").config();
-const productModels = require("./models/prodcuts");
 const productRoutes = require("./routes/productRoutes");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 
@@ -18,7 +18,10 @@ app.use((req, res, next) => {
 });
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     app.listen(4000, () => {
       console.log("Listening to port 4000");

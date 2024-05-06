@@ -1,16 +1,30 @@
 import React, { createContext } from "react";
-import all_product from "../Components/Asset/all_product";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export const HomeContext = createContext(null);
+export const ShopContext = createContext(null);
 
-const HomeContextProvider = (props) => {
-  const contextValue = { all_product };
+const ShopContextProvider = (props) => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/products/allproducts")
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const contextValue = { products };
 
   return (
-    <HomeContext.Provider value={contextValue}>
-      {props.Human}
-    </HomeContext.Provider>
+    <ShopContext.Provider value={contextValue}>
+      {props.children}
+    </ShopContext.Provider>
   );
 };
 
-export default HomeContextProvider;
+export default ShopContextProvider;

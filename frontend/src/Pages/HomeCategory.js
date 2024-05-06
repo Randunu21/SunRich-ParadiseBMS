@@ -8,7 +8,7 @@ const ShopCategory = (props) => {
   const [allproducts, setAllProducts] = useState([]);
 
   const fetchInfo = () => {
-    fetch("http://localhost:4000/allproducts")
+    fetch("http://localhost:4000/api/products/allproducts")
       .then((res) => res.json())
       .then((data) => setAllProducts(data));
   };
@@ -30,7 +30,7 @@ const ShopCategory = (props) => {
       </div>
       <div className="shopcategory-products">
         {allproducts.map((item, i) => {
-          if (props.type === item.type) {
+          if (props.category === item.category) {
             return (
               <Item
                 id={item.id}

@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Rating = require("../models/rating");
-const Product = require("../models/prodcuts");
+const Product = require("../models/products");
 
 router.get("/allproducts", async (req, res) => {
   let products = await Product.find({});
-  console.log("All Products");
+
   res.send(products);
 });
 
@@ -32,6 +32,7 @@ router.post("/addproduct", async (req, res) => {
   } else {
     id = 1;
   }
+
   const product = new Product({
     id: id,
     name: req.body.name,
@@ -46,8 +47,8 @@ router.post("/addproduct", async (req, res) => {
   res.json({ success: true, name: req.body.name });
 });
 
-router.post("/removeproduct", async (req, res) => {
-  const product = await Product.findOneAndDelete({ id: req.body.id });
+router.delete("/removeproduct/:id", async (req, res) => {
+  const product = await Product.findByIdAndDelete(req.params.id);
   console.log("Removed");
   res.json({ success: true, name: req.body.name });
 });
@@ -55,7 +56,7 @@ router.post("/removeproduct", async (req, res) => {
 //get a certain product
 router.get("/:id", async (req, res) => {
   const productID = req.params.id;
-  const product = await Product.find({ id: productID });
+  const product = await Product.findOne({ id: productID });
   res.json(product);
 });
 
@@ -113,7 +114,6 @@ router.get("/product/:productId/ratings", async (req, res) => {
 });
 
 router.get("/ratings", async (req, res) => {
-  //get all ratings
   try {
     const ratings = await Rating.find();
     res.status(200).json({ success: true, data: ratings });
