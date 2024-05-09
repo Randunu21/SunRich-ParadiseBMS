@@ -6,6 +6,7 @@ import QmDashboard from "./QualityManager/QmDashboard";
 import QualityManagerTable from "./Components/InquiryReply"; 
 import ProductDetails from "./Components/DisplayFeedback";
 import InquiriesTable from "./Components/InquiryList";
+import AdminReport from "./QualityManager/AdminReport";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<QmDashboard/>} />
           <Route path="/quality-manager/inquiries" element={<QualityManagerTable />} />
+          <Route path="/quality-manager/reports" element={<AdminReport />} />
         </Routes>
       </div>
     </BrowserRouter>
