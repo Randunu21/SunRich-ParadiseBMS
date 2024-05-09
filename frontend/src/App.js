@@ -7,6 +7,7 @@ import QualityManagerTable from "./Components/InquiryReply";
 import ProductDetails from "./Components/DisplayFeedback";
 import InquiriesTable from "./Components/InquiryList";
 import DisplayFeedback from "./Components/DisplayFeedback";
+import AdminReport from "./QualityManager/AdminReport";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           />{" "}
           <Route path="/inquiry" element={<AddInquiry />} />
           <Route path="/inquiry-list" element={<InquiriesTable />} />
+          <Route path="/quality-manager/reports" element={<AdminReport />} />
         </Routes>
       </div>
     </BrowserRouter>

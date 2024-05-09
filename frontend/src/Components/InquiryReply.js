@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const QualityManagerTable = () => {
   const [inquiries, setInquiries] = useState([]);
   const [replies, setReplies] = useState({});
   const [isEditing, setIsEditing] = useState({});
+  const [showNavbar, setShowNavbar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const toggleNavbar = () => {
+    setShowNavbar(!showNavbar);
+  };
+  
 
   useEffect(() => {
     const fetchInquiries = async () => {
@@ -91,60 +99,123 @@ const QualityManagerTable = () => {
       console.error(error);
     }
   };
+  const filteredInquiries = inquiries.filter((inquiry) => {
+    const name = inquiry.name.toLowerCase();
+    const query = searchQuery.toLowerCase();
+    const startIndex = name.indexOf(query);
+    if (startIndex === -1) {
+      return false; // Filter out if query is not found in name
+    }
+
+    const endIndex = startIndex + query.length;
+    const highlightedName = `${name.substring(0, startIndex)}<span style="color: green;">${name.substring(startIndex, endIndex)}</span>${name.substring(endIndex)}`;
+    inquiry.highlightedName = highlightedName;
+
+    return true; // Include the inquiry in filtered results
+  });
 
   return (
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Inquiry Title</th>
-          <th>Inquiry Body</th>
-          <th>Reply</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {inquiries.map((inquiry) => {
-          const submittedReply = replies[inquiry._id];
+    <div className="qm-dashboard container-fluid d-flex flex-column min-vh-100 bg-dark text-white">
+      <header className="qm-header row flex-grow-0 bg-success text-white align-items-center">
+        <h2 className="col-12 qm-heading text-center" onClick={toggleNavbar}>Inquiry Management</h2>
+      </header>
+      {showNavbar && (
+        <nav className="qm-nav row justify-content-center mb-3" style={{marginTop:'20px'}}>
+          <ul className="nav col-md-8 d-flex flex-wrap justify-content-between custom-nav"> 
+            <li className="nav-item">
+              <Link to="/" className="nav-link text-white">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/quality-manager/inquiries" className="nav-link text-white">
+                Inquiry Management
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/quality-manager/feedbacks" className="nav-link text-white">
+                Feedback Management
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/quality-manager/reports" className="nav-link text-white">
+                Report Generation
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      )}
+      <div className="text-center mb-3">
+        <input
+          type="text"
+          className="form-control w-20 d-inline-block"
+          style={{width:'600px',marginTop:'20px'}}
+          placeholder="Search by name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      {filteredInquiries.length === 0 && (
+        <div className="text-center text-danger">No inquiries found.</div>
+      )}
+      {filteredInquiries.length > 0 && (
+        <>
+          <div className="text-center">Showing {filteredInquiries.length} results.</div>
+          <table className="table table-striped" style={{ margin: '20px 0' }}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Inquiry Title</th>
+                <th>Inquiry Body</th>
+                <th>Reply</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredInquiries.map((inquiry) => {
+                const submittedReply = replies[inquiry._id];
 
-          return (
-            <tr key={inquiry._id}>
-              <td>{inquiry.name}</td>
-              <td>{inquiry.email}</td>
-              <td>{inquiry.inquiryTitle}</td>
-              <td>{inquiry.inquiryBody}</td>
-              <td>
-                {submittedReply ? (
-                  <div>
-                    <div>{submittedReply.reply}</div>
-                    {isEditing[inquiry._id] ? (
-                      <form onSubmit={(e) => handleEditReply(e, inquiry._id)}>
-                        <input type="text" name="reply" defaultValue={submittedReply.reply} />
-                        <button type="submit">Update Reply</button>
-                      </form>
-                    ) : null}
-                  </div>
-                ) : (
-                  <form onSubmit={(e) => handleReply(e, inquiry._id)}>
-                    <input type="text" name="reply" placeholder="Enter Reply" />
-                    <button type="submit">Reply</button>
-                  </form>
-                )}
-              </td>
-              <td>
-                {submittedReply && (
-                  <>
-                    <button className="btn btn-danger" onClick={() => handleDeleteReply(inquiry._id)}>Delete</button>
-                    <button className="btn btn-primary" onClick={() => setIsEditing({ ...isEditing, [inquiry._id]: true })}>Edit</button>
-                  </>
-                )}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                return (
+                  <tr key={inquiry._id}>
+                    <td dangerouslySetInnerHTML={{__html: inquiry.highlightedName}}></td>
+                    <td>{inquiry.email}</td>
+                    <td>{inquiry.inquiryTitle}</td>
+                    <td>{inquiry.inquiryBody}</td>
+                    <td>
+                      {submittedReply ? (
+                        <div>
+                          <div>{submittedReply.reply}</div>
+                          {isEditing[inquiry._id] ? (
+                            <form onSubmit={(e) => handleEditReply(e, inquiry._id)}>
+                              <input type="text" name="reply" defaultValue={submittedReply.reply} />
+                              <button type="submit" style={{ border: '2px solid green', color: 'green' }}>Update Reply</button>
+                            </form>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <form onSubmit={(e) => handleReply(e, inquiry._id)}>
+                          <input type="text" name="reply" placeholder="Enter Reply" /> 
+                          <button type="submit" style={{ border: '2px solid green', color: 'green' }}>Reply</button>
+                        </form>
+                      )}
+                    </td>
+                    <td>
+                      {submittedReply && (
+                        <div className="d-inline">
+                          <button className="btn" style={{ border: '2px solid green', color: 'green',marginBottom:'4px' }} onClick={() => handleDeleteReply(inquiry._id)}>Delete</button>
+                          <button className="btn" style={{ border: '2px solid green', color: 'green' }} onClick={() => setIsEditing({ ...isEditing, [inquiry._id]: true })}>Edit</button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
+    </div>
   );
 };
 
