@@ -12,7 +12,7 @@ export default function Ratings() {
   const fetchRatings = async () => {
     try {
       await axios
-        .get("http://localhost:4000/api/products/ratings")
+        .get("http://localhost:4000/api/products/rating/allRatings")
         .then((res) => {
           console.log(res.data);
           if (res) {

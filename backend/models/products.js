@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 
 const ProductModal = mongoose.Schema({
-  id: {
+  productID: {
     type: Number,
     required: true,
   },

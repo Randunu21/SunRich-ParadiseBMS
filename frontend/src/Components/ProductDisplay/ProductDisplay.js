@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 
 const ProductDisplay = ({ product }) => {
-  console.log(product);
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+    setQuantity(value >= 1 ? value : 1); // Ensure quantity doesn't go below 0
+  };
 
   if (!product) {
     return <div>Loading product details...</div>;
@@ -46,9 +51,11 @@ const ProductDisplay = ({ product }) => {
         <div className="productdisplay-right-size">
           <h1>Select Quantity</h1>
           <div className="productdisplay-right-sizes">
-            {["S", "M", "L", "XL", "XXL"].map((size) => (
-              <div key={size}>{size}</div>
-            ))}
+            <input
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+            />
           </div>
         </div>
         <button onClick={() => addToCart(product.id)}>ADD TO CART</button>

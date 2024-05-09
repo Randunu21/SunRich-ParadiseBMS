@@ -7,8 +7,10 @@ import { ShopContext } from "../Context/ShopContext";
 
 const Product = () => {
   const { products } = useContext(ShopContext);
-  const { productId } = useParams();
-  const product = products.find((e) => e.id === Number(productId));
+  console.log("products:", products);
+  const { productID } = useParams();
+  console.log("productID:", productID);
+  const product = products.find((e) => e.productID === Number(productID));
   return (
     <div>
       <ProductDisplay product={product} />

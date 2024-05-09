@@ -17,13 +17,16 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="/coconutrelated"
-            element={<HomeCategory category="coconut" />}
+            element={<HomeCategory category="Coconut Product" />}
           />
           <Route path="/rating" element={<Ratings />} />
-          <Route path="/spices" element={<HomeCategory category="spices" />} />
+          <Route
+            path="/spices"
+            element={<HomeCategory category="Spices Product" />}
+          />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="product" element={<Product />}>
-            <Route path=":productId" element={<Product />} />
+            <Route path=":productID" element={<Product />} />
           </Route>
         </Routes>
         <Footer />

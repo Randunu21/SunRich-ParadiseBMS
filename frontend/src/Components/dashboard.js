@@ -53,10 +53,6 @@ export default function Dashboard() {
     }
   };
 
-  if (products.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   const handleEditImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -270,16 +266,7 @@ export default function Dashboard() {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="productID">
-              <Form.Label>Product ID</Form.Label>
-              <Form.Control
-                type="text"
-                name="productId"
-                value={product.id}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
+
             <Form.Group className="mb-3" controlId="productImage">
               <Form.Label>Image</Form.Label>
               <Form.Control
@@ -327,7 +314,7 @@ export default function Dashboard() {
                   <td>{product.description}</td>
                   <td>Rs : {product.price}</td>
                   <td>{product.discount} % </td>
-                  <td>{product.id}</td>
+                  <td>{product.productId}</td>
                   <td>{product.category}</td>
                   <td>
                     {product.image && (
@@ -368,7 +355,7 @@ export default function Dashboard() {
                   <td>{product.description}</td>
                   <td>Rs : {product.price}</td>
                   <td>{product.discount} % </td>
-                  <td>{product.id}</td>
+                  <td>{product.productId}</td>
                   <td>{product.category}</td>
                   <td>
                     {product.image && (
@@ -465,17 +452,7 @@ export default function Dashboard() {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="editProductID">
-              <Form.Label>Product ID</Form.Label>
-              <Form.Control
-                type="text"
-                name="productId"
-                value={editProduct.id}
-                onChange={handleEditChange}
-                required
-                disabled
-              />
-            </Form.Group>
+
             <Form.Group className="mb-3" controlId="editProductImage">
               <Form.Label>Image</Form.Label>
               <Form.Control

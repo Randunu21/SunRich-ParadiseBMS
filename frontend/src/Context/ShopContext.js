@@ -12,6 +12,7 @@ const ShopContextProvider = (props) => {
       .get("http://localhost:4000/api/products/allproducts")
       .then((res) => {
         setProducts(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);

@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const ratingSchema = mongoose.Schema({
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
+  productID: {
+    type: Number,
     ref: "product",
     required: true,
   },
@@ -16,6 +16,4 @@ const ratingSchema = mongoose.Schema({
   },
 });
 
-const Rating = mongoose.model("rating", ratingSchema);
-
-module.exports = Rating;
+module.exports = mongoose.model("rating", ratingSchema);
