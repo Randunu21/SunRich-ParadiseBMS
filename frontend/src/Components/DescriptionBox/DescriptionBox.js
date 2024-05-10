@@ -4,10 +4,7 @@ import "./DescriptionBox.css";
 const DescriptionBox = () => {
   return (
     <div className="descriptionbox">
-      <div className="descriptionbox-navigator">
-        <div className="descriptionbox-nav-box">Description</div>
-        <div className="descriptionbox-nav-box">Reviews (122)</div>
-      </div>
+      <div className="descriptionbox-navigator"></div>
       <div className="descriptionbox-description">
         <p>
           An e-commerce website is an online platform that facilitates the

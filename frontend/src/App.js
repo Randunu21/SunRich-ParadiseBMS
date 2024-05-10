@@ -22,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/product" element={<Home />} />
+          <Route path="/products/home" element={<Home />} />
           <Route
             path="/coconutrelated"
             element={<HomeCategory category="Coconut Product" />}
@@ -52,7 +52,7 @@ function App() {
         <Footer />
       </BrowserRouter>
     </div>
-
-  )}
+  );
+}
 
 export default App;

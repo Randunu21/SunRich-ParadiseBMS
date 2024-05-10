@@ -65,6 +65,16 @@ const Navbar = () => {
         </li>
         <li
           onClick={() => {
+            setMenu("feedbacksandinquiries");
+          }}
+        >
+          <Link style={{ textDecoration: "none" }} to="/inquiry">
+            Feedbacks and Inquiries
+          </Link>
+          {menu === "feedbacksandinquiries" ? <hr /> : <></>}
+        </li>
+        <li
+          onClick={() => {
             setMenu("aboutus");
           }}
         >
