@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <Link
-        to="/"
+        to="/products/home"
         onClick={() => {
           setMenu("shop");
         }}
@@ -28,7 +28,7 @@ const Navbar = () => {
             setMenu("home");
           }}
         >
-          <Link style={{ textDecoration: "none" }} to="/">
+          <Link style={{ textDecoration: "none" }} to="/products/home">
             Home
           </Link>
           {menu === "home" ? <hr /> : <></>}
@@ -38,7 +38,10 @@ const Navbar = () => {
             setMenu("coconutrelated");
           }}
         >
-          <Link style={{ textDecoration: "none" }} to="/coconutrelated">
+          <Link
+            style={{ textDecoration: "none" }}
+            to="/products/coconutrelated"
+          >
             Coconut Related
           </Link>
           {menu === "coconutrelated" ? <hr /> : <></>}
@@ -48,7 +51,7 @@ const Navbar = () => {
             setMenu("spices");
           }}
         >
-          <Link style={{ textDecoration: "none" }} to="/spices">
+          <Link style={{ textDecoration: "none" }} to="/products/spices">
             Spices
           </Link>
           {menu === "spices" ? <hr /> : <></>}
@@ -68,7 +71,7 @@ const Navbar = () => {
             setMenu("feedbacksandinquiries");
           }}
         >
-          <Link style={{ textDecoration: "none" }} to="/inquiry">
+          <Link style={{ textDecoration: "none" }} to="/quality/inquiry">
             Feedbacks and Inquiries
           </Link>
           {menu === "feedbacksandinquiries" ? <hr /> : <></>}

@@ -197,7 +197,7 @@ export default function Dashboard() {
           </Button>
         </div>
         <div className="col-md-3">
-          <a href="/rating" className="w-100 rating-pg-btn">
+          <a href="/products/rating" className="w-100 rating-pg-btn">
             Success
           </a>
         </div>

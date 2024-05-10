@@ -24,19 +24,19 @@ function App() {
         <Routes>
           <Route path="/products/home" element={<Home />} />
           <Route
-            path="/coconutrelated"
+            path="/products/coconutrelated"
             element={<HomeCategory category="Coconut Product" />}
           />
-          <Route path="/rating" element={<Ratings />} />
+          <Route path="/products/rating" element={<Ratings />} />
           <Route
-            path="/spices"
+            path="/products/spices"
             element={<HomeCategory category="Spices Product" />}
           />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/products/dashboard" element={<Dashboard />} />
           <Route path="product" element={<Product />}>
             <Route path=":productID" element={<Product />} />
           </Route>
-          <Route path="/" element={<QmDashboard />} />
+          <Route path="/quality/dashboard" element={<QmDashboard />} />
           <Route
             path="/quality-manager/inquiries"
             element={<QualityManagerTable />}
@@ -45,9 +45,12 @@ function App() {
             path="/quality-manager/feedbacks"
             element={<DisplayFeedback />}
           />{" "}
-          <Route path="/inquiry" element={<AddInquiry />} />
-          <Route path="/inquiry-list" element={<InquiriesTable />} />
-          <Route path="/quality-manager/reports" element={<AdminReport />} />
+          <Route path="/quality/inquiry" element={<AddInquiry />} />
+          <Route path="/quality/inquiry-list" element={<InquiriesTable />} />
+          <Route
+            path="/quality/quality-manager/reports"
+            element={<AdminReport />}
+          />
         </Routes>
         <Footer />
       </BrowserRouter>
