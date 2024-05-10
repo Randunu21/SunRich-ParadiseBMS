@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import QualityManagerTable from "../Components/InquiryReply";
 import DisplayFeedback from "../QualityManager/AdminFeedback";

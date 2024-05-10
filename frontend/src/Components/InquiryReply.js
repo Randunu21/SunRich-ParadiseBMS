@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const QualityManagerTable = () => {
   const [inquiries, setInquiries] = useState([]);
   const [replies, setReplies] = useState({});
   const [isEditing, setIsEditing] = useState({});
   const [showNavbar, setShowNavbar] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleNavbar = () => {
     setShowNavbar(!showNavbar);
   };
-  
 
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const inquiriesResponse = await axios.get("http://localhost:4000/Inquiry/");
+        const inquiriesResponse = await axios.get(
+          "http://localhost:4000/Inquiry/"
+        );
         setInquiries(inquiriesResponse.data);
       } catch (error) {
         console.error(error);
@@ -48,21 +49,26 @@ const QualityManagerTable = () => {
     const replyText = replyInput.value;
 
     if (!replyText) {
-      console.error('Please enter a reply before submitting.');
+      console.error("Please enter a reply before submitting.");
       return;
     }
 
     try {
       const existingReply = replies[inquiryId];
       if (existingReply) {
-        console.error('Reply already exists for this inquiry. Use edit to modify.');
+        console.error(
+          "Reply already exists for this inquiry. Use edit to modify."
+        );
         return;
       }
 
-      const response = await axios.post("http://localhost:4000/Reply/add", { inquiryId, reply: replyText });
-      console.log('Reply submitted successfully:', response.data);
+      const response = await axios.post("http://localhost:4000/Reply/add", {
+        inquiryId,
+        reply: replyText,
+      });
+      console.log("Reply submitted successfully:", response.data);
       setReplies({ ...replies, [inquiryId]: response.data });
-      replyInput.value = '';
+      replyInput.value = "";
     } catch (error) {
       console.error(error);
     }
@@ -75,13 +81,16 @@ const QualityManagerTable = () => {
     const updatedReplyText = replyInput.value;
 
     if (!updatedReplyText) {
-      console.error('Please enter a reply before updating.');
+      console.error("Please enter a reply before updating.");
       return;
     }
 
     try {
-      const response = await axios.put(`http://localhost:4000/Reply/${replies[inquiryId]._id}`, { reply: updatedReplyText });
-      console.log('Reply updated successfully:', response.data);
+      const response = await axios.put(
+        `http://localhost:4000/Reply/${replies[inquiryId]._id}`,
+        { reply: updatedReplyText }
+      );
+      console.log("Reply updated successfully:", response.data);
       setReplies({ ...replies, [inquiryId]: response.data });
       setIsEditing({ ...isEditing, [inquiryId]: false });
     } catch (error) {
@@ -91,7 +100,9 @@ const QualityManagerTable = () => {
 
   const handleDeleteReply = async (inquiryId) => {
     try {
-      await axios.delete(`http://localhost:4000/Reply/${replies[inquiryId]._id}`);
+      await axios.delete(
+        `http://localhost:4000/Reply/${replies[inquiryId]._id}`
+      );
       const updatedReplies = { ...replies };
       delete updatedReplies[inquiryId];
       setReplies(updatedReplies);
@@ -108,7 +119,13 @@ const QualityManagerTable = () => {
     }
 
     const endIndex = startIndex + query.length;
-    const highlightedName = `${name.substring(0, startIndex)}<span style="color: green;">${name.substring(startIndex, endIndex)}</span>${name.substring(endIndex)}`;
+    const highlightedName = `${name.substring(
+      0,
+      startIndex
+    )}<span style="color: green;">${name.substring(
+      startIndex,
+      endIndex
+    )}</span>${name.substring(endIndex)}`;
     inquiry.highlightedName = highlightedName;
 
     return true; // Include the inquiry in filtered results
@@ -117,28 +134,42 @@ const QualityManagerTable = () => {
   return (
     <div className="qm-dashboard container-fluid d-flex flex-column min-vh-100 bg-dark text-white">
       <header className="qm-header row flex-grow-0 bg-success text-white align-items-center">
-        <h2 className="col-12 qm-heading text-center" onClick={toggleNavbar}>Inquiry Management</h2>
+        <h2 className="col-12 qm-heading text-center" onClick={toggleNavbar}>
+          Inquiry Management
+        </h2>
       </header>
       {showNavbar && (
-        <nav className="qm-nav row justify-content-center mb-3" style={{marginTop:'20px'}}>
-          <ul className="nav col-md-8 d-flex flex-wrap justify-content-between custom-nav"> 
+        <nav
+          className="qm-nav row justify-content-center mb-3"
+          style={{ marginTop: "20px" }}
+        >
+          <ul className="nav col-md-8 d-flex flex-wrap justify-content-between custom-nav">
             <li className="nav-item">
               <Link to="/" className="nav-link text-white">
                 Home
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/quality-manager/inquiries" className="nav-link text-white">
+              <Link
+                to="/quality-manager/inquiries"
+                className="nav-link text-white"
+              >
                 Inquiry Management
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/quality-manager/feedbacks" className="nav-link text-white">
+              <Link
+                to="/quality-manager/feedbacks"
+                className="nav-link text-white"
+              >
                 Feedback Management
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/quality-manager/reports" className="nav-link text-white">
+              <Link
+                to="/quality-manager/reports"
+                className="nav-link text-white"
+              >
                 Report Generation
               </Link>
             </li>
@@ -149,7 +180,7 @@ const QualityManagerTable = () => {
         <input
           type="text"
           className="form-control w-20 d-inline-block"
-          style={{width:'600px',marginTop:'20px'}}
+          style={{ width: "600px", marginTop: "20px" }}
           placeholder="Search by name"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -160,8 +191,10 @@ const QualityManagerTable = () => {
       )}
       {filteredInquiries.length > 0 && (
         <>
-          <div className="text-center">Showing {filteredInquiries.length} results.</div>
-          <table className="table table-striped" style={{ margin: '20px 0' }}>
+          <div className="text-center">
+            Showing {filteredInquiries.length} results.
+          </div>
+          <table className="table table-striped" style={{ margin: "20px 0" }}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -178,7 +211,11 @@ const QualityManagerTable = () => {
 
                 return (
                   <tr key={inquiry._id}>
-                    <td dangerouslySetInnerHTML={{__html: inquiry.highlightedName}}></td>
+                    <td
+                      dangerouslySetInnerHTML={{
+                        __html: inquiry.highlightedName,
+                      }}
+                    ></td>
                     <td>{inquiry.email}</td>
                     <td>{inquiry.inquiryTitle}</td>
                     <td>{inquiry.inquiryBody}</td>
@@ -187,24 +224,74 @@ const QualityManagerTable = () => {
                         <div>
                           <div>{submittedReply.reply}</div>
                           {isEditing[inquiry._id] ? (
-                            <form onSubmit={(e) => handleEditReply(e, inquiry._id)}>
-                              <input type="text" name="reply" defaultValue={submittedReply.reply} />
-                              <button type="submit" style={{ border: '2px solid green', color: 'green' }}>Update Reply</button>
+                            <form
+                              onSubmit={(e) => handleEditReply(e, inquiry._id)}
+                            >
+                              <input
+                                type="text"
+                                name="reply"
+                                defaultValue={submittedReply.reply}
+                              />
+                              <button
+                                type="submit"
+                                style={{
+                                  border: "2px solid green",
+                                  color: "green",
+                                }}
+                              >
+                                Update Reply
+                              </button>
                             </form>
                           ) : null}
                         </div>
                       ) : (
                         <form onSubmit={(e) => handleReply(e, inquiry._id)}>
-                          <input type="text" name="reply" placeholder="Enter Reply" /> 
-                          <button type="submit" style={{ border: '2px solid green', color: 'green' }}>Reply</button>
+                          <input
+                            type="text"
+                            name="reply"
+                            placeholder="Enter Reply"
+                          />
+                          <button
+                            type="submit"
+                            style={{
+                              border: "2px solid green",
+                              color: "green",
+                            }}
+                          >
+                            Reply
+                          </button>
                         </form>
                       )}
                     </td>
                     <td>
                       {submittedReply && (
                         <div className="d-inline">
-                          <button className="btn" style={{ border: '2px solid green', color: 'green',marginBottom:'4px' }} onClick={() => handleDeleteReply(inquiry._id)}>Delete</button>
-                          <button className="btn" style={{ border: '2px solid green', color: 'green' }} onClick={() => setIsEditing({ ...isEditing, [inquiry._id]: true })}>Edit</button>
+                          <button
+                            className="btn"
+                            style={{
+                              border: "2px solid green",
+                              color: "green",
+                              marginBottom: "4px",
+                            }}
+                            onClick={() => handleDeleteReply(inquiry._id)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="btn"
+                            style={{
+                              border: "2px solid green",
+                              color: "green",
+                            }}
+                            onClick={() =>
+                              setIsEditing({
+                                ...isEditing,
+                                [inquiry._id]: true,
+                              })
+                            }
+                          >
+                            Edit
+                          </button>
                         </div>
                       )}
                     </td>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
-import Chart from 'chart.js/auto';
+import Chart from "chart.js/auto";
 
-import "./AdminReport.css"; // Import the CSS file
+//import "./AdminReport.css"; // Import the CSS file
 
 export default function AdminReport() {
   const [feedbackData, setFeedbackData] = useState([]);
@@ -23,12 +23,16 @@ export default function AdminReport() {
 
   useEffect(() => {
     // Update the total feedbacks count when feedbackData changes
-    setTotalFeedbacks(filterApplied ? filteredFeedbackData.length : feedbackData.length);
+    setTotalFeedbacks(
+      filterApplied ? filteredFeedbackData.length : feedbackData.length
+    );
   }, [feedbackData, filteredFeedbackData, filterApplied]);
 
   const fetchFeedbackData = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/feedback/get-feedbacks");
+      const response = await axios.get(
+        "http://localhost:4000/feedback/get-feedbacks"
+      );
       setFeedbackData(response.data);
     } catch (error) {
       console.error("Error fetching feedback data:", error);
@@ -37,9 +41,12 @@ export default function AdminReport() {
 
   const fetchFilteredFeedbackData = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/feedback/get-feedbacks", {
-        params: { startDate, endDate }
-      });
+      const response = await axios.get(
+        "http://localhost:4000/feedback/get-feedbacks",
+        {
+          params: { startDate, endDate },
+        }
+      );
       setFilteredFeedbackData(response.data);
     } catch (error) {
       console.error("Error fetching filtered feedback data:", error);
@@ -59,9 +66,15 @@ export default function AdminReport() {
     let neutralCount = 0;
 
     data.forEach((feedback) => {
-      if (feedback.rating === "very-satisfied" || feedback.rating === "satisfied") {
+      if (
+        feedback.rating === "very-satisfied" ||
+        feedback.rating === "satisfied"
+      ) {
         positiveCount++;
-      } else if (feedback.rating === "very-disappointed" || feedback.rating === "disappointed") {
+      } else if (
+        feedback.rating === "very-disappointed" ||
+        feedback.rating === "disappointed"
+      ) {
         negativeCount++;
       } else {
         neutralCount++;
@@ -69,70 +82,99 @@ export default function AdminReport() {
     });
 
     const totalFeedbacks = positiveCount + negativeCount + neutralCount;
-    const positiveAverage = totalFeedbacks > 0 ? positiveCount / totalFeedbacks : 0;
-    const negativeAverage = totalFeedbacks > 0 ? negativeCount / totalFeedbacks : 0;
-    const neutralAverage = totalFeedbacks > 0 ? neutralCount / totalFeedbacks : 0;
+    const positiveAverage =
+      totalFeedbacks > 0 ? positiveCount / totalFeedbacks : 0;
+    const negativeAverage =
+      totalFeedbacks > 0 ? negativeCount / totalFeedbacks : 0;
+    const neutralAverage =
+      totalFeedbacks > 0 ? neutralCount / totalFeedbacks : 0;
 
-    return { positiveCount, negativeCount, neutralCount, positiveAverage, negativeAverage, neutralAverage };
+    return {
+      positiveCount,
+      negativeCount,
+      neutralCount,
+      positiveAverage,
+      negativeAverage,
+      neutralAverage,
+    };
   };
 
-  const { positiveCount, negativeCount, neutralCount, positiveAverage, negativeAverage, neutralAverage } = calculateTotalsAndAverages(filterApplied ? filteredFeedbackData : feedbackData);
+  const {
+    positiveCount,
+    negativeCount,
+    neutralCount,
+    positiveAverage,
+    negativeAverage,
+    neutralAverage,
+  } = calculateTotalsAndAverages(
+    filterApplied ? filteredFeedbackData : feedbackData
+  );
 
   const handleFilterSubmit = () => {
     setFilterApplied(true);
   };
 
   useEffect(() => {
-    const ctx = document.getElementById('feedbackChart').getContext('2d');
-    const ratings = ['Extremely Disappointed', 'Disappointed', 'Neutral', 'Satisfied', 'Extremely Satisfied'];
+    const ctx = document.getElementById("feedbackChart").getContext("2d");
+    const ratings = [
+      "Extremely Disappointed",
+      "Disappointed",
+      "Neutral",
+      "Satisfied",
+      "Extremely Satisfied",
+    ];
 
     const ratingCounts = [0, 0, 0, 0, 0]; // Initialize counts for each rating
 
-    (filterApplied ? filteredFeedbackData : feedbackData).forEach((feedback) => {
-      switch (feedback.rating) {
-        case 'very-disappointed':
-          ratingCounts[0]++;
-          break;
-        case 'disappointed':
-          ratingCounts[1]++;
-          break;
-        case 'neutral':
-          ratingCounts[2]++;
-          break;
-        case 'satisfied':
-          ratingCounts[3]++;
-          break;
-        case 'very-satisfied':
-          ratingCounts[4]++;
-          break;
-        default:
-          break;
+    (filterApplied ? filteredFeedbackData : feedbackData).forEach(
+      (feedback) => {
+        switch (feedback.rating) {
+          case "very-disappointed":
+            ratingCounts[0]++;
+            break;
+          case "disappointed":
+            ratingCounts[1]++;
+            break;
+          case "neutral":
+            ratingCounts[2]++;
+            break;
+          case "satisfied":
+            ratingCounts[3]++;
+            break;
+          case "very-satisfied":
+            ratingCounts[4]++;
+            break;
+          default:
+            break;
+        }
       }
-    });
+    );
 
     const feedbackChart = new Chart(ctx, {
-      type: 'bar',
+      type: "bar",
       data: {
         labels: ratings,
-        datasets: [{
-          label: 'Number of Feedbacks',
-          data: ratingCounts,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(255, 159, 64, 1)',
-            'rgba(255, 205, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(54, 162, 235, 1)',
-          ],
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: "Number of Feedbacks",
+            data: ratingCounts,
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(255, 159, 64, 1)",
+              "rgba(255, 205, 86, 1)",
+              "rgba(75, 192, 192, 1)",
+              "rgba(54, 162, 235, 1)",
+            ],
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         scales: {
@@ -141,27 +183,26 @@ export default function AdminReport() {
             stepSize: 5,
             title: {
               display: true,
-              text: 'Number of Feedbacks' // Add label for Y-axis
-            }
+              text: "Number of Feedbacks", // Add label for Y-axis
+            },
           },
           x: {
             title: {
               display: true,
-              text: 'Ratings' // Add label for X-axis
-            }
-          }
+              text: "Ratings", // Add label for X-axis
+            },
+          },
         },
         plugins: {
           title: {
-            display: false
+            display: false,
           },
           legend: {
-            display: false
-          }
-        }
-      }
+            display: false,
+          },
+        },
+      },
     });
-    
 
     return () => {
       feedbackChart.destroy();
@@ -178,18 +219,30 @@ export default function AdminReport() {
           <h6 className="filter-heading">Date Range</h6>
           <div className="date-inputs">
             <label htmlFor="startDate">From:</label>
-            <input type="date" id="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <input
+              type="date"
+              id="startDate"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
             <label htmlFor="endDate">To:</label>
-            <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            <input
+              type="date"
+              id="endDate"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
           </div>
-          <button className="filter-button" onClick={handleFilterSubmit}>Enter</button>
+          <button className="filter-button" onClick={handleFilterSubmit}>
+            Enter
+          </button>
         </div>
-        <div className="total-feedbacks-container"> 
-          <div className="total-feedbacks">{totalFeedbacks}</div> 
+        <div className="total-feedbacks-container">
+          <div className="total-feedbacks">{totalFeedbacks}</div>
           <div className="total-feedbacks-label">Total Feedbacks</div>
         </div>
       </div>
-      
+
       <div ref={ComponentsRef} className="table-container">
         <table className="feedback-table">
           <thead>
@@ -217,12 +270,14 @@ export default function AdminReport() {
             </tr>
           </tbody>
         </table>
-      
-      <div className="chart-container">
-        <canvas id="feedbackChart" width="400" height="200"></canvas>
+
+        <div className="chart-container">
+          <canvas id="feedbackChart" width="400" height="200"></canvas>
+        </div>
       </div>
-      </div>
-      <button className="print-button" onClick={handlePrint}>Print</button>
+      <button className="print-button" onClick={handlePrint}>
+        Print
+      </button>
     </div>
   );
 }

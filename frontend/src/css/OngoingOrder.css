@@ -1,0 +1,83 @@
+body {
+  background: #dbf8e3;
+}
+
+.container {
+  margin-top: 30px;
+}
+
+.search-section input[type="search"] {
+  border-radius: 20px 0 0 20px;
+  padding: 0.5rem 0.75rem;
+}
+
+.search-section .input-group-text {
+  background: white;
+  border-radius: 0 20px 20px 0;
+  border: none;
+}
+
+.table-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead {
+  background: #065535;
+  color: white;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.btn-view-details {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+.btn-view-details:hover {
+  background-color: #ec971f;
+  border-color: #d58512;
+}
+
+.modal-dialog {
+  margin-top: 10vh;
+}
+
+.modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #065535;
+  color: white;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  border-top: none;
+  padding: 1rem 2rem;
+}
+
+.btn-edit,
+.btn-save {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.modal-backdrop.show {
+  opacity: 0.5;
+}

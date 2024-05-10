@@ -111,7 +111,7 @@ const Navbar = () => {
           </Link>
         )}
 
-        <Link to="/cart">
+        <Link to="/orders/shopping-cart">
           <i
             class="bi bi-cart"
             style={{ fontSize: "50px", color: "black" }}
