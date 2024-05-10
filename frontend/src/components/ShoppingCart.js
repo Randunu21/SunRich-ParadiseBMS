@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Modal } from "react-bootstrap";
+
 import { useState } from "react";
 import axios from "axios";
 import "../css/shoppingCart.css";
 import { useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import swal from "sweetalert2";
 
 function ShoppingCart() {
   const [shoppingCart, setShoppingCart] = useState({ cartItems: [] });
-  const [selectedCart, setSelectedCart] = useState("");
+
   //const [product, setProduct] = useState("");
   //const [quantity, setQuantity] = useState("");
 
@@ -138,7 +137,7 @@ function ShoppingCart() {
                               />
                             </div>
                             <div className="col-md-3 col-lg-3 col-xl-3">
-                              <h6 className="text-muted"></h6>
+                              <h6 className="text-muted">Cart</h6>
                               <h6 className="text-black mb-0">
                                 {item.product}
                               </h6>

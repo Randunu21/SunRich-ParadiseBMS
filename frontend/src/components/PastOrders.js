@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import swal from "sweetalert2";
 
 const PastOrders = () => {
   const [orders, setOrders] = useState([]);

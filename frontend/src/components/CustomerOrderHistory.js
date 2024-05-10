@@ -6,8 +6,6 @@ import swal from "sweetalert2";
 const CustomerOrderHistory = () => {
   const [orders, setOrders] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [newCart, setNewCart] = useState("");
-
   const navigate = useNavigate();
 
   useEffect(() => {

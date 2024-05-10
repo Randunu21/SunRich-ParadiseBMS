@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import swal from "sweetalert2";
@@ -13,7 +13,6 @@ const AdminQuotationReply = () => {
   const [quotation, setQuotation] = useState(selectedQuotation);
   const [cost, setCost] = useState("");
   const [shippingCost, setShippingCost] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
 
   const calculateTotal = () => {
     let totalPrice = 0;
