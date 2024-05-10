@@ -7,14 +7,12 @@ const mongoose = require("mongoose");
 const feedbackRouter = require("./routes/feedbackroute.js");
 const inquiryRouter = require("./routes/inquiryRoute.js");
 const replyRouter = require("./routes/replyRoute.js");
-const cors = require("cors");
+
 const path = require("path"); // Import path module
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
