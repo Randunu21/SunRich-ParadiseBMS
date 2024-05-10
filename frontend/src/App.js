@@ -19,38 +19,46 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/nav-bar" exact Component={Navbar} />
-          <Route path="/" exact Component={OrderHome} />
-          <Route path="/delivery-details" exact Component={DeliveryDetails} />
-          <Route path="/pending-orders" exact Component={PendingOrder} />
-          <Route path="/ongoing-orders" exact Component={OngoingOrders} />
-          <Route path="/past-orders" exact Component={PastOrders} />
-          <Route path="/shopping-cart" exact Component={ShoppingCart} />
+          <Route path="/orders/nav-bar" exact Component={Navbar} />
+          <Route path="/orders/dashboard" exact Component={OrderHome} />
           <Route
-            path="/customer-order-history"
+            path="/orders/delivery-details"
+            exact
+            Component={DeliveryDetails}
+          />
+          <Route path="/orders/pending-orders" exact Component={PendingOrder} />
+          <Route
+            path="/orders/ongoing-orders"
+            exact
+            Component={OngoingOrders}
+          />
+          <Route path="/orders/past-orders" exact Component={PastOrders} />
+          <Route path="/orders/shopping-cart" exact Component={ShoppingCart} />
+          <Route
+            path="/orders/customer-order-history"
             exact
             Component={CustomerOrderHistory}
           />
           <Route
-            path="/customer-order-track"
+            path="/orders/customer-order-track"
             exact
             Component={CustomerOrderTracking}
           />
 
           <Route
-            path="/customer-quotations"
+            path="/orders/customer-quotations"
             exact
             Component={CustomerQuotations}
           />
 
           <Route
-            path="/admin-quotation-reply"
+            path="/orders/admin-quotation-reply"
             exact
             Component={AdminQuotationReply}
           />
 
           <Route
-            path="/admin-quotation-list"
+            path="/orders/admin-quotation-list"
             exact
             Component={AdminQuotationList}
           />

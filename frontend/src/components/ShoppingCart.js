@@ -91,7 +91,7 @@ function ShoppingCart() {
   };
 
   const checkOut = () => {
-    navigate("/delivery-details", { state: { cart: shoppingCart } });
+    navigate("/orders/delivery-details", { state: { cart: shoppingCart } });
   };
 
   // Calculate total quantity of items in the cart

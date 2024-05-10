@@ -53,7 +53,7 @@ const AdminQuotationList = () => {
 
   //handle accept of a quotation
   const handleAnswer = () => {
-    navigate("/admin-quotation-reply", { state: { selectedQuotation } });
+    navigate("/orders/admin-quotation-reply", { state: { selectedQuotation } });
     console.log(selectedQuotation);
   };
 

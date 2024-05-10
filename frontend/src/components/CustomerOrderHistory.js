@@ -42,7 +42,7 @@ const CustomerOrderHistory = () => {
       .then(async (res) => {
         //setNewCart(res.data);
         alert("cart Created");
-        navigate("/delivery-details", {
+        navigate("/orders/delivery-details", {
           state: { orderDetails: order, cart: res.data },
         });
       })

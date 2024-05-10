@@ -17,7 +17,7 @@ function Navbar() {
         <ul className="navbar-nav">
           <li className="nav-item">
             <a
-              href="/customer-order-tracking"
+              href="/orders/customer-order-tracking"
               className={`nav-link ${activeLink === "home" ? "active" : ""}`}
               onClick={() => handleClick("home")}
             >
@@ -26,7 +26,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
-              href="/customer-order-history"
+              href="/orders/customer-order-history"
               className={`nav-link ${
                 activeLink === "features" ? "active" : ""
               }`}
@@ -37,7 +37,7 @@ function Navbar() {
           </li>
           <li className="nav-item">
             <a
-              href="/customer-quotations"
+              href="/orders/customer-quotations"
               className={`nav-link ${activeLink === "pricing" ? "active" : ""}`}
               onClick={() => handleClick("pricing")}
             >
