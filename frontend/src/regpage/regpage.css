@@ -1,6 +1,7 @@
 .reg-cards{
-    border: 1px solid #000;
-    border-radius: 5px;
+    border: 5px solid #000;
+    border-radius: 20px;
+    
 }
 
 .form-label{
@@ -20,3 +21,11 @@
     border-bottom: none !important;
     color: #000;
 }
+
+.green-text {
+    color: green;
+}
+
+
+
+

@@ -4,6 +4,7 @@ export default function Dashboard() {
   const [deletedUsers, setDeletedUsers] = useState([]);
   const [totalRegisteredUsers, setTotalRegisteredUsers] = useState(null); // Set to null initially
   const [registeredUsers, setRegisteredUsers] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchDeletedUsers();
@@ -18,10 +19,10 @@ export default function Dashboard() {
         const data = await response.json();
         setDeletedUsers(data);
       } else {
-        console.error('Error fetching deleted users:', response.statusText);
+        setError('Error fetching deleted users');
       }
     } catch (error) {
-      console.error('Error fetching deleted users:', error.message);
+      setError('Error fetching deleted users');
     }
   };
 
@@ -32,10 +33,10 @@ export default function Dashboard() {
         const data = await response.json();
         setTotalRegisteredUsers(data.totalUsers);
       } else {
-        console.error('Error fetching total registered users:', response.statusText);
+        setError('Error fetching total registered users');
       }
     } catch (error) {
-      console.error('Error fetching total registered users:', error.message);
+      setError('Error fetching total registered users');
     }
   };
 
@@ -44,42 +45,48 @@ export default function Dashboard() {
       const response = await fetch('http://localhost:5000/api/users');
       if (response.ok) {
         const data = await response.json();
-        setRegisteredUsers(data);
+        // Sort registered users alphabetically by username
+        const sortedUsers = data.sort((a, b) => a.username.localeCompare(b.username));
+        setRegisteredUsers(sortedUsers);
       } else {
-        console.error('Error fetching registered users:', response.statusText);
+        setError('Error fetching registered users');
       }
     } catch (error) {
-      console.error('Error fetching registered users:', error.message);
+      setError('Error fetching registered users');
     }
   };
-
 
   return (
     <div className='container'>
       <div className='row'>
         <div className='col-md-6'>
-          <div className="card">
-            <div className="card-body">
+          <div className="card bg-success text-white mb-3">
+            <div className="card-body" style={{ backgroundColor: '#4B9CD3'}}>
               <h5 className="card-title">Total Registered User</h5>
               <p className="card-text">
-                {totalRegisteredUsers !== null ? `${totalRegisteredUsers} users registered` : '0 users registered'}
+                {totalRegisteredUsers !== null ? (
+                  <span style={{ color: 'black' }}>{totalRegisteredUsers} users registered</span>
+                ) : (
+                  '0 users registered'
+                )}
               </p>
             </div>
           </div>
         </div>
       </div>
       <h2 className='mt-3'>Deleted Users</h2>
-      <table className="table">
+      {error && <div className="alert alert-danger">{error}</div>}
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">User ID</th>
+            <th scope="col">Email</th> {/* Added Email column */}
             <th scope="col">Reason</th>
           </tr>
         </thead>
         <tbody>
-          {deletedUsers.map(user => (
-            <tr key={user?._id}>
-              <td>{user?._id}</td>
+          {deletedUsers.map((user, index) => (
+            <tr key={user?._id} className={index % 2 === 0 ? 'table-primary' : 'table-secondary'}>
+              <td>{user?.email}</td> {/* Displaying user email */}
               <td>{user?.reason}</td>
             </tr>
           ))}
@@ -87,7 +94,7 @@ export default function Dashboard() {
       </table>
 
       <h2 className='mt-3'>Registered Users</h2>
-      <table className="table">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col">Username</th>
@@ -100,8 +107,8 @@ export default function Dashboard() {
           </tr>
         </thead>
         <tbody>
-          {registeredUsers.map(user => (
-            <tr key={user?._id}>
+          {registeredUsers.map((user, index) => (
+            <tr key={user?._id} className={index % 2 === 0 ? 'table-primary' : 'table-secondary'}>
               <td>{user?.username}</td>
               <td>{user?.email}</td>
               <td>{user?.name}</td>

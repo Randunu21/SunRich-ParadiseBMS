@@ -5,8 +5,18 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
-    age: { type: Number, required: true },
-    gender: { type: String, enum: ['male', 'female', 'other'], required: true },
+    age: { 
+        type: Number, 
+        required: true,
+        validate: {
+            validator: function(value) {
+                // Check if value is a positive integer
+                return Number.isInteger(value) && value >= 0;
+            },
+            message: props => `${props.value} is not a valid age. Age must be a positive integer.`
+        }
+    },
+    gender: { type: String, enum: ['male', 'female'], required: true },
     address: { type: String, required: true },
     contactNumber: { type: String, required: true }
 });
