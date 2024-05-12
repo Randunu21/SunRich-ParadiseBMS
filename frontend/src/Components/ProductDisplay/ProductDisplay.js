@@ -1,10 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
+import axios from "axios";
+import { debounce } from "lodash";
 
 const ProductDisplay = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
+  const [currentCart, setCurrentCart] = useState("");
+  const userID = 9;
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/api/cart/userCart/${userID}`)
+      .then((res) => {
+        setCurrentCart(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
@@ -15,7 +31,59 @@ const ProductDisplay = ({ product }) => {
     return <div>Loading product details...</div>;
   }
 
-  const addToCart = () => {};
+  const addToCartDebounce = debounce((productID) => {
+    addToCart(productID);
+  }, 1000); //no clicking for 1 second
+
+  const addToCart = (productID) => {
+    let price = Number(product.price * quantity);
+    console.log(price);
+
+    const data = {
+      cartItems: {
+        product: productID,
+        quantity: quantity,
+        price: price,
+      },
+    };
+
+    if (currentCart.msg) {
+      console.log("hi bro");
+      axios
+        .post("http://localhost:4000/api/cart/createCart", {
+          userID: userID,
+          cartItems: [
+            {
+              product: productID,
+              quantity: quantity,
+              price: price,
+            },
+          ],
+        })
+        .then((res) => {
+          setCurrentCart(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("bye bro");
+      console.log(currentCart._id);
+      axios
+        .patch(
+          `http://localhost:4000/api/cart/updateCart/${currentCart._id}`,
+          data
+        )
+        .then((res) => {
+          setCurrentCart(res.data.cart);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <div className="productdisplay">
@@ -58,7 +126,9 @@ const ProductDisplay = ({ product }) => {
             />
           </div>
         </div>
-        <button onClick={() => addToCart(product.id)}>ADD TO CART</button>
+        <button onClick={() => addToCartDebounce(product._id)}>
+          ADD TO CART
+        </button>
         <p className="productdisplay-right-category">
           <span>Category :</span> {product.category}
         </p>

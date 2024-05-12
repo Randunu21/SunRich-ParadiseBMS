@@ -6,20 +6,35 @@ const CartItem = require("../models/cart-item");
 
 const router = express.Router();
 
+// Calculate the total price of the cart
+// Function to calculate the total price of the cart based on cart items
+const calculateTotalPrice = (cartItems) => {
+  let totalPrice = 0;
+  for (const item of cartItems) {
+    // You can calculate the total price based on product prices or any other logic specific to your application
+    totalPrice += item.price;
+  }
+  return totalPrice;
+};
+
 //get cart by an ID
 router.get("/getCart/:id", async (req, res) => {
   const cartID = req.params.id;
 
-  if (!mongoose.Types.ObjectId.isValid(cartID)) {
-    res.json({ msg: "invalid ID" });
-  } else {
-    const specCart = await Cart.findById(cartID).populate("cartItems");
-
-    if (!specCart) {
-      res.json({ msg: "You Dont Have A Cart Currently" });
+  try {
+    if (!mongoose.Types.ObjectId.isValid(cartID)) {
+      res.json({ msg: "invalid ID" });
     } else {
-      res.json(specCart);
+      const specCart = await Cart.findById(cartID).populate("cartItems");
+
+      if (!specCart) {
+        res.json({ msg: "You Dont Have A Cart Currently" });
+      } else {
+        res.json(specCart);
+      }
     }
+  } catch (error) {
+    res.json(error);
   }
 });
 
@@ -50,13 +65,19 @@ router.delete("/deleteCart/:id", async (req, res) => {
 //update items in the cart
 
 router.patch("/updateCart/:id", async (req, res) => {
+  console.log(req.data);
   const cartID = req.params.id;
 
   if (!cartID) {
     res.json({ msg: "No Cart Available" });
   } else {
     try {
-      const existingCart = await Cart.findById(cartID).populate("cartItems");
+      const existingCart = await Cart.findById(cartID).populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      });
 
       if (!existingCart) {
         return res.json({ msg: "Cart not found" });
@@ -64,63 +85,66 @@ router.patch("/updateCart/:id", async (req, res) => {
 
       // Check if the product already exists in the cart
       const existingCartItemIndex = existingCart.cartItems.findIndex(
-        (item) => item.product === req.body.cartItems.product
+        (item) => item.product._id == req.body.cartItems.product
       );
-
-      console.log(existingCartItemIndex);
 
       if (existingCartItemIndex !== -1) {
         // If the product already exists, update its quantity
-
-        console.log(existingCart.cartItems[existingCartItemIndex]._id);
 
         let newQuantity =
           existingCart.cartItems[existingCartItemIndex].quantity +
           req.body.cartItems.quantity;
 
+        let newPrice =
+          existingCart.cartItems[existingCartItemIndex].price +
+          req.body.cartItems.price;
+
         if (newQuantity == 0) {
-          CartItem.findByIdAndDelete(
+          await CartItem.findByIdAndDelete(
             existingCart.cartItems[existingCartItemIndex]._id //newly added?
           );
+        } else {
+          await CartItem.findByIdAndUpdate(
+            existingCart.cartItems[existingCartItemIndex]._id,
+            {
+              quantity: newQuantity,
+              price: newPrice,
+            }
+          );
         }
-
-        await CartItem.findByIdAndUpdate(
-          existingCart.cartItems[existingCartItemIndex]._id,
-          {
-            quantity: newQuantity,
-          }
-        );
       } else {
         // If the product doesn't exist, add it to the cart
         const newCartItem = CartItem.create({
           product: req.body.cartItems.product,
           quantity: req.body.cartItems.quantity,
-          // price: req.body.cartItems.product.price,
+          price: req.body.cartItems.price,
         });
 
         existingCart.cartItems.push((await newCartItem)._id);
       }
+      await existingCart.save();
 
-      // Calculate the total price of the cart
-      // Function to calculate the total price of the cart based on cart items
-      /*const totalPrice = function calculateTotalPrice(cartItems) {
-        let totalPrice = 0;
-        for (const item of cartItems) {
-          // You can calculate the total price based on product prices or any other logic specific to your application
-          totalPrice += item.product.price * item.quantity;
-        }
-        return totalPrice;
-      };
+      const updatedCart = await Cart.findById(cartID).populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      });
 
-      existingCart.totalPrice = parseFloat(totalPrice);*/
-
-      //existingCart.totalPrice = calculateTotalPrice(existingCart.cartItems);
+      updatedCart.totalPrice = calculateTotalPrice(updatedCart.cartItems);
 
       // Save the updated cart
       //await existingCart.save();
-      existingCart
+      updatedCart
         .save()
-        .then((t) => t.populate("cartItems"))
+        .then((t) =>
+          t.populate({
+            path: "cartItems",
+            populate: {
+              path: "product",
+            },
+          })
+        )
         .then((x) => res.json({ cart: x }));
     } catch (error) {
       console.error("Error updating cart:", error);
@@ -134,46 +158,62 @@ router.patch("/updateCart/:id", async (req, res) => {
 router.get("/userCart/:userID", async (req, res) => {
   const user = req.params.userID;
 
-  const getUserCart = await Cart.findOne({ userID: user }).populate(
-    "cartItems"
-  );
+  try {
+    const getUserCart = await Cart.findOne({ userID: user }).populate({
+      path: "cartItems",
+      populate: {
+        path: "product",
+      },
+    });
 
-  if (getUserCart.length == 0) {
-    res.json({ msg: "No Cart found" });
-  } else {
-    res.json(getUserCart);
+    if (!getUserCart) {
+      res.json({ msg: "No cart" });
+    } else {
+      res.json(getUserCart);
+    }
+  } catch (error) {
+    res.json(error);
   }
 });
 
 //new cart creation
 router.post("/createCart", async (req, res) => {
-  const newCartItemsIDs = Promise.all(
-    req.body.cartItems.map(async (cartItem) => {
-      const newCartItems = new CartItem({
-        product: cartItem.product,
-        quantity: cartItem.quantity,
-        price: cartItem.price,
-      });
-
-      await newCartItems.save();
-
-      return newCartItems._id;
-    })
-  );
-
-  const newCartItemsIDsResolved = await newCartItemsIDs;
-
   try {
+    const newCartItemsIDs = await Promise.all(
+      req.body.cartItems.map(async (cartItem) => {
+        const newCartItems = new CartItem({
+          product: cartItem.product,
+          quantity: cartItem.quantity,
+          price: cartItem.price,
+        });
+
+        await newCartItems.save();
+
+        return newCartItems._id;
+      })
+    );
+
+    const newCartItemsIDsResolved = await newCartItemsIDs;
+
+    const totalPrice = calculateTotalPrice(req.body.cartItems);
+
     const newCart = new Cart({
       userID: req.body.userID,
       cartItems: newCartItemsIDsResolved,
-      totalPrice: req.body.totalPrice,
+      totalPrice: totalPrice,
       status: req.body.status,
     });
 
-    newCart.save();
+    await newCart.save();
 
-    res.json(newCart);
+    const newCartResolved = await newCart.populate({
+      path: "cartItems",
+      populate: {
+        path: "product",
+      },
+    });
+
+    res.json(newCartResolved);
   } catch (error) {
     res.json({ msg: error });
   }
@@ -195,6 +235,58 @@ router.patch("/updateCart/status/:id", async (req, res) => {
     }
   } catch (error) {
     res.json({ error });
+  }
+});
+
+// Backend route to delete an item from the cart
+router.delete("/deleteItem/:cartID/:itemID", async (req, res) => {
+  const { cartID, itemID } = req.params;
+
+  try {
+    // Find the cart by ID
+    const cart = await Cart.findById(cartID);
+
+    if (!cart) {
+      return res.status(404).json({ msg: "Cart not found" });
+    }
+
+    // Check if the item exists in the cart
+    const itemIndex = cart.cartItems.indexOf(itemID);
+    if (itemIndex === -1) {
+      return res.status(404).json({ msg: "Item not found in the cart" });
+    }
+
+    // Remove the item from the cart
+    cart.cartItems.splice(itemIndex, 1);
+
+    // Save the updated cart
+    await cart.save();
+
+    // delete the item from the CartItem collection if needed
+    await CartItem.findByIdAndDelete(itemID);
+
+    const updatedCart = await Cart.findById(cartID).populate({
+      path: "cartItems",
+      populate: {
+        path: "product",
+      },
+    });
+
+    updatedCart.totalPrice = calculateTotalPrice(updatedCart.cartItems);
+
+    await updatedCart.save();
+
+    const newCartResolved = await Cart.findById(cartID).populate({
+      path: "cartItems",
+      populate: {
+        path: "product",
+      },
+    });
+
+    res.json(newCartResolved);
+  } catch (error) {
+    console.error("Error deleting item from the cart:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

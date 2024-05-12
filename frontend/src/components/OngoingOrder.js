@@ -106,38 +106,38 @@ const OngoingOrders = () => {
           background: #dbf8e3;
         }
 
-        .container {
+        .orders-container {
           margin-top: 30px;
         }
 
-        .search-section input[type="search"] {
+        .orders-search-section input[type="search"] {
           border-radius: 20px 0 0 20px;
           padding: .5rem .75rem;
         }
 
-        .search-section .input-group-text {
+        .orders-search-section .input-group-text {
           background: white;
           border-radius: 0 20px 20px 0;
           border: none;
         }
 
-        .table-container {
+        .orders-table-container {
           background: #fff;
           border-radius: 8px;
           box-shadow: 0 6px 12px rgba(0,0,0,.1);
           overflow: hidden;
         }
 
-        .table {
+        .orders-table {
           margin-bottom: 0;
         }
 
-        .table thead {
+        .orders-table thead {
           background: #065535;
           color: white;
         }
 
-        .table td, .table th {
+        .orders-table td, .orders-table th {
           vertical-align: middle;
         }
 
@@ -186,11 +186,11 @@ const OngoingOrders = () => {
       `}
       </style>
 
-      <div className="container">
+      <div className="orders-container container">
         <h2 className="mb-3">Ongoing Orders</h2>
         <hr />
 
-        <div className="input-group search-section rounded mb-3">
+        <div className="input-group orders-search-section rounded mb-3">
           <input
             type="search"
             className="form-control rounded"
@@ -204,8 +204,8 @@ const OngoingOrders = () => {
           </span>
         </div>
 
-        <div className="table-container">
-          <table className="table table-striped">
+        <div className="orders-table-container">
+          <table className="orders-table table table-striped">
             <thead className="table-dark">
               <tr>
                 <th>Order ID</th>
