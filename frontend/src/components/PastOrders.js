@@ -142,6 +142,7 @@ const PastOrders = () => {
                 </div>
                 <div className="modal-body">
                   <p>Order ID:{selectedOrder._id}</p>
+                  <p>userID : {selectedOrder.userID}</p>
                   <p>First Name:{selectedOrder.firstName}</p>
                   <p>Second Name : {selectedOrder.secondName}</p>
                   <p>shippingAddress1:{selectedOrder.shippingAddress1}</p>
@@ -149,20 +150,34 @@ const PastOrders = () => {
                   <p>city:{selectedOrder.city}</p>
                   <div>
                     Cart Items:
-                    <table>
+                    <table className="table table-dark">
+                      <thead>
+                        <tr>
+                          <td>Product ID</td>
+                          <td>Product Name</td>
+                          <td>Quantity</td>
+                          <td>Price</td>
+                        </tr>
+                      </thead>
+
                       <tbody>
                         {specCart.cartItems &&
                           specCart.cartItems.map((cartItem) => (
                             <tr key={cartItem._id}>
-                              <td>{cartItem._id}</td>
-                              <td>{cartItem.product}</td>
+                              <td>{cartItem.product.productID}</td>
+                              <td>{cartItem.product.name}</td>
                               <td>{cartItem.quantity}</td>
+                              <td>{cartItem.price}</td>
                             </tr>
                           ))}
                         <tr>
-                          <td colSpan="3">
-                            Total Price: {specCart.totalPrice}
-                          </td>
+                          <td colSpan="3">Shipping:</td>
+                          <td></td>
+                          {/*add shipping prices*/}
+                        </tr>
+                        <tr>
+                          <td colSpan="3">Total Price:</td>
+                          <td>{specCart.totalPrice}</td>
                         </tr>
                       </tbody>
                     </table>

@@ -98,26 +98,30 @@ router.delete("/deleteOrder/:id", async (req, res) => {
 router.patch("/updateOrder/:id", async (req, res) => {
   const id = req.params.id;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.json({ msg: "Invalid Id" });
-  }
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.json({ msg: "Invalid Id" });
+    }
 
-  const updatedOrder = await OrderModel.findByIdAndUpdate(id, {
-    firstName: req.body.firstName,
-    secondName: req.body.secondName,
-    shippingAddress1: req.body.shippingAddress1,
-    shippingAddress2: req.body.shippingAddress2,
-    city: req.body.city,
-    postalCode: req.body.postalCode,
-    status: req.body.status,
-  });
+    const updatedOrder = await OrderModel.findByIdAndUpdate(id, {
+      firstName: req.body.firstName,
+      secondName: req.body.secondName,
+      shippingAddress1: req.body.shippingAddress1,
+      shippingAddress2: req.body.shippingAddress2,
+      city: req.body.city,
+      postalCode: req.body.postalCode,
+      status: req.body.status,
+    });
 
-  const updatedVersion = await OrderModel.findById(id);
+    const updatedVersion = await OrderModel.findById(id);
 
-  if (!updatedOrder) {
-    res.json({ msg: "Update failed" });
-  } else {
-    res.json(updatedVersion);
+    if (!updatedOrder) {
+      res.json({ msg: "Update failed" });
+    } else {
+      res.json(updatedVersion);
+    }
+  } catch (error) {
+    res.json(error);
   }
 });
 
@@ -160,18 +164,22 @@ router.get("/past-orders", async (req, res) => {
 
 // getting all orders specific to user
 router.get("/all-orders/user/:userID", async (req, res) => {
-  const user = req.params.userID;
+  try {
+    const user = req.params.userID;
 
-  /*if (!mongoose.Types.ObjectId.isValid(user)) {
+    /*if (!mongoose.Types.ObjectId.isValid(user)) {
       res.json({ msg: "Invalid User Id" });
     }*/
 
-  const userOrders = await OrderModel.find({ userID: user });
+    const userOrders = await OrderModel.find({ userID: user });
 
-  if (userOrders.length == 0) {
-    res.json({ msg: "No Orders Made By this User" });
-  } else {
-    res.json(userOrders);
+    if (userOrders.length == 0) {
+      res.json({ msg: "No Orders Made By this User" });
+    } else {
+      res.json(userOrders);
+    }
+  } catch (error) {
+    res.json(error);
   }
 });
 
@@ -198,14 +206,14 @@ router.get("/current-orders/user/:id", async (req, res) => {
   const user = req.params.id;
 
   try {
-    const userPastOrders = await OrderModel.find({
+    const userCurrentOrders = await OrderModel.find({
       status: { $ne: "completed" }, //$ne excludes all the results that have completed
       userID: user,
     }).populate({
       path: "cartID",
       populate: { path: "cartItems", model: "cartitem" },
     });
-    res.json(userPastOrders);
+    res.json(userCurrentOrders);
   } catch (error) {
     res.json(error);
   }

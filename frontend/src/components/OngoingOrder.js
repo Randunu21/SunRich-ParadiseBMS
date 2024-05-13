@@ -39,10 +39,14 @@ const OngoingOrders = () => {
             setSpecCart(res.data);
             showAnimatedModal();
           });
+      })
+      .catch((err) => {
+        alert(err);
       });
   };
 
-  const handleEdit = () => {
+  const handleEdit = (event) => {
+    event.stopPropagation();
     setIsEditing(true);
   };
 
@@ -65,9 +69,9 @@ const OngoingOrders = () => {
               selectedOrder
             )
             .then((res) => {
+              swal.fire("Saved!", "Your changes have been saved.", "success");
               setSelectedOrder(res.data);
               setIsEditing(false);
-              swal.fire("Saved!", "Your changes have been saved.", "success");
             })
             .catch((err) => {
               swal.fire("Error", "Failed to save changes", "error");
@@ -183,6 +187,19 @@ const OngoingOrders = () => {
         .modal-backdrop.show {
           opacity: 0.5;
         }
+        .no-orders-display {
+          padding: 2rem;
+          text-align: center;
+          background: #dbf8e3;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          color: #666;
+        }
+        
+        .no-orders-display h3 {
+          color: #333;
+          font-size: 1.5rem;
+        }
       `}
       </style>
 
@@ -205,34 +222,44 @@ const OngoingOrders = () => {
         </div>
 
         <div className="orders-table-container">
-          <table className="orders-table table table-striped">
-            <thead className="table-dark">
-              <tr>
-                <th>Order ID</th>
-                <th>Cart ID</th>
-                <th>Total Amount</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredOrder &&
-                filteredOrder.map((order) => (
+          {filteredOrder.length > 0 ? (
+            <table className="table table-striped">
+              <thead className="table-dark">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Cart ID</th>
+                  <th>Total Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrder.map((order) => (
                   <tr key={order.id}>
                     <td>{order._id || "N/A"}</td>
                     <td>{order.cartID._id || "N/A"}</td>
                     <td>${order.postalCode || "N/A"}</td>
                     <td>
                       <button
+                        type="button"
                         className="btn btn-warning btn-view-details"
-                        onClick={() => viewDetails(order._id)}
+                        onClick={() => {
+                          viewDetails(order._id);
+                          console.log(order._id);
+                        }}
                       >
                         View Details
                       </button>
                     </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          ) : (
+            <div className="no-orders-display">
+              <h3>No Orders to Display</h3>
+              <p>Currently, there are no Ongoing orders.</p>
+            </div>
+          )}
         </div>
 
         {/* Modal */}
@@ -242,7 +269,6 @@ const OngoingOrders = () => {
               modalAnimated ? "animate" : ""
             }`}
             style={{ display: modalVisible ? "block" : "none" }}
-            onClick={() => hideModal()}
           >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
@@ -264,6 +290,7 @@ const OngoingOrders = () => {
                 <div className="modal-body"> </div>
                 <div className="modal-body">
                   <p>Order ID:{selectedOrder._id}</p>
+                  <p>userID : {selectedOrder.userID}</p>
                   <p>
                     First Name:
                     {isEditing ? (
@@ -271,6 +298,7 @@ const OngoingOrders = () => {
                         type="text"
                         value={selectedOrder.firstName}
                         onChange={(e) => {
+                          e.stopPropagation();
                           setSelectedOrder({
                             ...selectedOrder,
                             firstName: e.target.value,
@@ -288,6 +316,7 @@ const OngoingOrders = () => {
                         type="text"
                         value={selectedOrder.secondName}
                         onChange={(e) => {
+                          e.stopPropagation();
                           setSelectedOrder({
                             ...selectedOrder,
                             secondName: e.target.value,
@@ -305,6 +334,7 @@ const OngoingOrders = () => {
                         type="text"
                         value={selectedOrder.shippingAddress1}
                         onChange={(e) => {
+                          e.stopPropagation();
                           setSelectedOrder({
                             ...selectedOrder,
                             shippingAddress1: e.target.value,
@@ -321,12 +351,13 @@ const OngoingOrders = () => {
                       <input
                         type="text"
                         value={selectedOrder.shippingAddress2}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          e.stopPropagation();
                           setSelectedOrder({
                             ...selectedOrder,
                             shippingAddress2: e.target.value,
-                          })
-                        }
+                          });
+                        }}
                       />
                     ) : (
                       selectedOrder.shippingAddress2
@@ -338,33 +369,85 @@ const OngoingOrders = () => {
                       <input
                         type="text"
                         value={selectedOrder.city}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          e.stopPropagation();
                           setSelectedOrder({
                             ...selectedOrder,
                             city: e.target.value,
-                          })
-                        }
+                          });
+                        }}
                       />
                     ) : (
                       selectedOrder.city
                     )}
                   </p>
+                  <p>
+                    status:
+                    {isEditing ? (
+                      <select
+                        value={selectedOrder.status}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          const newStatus = e.target.value;
+                          swal
+                            .fire({
+                              title: "Are you sure?",
+                              text: `Do you wish to change the status to ${newStatus}?`,
+                              icon: "question",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, change it!",
+                            })
+                            .then((result) => {
+                              if (result.isConfirmed) {
+                                setSelectedOrder({
+                                  ...selectedOrder,
+                                  status: newStatus,
+                                });
+                              }
+                            });
+                        }}
+                      >
+                        <option value="On going">On going</option>
+                        <option value="Dispatched">Dispatched</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    ) : (
+                      selectedOrder.status
+                    )}
+                  </p>
+
                   <div>
                     Cart Items:
-                    <table>
+                    <table className="table table-dark">
+                      <thead>
+                        <tr>
+                          <td>Product ID</td>
+                          <td>Product Name</td>
+                          <td>Quantity</td>
+                          <td>Price</td>
+                        </tr>
+                      </thead>
+
                       <tbody>
                         {specCart.cartItems &&
                           specCart.cartItems.map((cartItem) => (
                             <tr key={cartItem._id}>
-                              <td>{cartItem._id}</td>
-                              <td>{cartItem.product}</td>
+                              <td>{cartItem.product.productID}</td>
+                              <td>{cartItem.product.name}</td>
                               <td>{cartItem.quantity}</td>
+                              <td>{cartItem.price}</td>
                             </tr>
                           ))}
                         <tr>
-                          <td colSpan="3">
-                            Total Price: {specCart.totalPrice}
-                          </td>
+                          <td colSpan="3">Shipping:</td>
+                          <td></td>
+                          {/*add shipping prices*/}
+                        </tr>
+                        <tr>
+                          <td colSpan="3">Total Price:</td>
+                          <td>{specCart.totalPrice}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -374,7 +457,7 @@ const OngoingOrders = () => {
                   <button
                     type="button"
                     className="btn btn-success btn-edit"
-                    onClick={handleEdit}
+                    onClick={(event) => handleEdit(event)}
                   >
                     {isEditing ? "Cancel" : "Edit"}
                   </button>

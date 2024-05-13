@@ -25,7 +25,12 @@ router.get("/getCart/:id", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(cartID)) {
       res.json({ msg: "invalid ID" });
     } else {
-      const specCart = await Cart.findById(cartID).populate("cartItems");
+      const specCart = await Cart.findById(cartID).populate({
+        path: "cartItems",
+        populate: {
+          path: "product",
+        },
+      });
 
       if (!specCart) {
         res.json({ msg: "You Dont Have A Cart Currently" });

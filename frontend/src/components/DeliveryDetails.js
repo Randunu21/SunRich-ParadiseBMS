@@ -9,6 +9,8 @@ const DeliveryDetails = () => {
   const location = useLocation();
   //const history = useHistory();
 
+  const userID = 6;
+
   const { orderDetails = {} } = location.state || { orderDetails: {} };
   const { cart = {} } = location.state || { cart: {} };
 
@@ -79,6 +81,7 @@ const DeliveryDetails = () => {
       email,
       country,
       phoneNumber,
+      userID,
     };
 
     swal

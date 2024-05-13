@@ -8,7 +8,7 @@ import { debounce } from "lodash";
 const ProductDisplay = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [currentCart, setCurrentCart] = useState("");
-  const userID = 9;
+  const userID = 6;
 
   useEffect(() => {
     axios

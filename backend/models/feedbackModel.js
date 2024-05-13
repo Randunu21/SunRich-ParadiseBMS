@@ -1,5 +1,5 @@
 // feedbackSchema
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const feedbackSchema = new mongoose.Schema({
   name: {
@@ -13,7 +13,7 @@ const feedbackSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: (value) => /\S+@\S+\.\S+/.test(value), // Basic email validation
-      message: 'Please enter a valid email address.',
+      message: "Please enter a valid email address.",
     },
   },
   rating: {
@@ -24,9 +24,11 @@ const feedbackSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  images: [{
-    type: String
-  }],
+  images: [
+    {
+      type: String,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -37,6 +39,6 @@ const feedbackSchema = new mongoose.Schema({
   },
 });
 
-const Feedback = mongoose.model('Feedback', feedbackSchema);
+const Feedback = mongoose.model("Feedback", feedbackSchema);
 
 module.exports = Feedback;

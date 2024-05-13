@@ -5,12 +5,21 @@ import swal from "sweetalert2";
 
 const CustomerOrderTracking = () => {
   const [orders, setOrders] = useState("");
+  const [cart, setCart] = useState("");
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/orders/current-orders/user/122")
+      .get("http://localhost:4000/api/orders/current-orders/user/6")
       .then((res) => {
         setOrders(res.data);
+        console.log(res.data);
+
+        axios
+          .get(`http://localhost:4000/api/cart/getCart/${res.data.cartID.id}`)
+          .then((res) => {
+            console.log(res.data);
+            setCart(res.data);
+          });
       })
       .catch((err) => {
         alert(err);
@@ -84,12 +93,12 @@ const CustomerOrderTracking = () => {
                       >
                         <div className="row">
                           <div className="col-md-8 col-lg-9">
-                            {order.cartID.cartItems.map((cartItem) => (
-                              <p>{cartItem.product}</p>
+                            {cart.cartItems.map((cartItem) => (
+                              <p>{cartItem.product.name}</p>
                             ))}
                           </div>
                           <div className="col-md-4 col-lg-3">
-                            <p>${order.totalPrice}</p>
+                            <p>${cart.totalPrice}</p>
                           </div>
                         </div>
                         <div className="row">

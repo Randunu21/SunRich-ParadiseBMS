@@ -25,7 +25,7 @@ const PendingOrder = () => {
     getStudents();
   }, []);
 
-  const handleAccept = () => {
+  const handleAccept = (orderId) => {
     swal
       .fire({
         title: "Are you sure?",
@@ -40,13 +40,14 @@ const PendingOrder = () => {
         if (result.isConfirmed) {
           // Handle accept logic here
           axios
-            .patch(
-              `http://localhost:4000/api/orders/order-status/${selectedOrder.id}`
-            )
+            .patch(`http://localhost:4000/api/orders/updateOrder/${orderId}`, {
+              status: "on going",
+            })
             .then(() => {
               swal.fire("Accepted!", "The order has been accepted.", "success");
             })
             .catch((err) => {
+              console.log(err);
               swal.fire("Error", "Failed to accept order", "error");
             });
         }
@@ -68,7 +69,7 @@ const PendingOrder = () => {
       });
   };
 
-  const handleDecline = () => {
+  const handleDecline = (orderID) => {
     swal
       .fire({
         title: "Are you sure?",
@@ -83,11 +84,10 @@ const PendingOrder = () => {
         if (result.isConfirmed) {
           // Handle delete logic here
           axios
-            .delete(
-              `http://localhost:4000/api/orders/deleteOrder/${selectedOrder.id}`
-            )
-            .then(() => {
+            .delete(`http://localhost:4000/api/orders/deleteOrder/${orderID}`)
+            .then((res) => {
               swal.fire("Accepted!", "The order has been deleted.", "success");
+              setOrders(res.data);
             })
             .catch((err) => {
               swal.fire("Error", "Failed to delete order", "error");
@@ -203,6 +203,21 @@ const PendingOrder = () => {
         .modal-backdrop.show {
           opacity: 0.5;
         }
+
+        .no-orders-display {
+          padding: 2rem;
+          text-align: center;
+          background: #dbf8e3;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          color: #666;
+        }
+        
+        .no-orders-display h3 {
+          color: #333;
+          font-size: 1.5rem;
+        }
+        
       `}
       </style>
 
@@ -225,18 +240,18 @@ const PendingOrder = () => {
         </div>
 
         <div className="table-container">
-          <table className="table table-striped">
-            <thead className="table-dark">
-              <tr>
-                <th>Order ID</th>
-                <th>Cart ID</th>
-                <th>Total Amount</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredOrder &&
-                filteredOrder.map((order) => (
+          {filteredOrder.length > 0 ? (
+            <table className="table table-striped">
+              <thead className="table-dark">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Cart ID</th>
+                  <th>Total Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrder.map((order) => (
                   <tr key={order.id}>
                     <td>{order._id || "N/A"}</td>
                     <td>{order.cartID._id || "N/A"}</td>
@@ -245,15 +260,24 @@ const PendingOrder = () => {
                       <button
                         type="button"
                         className="btn btn-warning btn-view-details"
-                        onClick={() => viewDetails(order._id)}
+                        onClick={() => {
+                          viewDetails(order._id);
+                          console.log(order._id);
+                        }}
                       >
                         View Details
                       </button>
                     </td>
                   </tr>
                 ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          ) : (
+            <div className="no-orders-display">
+              <h3>No Orders to Display</h3>
+              <p>Currently, there are no pending orders.</p>
+            </div>
+          )}
         </div>
 
         {/* Modal */}
@@ -282,6 +306,7 @@ const PendingOrder = () => {
                 <div className="modal-body">
                   {" "}
                   <p>Order ID:{selectedOrder._id}</p>
+                  <p>userID : {selectedOrder.userID}</p>
                   <p>First Name:{selectedOrder.firstName}</p>
                   <p>Second Name : {selectedOrder.secondName}</p>
                   <p>shippingAddress1:{selectedOrder.shippingAddress1}</p>
@@ -289,20 +314,34 @@ const PendingOrder = () => {
                   <p>city:{selectedOrder.city}</p>
                   <div>
                     Cart Items:
-                    <table>
+                    <table className="table table-dark">
+                      <thead>
+                        <tr>
+                          <td>Product ID</td>
+                          <td>Product Name</td>
+                          <td>Quantity</td>
+                          <td>Price</td>
+                        </tr>
+                      </thead>
+
                       <tbody>
                         {specCart.cartItems &&
                           specCart.cartItems.map((cartItem) => (
                             <tr key={cartItem._id}>
-                              <td>{cartItem._id}</td>
-                              <td>{cartItem.product}</td>
+                              <td>{cartItem.product.productID}</td>
+                              <td>{cartItem.product.name}</td>
                               <td>{cartItem.quantity}</td>
+                              <td>{cartItem.price}</td>
                             </tr>
                           ))}
                         <tr>
-                          <td colSpan="3">
-                            Total Price: {specCart.totalPrice}
-                          </td>
+                          <td colSpan="3">Shipping:</td>
+                          <td></td>
+                          {/*add shipping prices*/}
+                        </tr>
+                        <tr>
+                          <td colSpan="3">Total Price:</td>
+                          <td>{specCart.totalPrice}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -312,14 +351,14 @@ const PendingOrder = () => {
                   <button
                     type="button"
                     className="btn btn-success btn-accept"
-                    onClick={() => handleAccept()}
+                    onClick={() => handleAccept(selectedOrder._id)}
                   >
                     Accept
                   </button>
                   <button
                     type="button"
                     className="btn btn-danger btn-decline"
-                    onClick={() => handleDecline()}
+                    onClick={() => handleDecline(selectedOrder._id)}
                   >
                     Decline
                   </button>
