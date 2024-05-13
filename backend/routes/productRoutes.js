@@ -110,7 +110,7 @@ router.patch("/:id", async (req, res) => {
 router.post("/rating", async (req, res) => {
   try {
     const { productID, ratingValue } = req.body;
-    console.log(productId);
+    console.log(productID);
     console.log(ratingValue);
 
     const product = await Product.find({ productID });

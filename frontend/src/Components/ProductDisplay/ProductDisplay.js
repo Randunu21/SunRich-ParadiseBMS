@@ -3,12 +3,16 @@ import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 import axios from "axios";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import { debounce } from "lodash";
 
 const ProductDisplay = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [currentCart, setCurrentCart] = useState("");
-  const userID = 6;
+  const [ratingValue, setRatingValue] = useState("");
+  const [show, setShow] = useState(false);
+  const userID = 23;
 
   useEffect(() => {
     axios
@@ -21,6 +25,12 @@ const ProductDisplay = ({ product }) => {
         console.log(err);
       });
   }, []);
+
+  const handleClose = () => {
+    setShow(false);
+    window.location.reload(); // Refresh the page
+  };
+  const handleShow = () => setShow(true);
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
@@ -36,6 +46,7 @@ const ProductDisplay = ({ product }) => {
   }, 1000); //no clicking for 1 second
 
   const addToCart = (productID) => {
+    console.log("productID:", productID);
     let price = Number(product.price * quantity);
     console.log(price);
 
@@ -85,6 +96,22 @@ const ProductDisplay = ({ product }) => {
     }
   };
 
+  const saveRating = async (productID) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/products/rating",
+        {
+          productID: productID,
+          ratingValue: ratingValue,
+        }
+      );
+      console.log(response.data);
+      handleClose();
+    } catch (error) {
+      console.error("Error saving rating:", error);
+    }
+  };
+
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
@@ -129,6 +156,13 @@ const ProductDisplay = ({ product }) => {
         <button onClick={() => addToCartDebounce(product._id)}>
           ADD TO CART
         </button>
+        <button
+          onClick={() => {
+            handleShow();
+          }}
+        >
+          Review Product
+        </button>
         <p className="productdisplay-right-category">
           <span>Category :</span> {product.category}
         </p>
@@ -136,6 +170,69 @@ const ProductDisplay = ({ product }) => {
           <span>Tags :</span> {product.category}
         </p>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Rate Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <p className="h3">Add your valueble rating</p>
+          <div class="rating">
+            <input
+              type="radio"
+              id="star5"
+              name="rating"
+              value="5"
+              onChange={() => setRatingValue(5)}
+            />
+            <label for="star5">5</label>
+            <input
+              type="radio"
+              id="star4"
+              name="rating"
+              value="4"
+              onChange={() => setRatingValue(4)}
+            />
+            <label for="star4">4</label>
+            <input
+              type="radio"
+              id="star3"
+              name="rating"
+              value="3"
+              onChange={() => setRatingValue(3)}
+            />
+            <label for="star3">3</label>
+            <input
+              type="radio"
+              id="star2"
+              name="rating"
+              value="2"
+              onChange={() => setRatingValue(2)}
+            />
+            <label for="star2">2</label>
+            <input
+              type="radio"
+              id="star1"
+              name="rating"
+              value="1"
+              onChange={() => setRatingValue(1)}
+            />
+            <label for="star1">1</label>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            className="w-100"
+            onClick={() => {
+              saveRating(product.productID);
+            }}
+          >
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
