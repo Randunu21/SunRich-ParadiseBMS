@@ -1,60 +1,80 @@
+const mongoose = require("mongoose");
 
-const  mongoose = require("mongoose");
-// import autoIncrement from 'mongoose-auto-increment';
-
-const Schema  = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const EmployeeSchema = new Schema({
-    userId: {
-        type: String,
-        required: true
-    },
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String, 
-        required: true
-    },
-    NIC: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        required: true
-    },
-    gender: {
-        type: String,
-        required: true
-    },
-    DOB: {
-        type: Date,
-        required: true
-    },
-    contactNo: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
+  empId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  NIC: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  gender: {
+    type: String,
+  },
+  DOB: {
+    type: Date,
+  },
+  contactNo: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  address: {
+    type: String,
+  },
+  joinedDate: {
+    type: String,
+    required: true,
     
-    joinedDate: {
-        type: Date,
-        required: true
+  },
+  resignationDate: {
+    type: Date,
+  },
+
+  profilePhoto: {
+     type: String 
     },
+
+  qrCode: {
+    type: String,
     
-    totalSal: {
-        type: Number
-    }
+  }
+
 });
 
-//Employee is collection name
-module.exports = mongoose.model('Employee', EmployeeSchema);
+const Employee = mongoose.model('Employee', EmployeeSchema);
+
+module.exports = Employee;
