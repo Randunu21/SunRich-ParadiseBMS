@@ -3,6 +3,7 @@ const OrderModel = require("../models/order");
 const { default: mongoose } = require("mongoose");
 const Cart = require("../models/cart");
 const CartItems = require("../models/cart-item");
+const nodemailer = require("nodemailer");
 
 const router = express.Router();
 
@@ -216,6 +217,35 @@ router.get("/current-orders/user/:id", async (req, res) => {
     res.json(userCurrentOrders);
   } catch (error) {
     res.json(error);
+  }
+});
+
+router.post("/send-email", async (req, res) => {
+  try {
+    const { to, subject, text } = req.body;
+
+    // Create a transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to,
+      subject,
+      File,
+    });
+
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while sending the email" });
   }
 });
 

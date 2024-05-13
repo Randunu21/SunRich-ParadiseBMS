@@ -96,6 +96,63 @@ const PendingOrder = () => {
       });
   }; ////alert
 
+  // Function to send an email
+  const sendEmail = async () => {
+    try {
+      const response = await axios.post("/api/email/send", {
+        to: "recipient@example.com",
+        subject: "Test Email",
+        html: `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Order Confirmation</title>
+        </head>
+        <body>
+            <!-- Company Logo -->
+            <img src="https://example.com/company-logo.png" alt="Company Logo" style="width: 200px;">
+        
+            <!-- Order Details -->
+            <h1>Order Confirmation</h1>
+            <table border="1">
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                </tr>
+                <!-- Static example row -->
+                <tr>
+                    <td>Product A</td>
+                    <td>$10.00</td>
+                </tr>
+                <!-- Add more rows dynamically -->
+                <% orderItems.forEach(item => { %>
+                <tr>
+                    <td><%= item.name %></td>
+                    <td>$<%= item.price.toFixed(2) %></td>
+                </tr>
+                <% }) %>
+            </table>
+        
+            <!-- Delivery Details -->
+            <h2>Delivery Details</h2>
+            <p>Delivery Address: <%= deliveryAddress %></p>
+        
+            <!-- Order Tracking Link -->
+            <p>Track your order <a href="https://example.com/order-tracking">here</a>.</p>
+        
+            <!-- Thank You Message -->
+            <p>Thank you for your order! We appreciate your business.</p>
+        </body>
+        </html>
+        `,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
