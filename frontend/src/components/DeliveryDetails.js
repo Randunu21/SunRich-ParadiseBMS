@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom"; //get details from order history
+import { Routes, useLocation } from "react-router-dom"; //get details from order history
 //import useHistory from "react-router-dom";
+import PaymentModal from "./PaymentModal";
+import { Route, Link } from "react-router-dom";
 
 import swal from "sweetalert2";
 
@@ -30,6 +32,7 @@ const DeliveryDetails = () => {
   const [email, setEmail] = useState(orderDetails.email || "");
   const [country, setCountry] = useState(orderDetails.country || "");
   const [phoneNumber, setPhoneNumber] = useState(orderDetails.phone || "");
+  const [totalPrice, setTotalPrice] = useState(1200);
 
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
@@ -65,6 +68,26 @@ const DeliveryDetails = () => {
         alert("Geocode was not successful for the following reason: " + status);
       }
     });
+  };
+
+  const orderData = {
+    cartID: cartID,
+    firstName: firstName,
+    secondName: secondName,
+    shippingAddress1: shippingAddress1,
+    shippingAddress2: shippingAddress2,
+    city: city,
+    postalCode: postalCode,
+    email: email,
+    country: country,
+    phoneNumber: phoneNumber,
+    userID: userID,
+    totalPrice: totalPrice,
+  };
+
+  const saveToLocalStroage = (e) => {
+    e.preventDefault();
+    localStorage.setItem("orderDetails", JSON.stringify(orderData));
   };
 
   const checkOut = (e) => {
@@ -163,7 +186,9 @@ const DeliveryDetails = () => {
                   className="form-control"
                   id="inputFirstName"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
                 />
               </div>
 
@@ -301,11 +326,11 @@ const DeliveryDetails = () => {
                 <button
                   type="submit"
                   className="btn btn-success"
-                  onClick={(e) => checkOut(e)}
-                  disabled={!country || country.toLowerCase() !== "sri lanka"}
+                  onClick={(e) => saveToLocalStroage(e)}
                 >
-                  Check Out
+                  save
                 </button>
+                <PaymentModal orderData={orderData} />
                 <div style={{ width: "5px" }}></div>{" "}
                 <button
                   type="submit"
