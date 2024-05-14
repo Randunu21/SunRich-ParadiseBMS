@@ -96,6 +96,31 @@ router.route("/get/:id").get(async (req, res) => {
         res.status(500).send({ status: "error", message: "Error fetching data", error: err.message });
     }
 });
+// Route to retrieve admin inquiry report
+router.get('/get-inquiries', async (req, res) => {
+    try {
+      const inquiries = await Inquiry.find({}, { name: 1, email: 1, inquiryTitle: 1, inquiryBody: 1, createdAt: 1 }); // Select fields for the report
+      res.json(inquiries);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error retrieving admin inquiry report' });
+    }
+  });
+  
+
+// Route to fetch filtered inquiries based on date range
+router.get("/inquiry/filter", async (req, res) => {
+  const { startDate, endDate } = req.query;
+  try {
+    const inquiries = await Inquiry.find({
+      createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+    });
+    res.json(inquiries);
+  } catch (error) {
+    console.error("Error fetching filtered inquiry data:", error);
+    res.status(500).json({ message: "Error fetching filtered inquiry data" });
+  }
+});
 
 
 module.exports=router;

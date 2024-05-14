@@ -119,32 +119,7 @@ const QualityManagerTable = () => {
       <header className="qm-header row flex-grow-0 bg-success text-white align-items-center">
         <h2 className="col-12 qm-heading text-center" onClick={toggleNavbar}>Inquiry Management</h2>
       </header>
-      {showNavbar && (
-        <nav className="qm-nav row justify-content-center mb-3" style={{marginTop:'20px'}}>
-          <ul className="nav col-md-8 d-flex flex-wrap justify-content-between custom-nav"> 
-            <li className="nav-item">
-              <Link to="/" className="nav-link text-white">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/quality-manager/inquiries" className="nav-link text-white">
-                Inquiry Management
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/quality-manager/feedbacks" className="nav-link text-white">
-                Feedback Management
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/quality-manager/reports" className="nav-link text-white">
-                Report Generation
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      )}
+      
       <div className="text-center mb-3">
         <input
           type="text"

@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import QualityManagerTable from "../Components/InquiryReply";
-import DisplayFeedback from "../QualityManager/AdminFeedback";
-import GenerateReport from "../QualityManager/AdminReport";
-
-import {
-  BsChatDots,
-  BsFillFileEarmarkTextFill,
-  BsGraphUp,
-} from "react-icons/bs";
-import "../Components/QmDashboard.css"; // Import the main CSS file
+import { BsChatDots, BsFillFileEarmarkTextFill, BsGraphUp } from "react-icons/bs";
+import "../Components/QmDashboard.css";
 import ReportGenerationModel from "./ReportGenerationModel";
 
 const QmDashboard = () => {
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -23,12 +15,12 @@ const QmDashboard = () => {
 
   const handleFeedbackReportClick = () => {
     // Redirect to feedback report page
-    console.log("Redirecting to feedback report page");
+    navigate("/quality-manager/reports");
   };
 
   const handleInquiryReportClick = () => {
     // Redirect to inquiry report page
-    console.log("Redirecting to inquiry report page");
+    navigate("/quality-manager/inquiry-reports");
   };
 
   return (
@@ -53,7 +45,7 @@ const QmDashboard = () => {
           </li>
           <li className="nav-item">
             <Link
-              to="/quality-manager/feedbacks"
+              to="/quality-manager/feedback-list"
               className="nav-link text-white"
             >
               <div className="dashboard-button">
