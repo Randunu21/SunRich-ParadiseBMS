@@ -52,4 +52,4 @@ const CalculatedSalarySchema = new mongoose.Schema({
   }],
 });
 
-module.exports = mongoose.model('CalculatedSalary', CalculatedSalarySchema);
+module.exports = mongoose.model('CalSal', CalculatedSalarySchema);

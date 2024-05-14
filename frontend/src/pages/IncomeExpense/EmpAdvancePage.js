@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react'
+import AdminSalaryAdvanceRequests from '../../components/FinancialComponents/AdvanceAdmin'
 import Navbar from '../../components/FinancialComponents/Navbar';
-import SideNavbarFin from '../../components/FinancialComponents/SideNavbarFin';
-import DisplayGenPay from '../../components/FinancialComponents/DisplayGenPay'
-import EmployeeSalaryTable from '../../components/FinancialComponents/EmployeeSalaryTable';
 import Sidebar from '../../components/FinancialComponents/Sidebar';
 import backgroundImage from '../../images/b2.png'
 
-function Emppayroll() {
+function EmpAdvancePage() {
   return (
     <div>
       <div style={{
@@ -38,19 +36,24 @@ function Emppayroll() {
         <div style={{ width: '1410px', marginLeft: '80px', border: '1px solid #ccc', borderRadius: '5px' }}>
           <ul className="nav nav-tabs" style={{ backgroundColor: '#60c294', borderBottom: '1px solid #ccc', borderRadius: '5px 5px 0 0' }}>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/Financial/payroll" style={{ color: 'white', backgroundColor: 'black', border: '1px solid #ccc', borderBottom: 'none' }}>Calculation</a>
+              <a className="nav-link" aria-current="page" href="/Financial/payroll" style={{ color: 'black', border: '1px solid #ccc', borderBottom: 'none' }}>Calculation</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/Financial/empsal" style={{ color: 'black', border: '1px solid #ccc', borderBottom: 'none' }}>Employee Salary Data</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/Financial/place" style={{ color: 'black', border: '1px solid #ccc', borderBottom: 'none' }}>Advance Requests</a>
+              <a className="nav-link active" href="/Financial/place" style={{ color: 'white', backgroundColor: 'black', border: '1px solid #ccc', borderBottom: 'none' }}>Advance Requests</a>
             </li>
           </ul>
         </div>
       </div>
       <div>
-        <DisplayGenPay />
+        <div className=" d-flex " style={{ marginLeft:'100px', marginTop:'30px' }} >
+          <h4 >Employee salary advance requests </h4>
+        </div>
+      </div>
+      <div>
+        <AdminSalaryAdvanceRequests />
       </div>
       <footer style={{ backgroundColor: "#333", color: "#fff", padding: "50px", textAlign: "center", marginTop:'50px' }}>
         <span style={{ left: '10px' }}>SunRich Paradise All rights Reserved</span>
@@ -59,4 +62,4 @@ function Emppayroll() {
   )
 }
 
-export default Emppayroll
+export default EmpAdvancePage

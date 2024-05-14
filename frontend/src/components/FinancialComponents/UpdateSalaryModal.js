@@ -23,7 +23,7 @@ const UpdateSalaryModal = ({ handleCloseModal, selectedUsers, handleSaveUpdate }
 
             // Prepare data for saving
             const data = {
-                userIds: selectedUsers,
+                empIds: selectedUsers,
                 additionalBonuses: filteredBonuses,
                 generalDeductions: filteredDeductions
             };

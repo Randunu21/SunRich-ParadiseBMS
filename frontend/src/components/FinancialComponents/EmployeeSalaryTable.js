@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import UpdateSalaryModal from '../components/UpdateSalaryModal';
+import UpdateSalaryModal from './UpdateSalaryModal';
 import UserDetailsModal from './EmpSalSlipModal';
 
 
@@ -24,14 +24,14 @@ const EmployeeSalaryTable = () => {
 
   const fetchEmployeeSalaries = async () => {
     try {
-      const employeeResponse = await axios.get('http://localhost:4000/api/employees/getEmployees');
+      const employeeResponse = await axios.get('http://localhost:4000/api/users/getEmployees');
       const payrollsResponse = await axios.get('http://localhost:4000/api/incomes/allpayrolls');
 
       const employee = employeeResponse.data;
       const payrolls = payrollsResponse.data;
 
       const calculatedSalaries = employee.map(employee => {
-        const payroll = payrolls.find(p => p.employeeType === employee.role);
+        const payroll = payrolls.find(p => p.employeeType === employee.type);
         if (!payroll) {
           return { empId: employee.empId, username: employee.username, employeeType: employee.type, baseSalary: 'N/A', additionalBonuses: [], generalDeductions: [] };
         }
@@ -62,13 +62,15 @@ const EmployeeSalaryTable = () => {
 
   const saveCalculatedSalaries = async () => {
     try {
-      alert("Salaries Calculated")
+      
       const response = await axios.post('http://localhost:4000/api/incomes/savecalculatedsalaries', employeeSalaries);
       console.log('Saved salaries response:', response.data);
 
       await fetchEmployeeSalaries();
 
       await fetchCalculatedSalaries();
+
+      alert("Salaries Calculated")
 
     } catch (error) {
       console.error('Error saving calculated salaries:', error);
@@ -111,8 +113,8 @@ const EmployeeSalaryTable = () => {
   };
 
   // Function to handle opening the user details modal
-  const handleOpenUserDetailsModal = (userId) => {
-    const userDetails = calculatedSalaries.find((cs) => cs.userId === userId);
+  const handleOpenUserDetailsModal = (empId) => {
+    const userDetails = calculatedSalaries.find((cs) => cs.empId === empId);
     setSelectedUserDetails(userDetails);
   };
 
@@ -162,7 +164,7 @@ const EmployeeSalaryTable = () => {
 
 
   return (
-    <div className="container mt-5" style={{ marginLeft: '130px', marginTop: '90px' }} >
+    <div className="container mt-5" style={{ marginLeft: '120px', marginTop: '90px' }} >
       <div style={{ marginBottom: '30px' }} >
         <strong style={{ fontSize: '24px' }}>Payrolls of all employees</strong>
       </div>
@@ -227,10 +229,10 @@ const EmployeeSalaryTable = () => {
                 <td>{salary.username}</td>
                 <td>{salary.employeeType}</td>
                 <td>
-                  {Array.isArray(calculatedSalaries) ? calculatedSalaries.find(cs => cs.userId === salary.userId)?.baseSalary || 'N/A' : 'N/A'}
+                  {Array.isArray(calculatedSalaries) ? calculatedSalaries.find(cs => cs.empId === salary.empId)?.baseSalary || 'N/A' : 'N/A'}
                 </td>
                 <td>
-                  <button className="btn btn-secondary" onClick={() => handleOpenUserDetailsModal(salary.userId)} ><i class="bi bi-card-list"></i></button>
+                  <button className="btn btn-secondary" onClick={() => handleOpenUserDetailsModal(salary.empId)} ><i class="bi bi-card-list"></i></button>
                 </td>
               </tr>
             ))}

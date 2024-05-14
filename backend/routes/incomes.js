@@ -4,10 +4,10 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 const pdfkit = require('pdfkit');
 const IncomesModel = require('../models/incomeModel');
-const OrderModel = require('../models/order');
+const OrderModel = require('../models/orderModel');
 const PayrollModel = require('../models/payrollModel');
 const CalculatedSalaryModel = require('../models/calculatedSalaryModel');
-const EmployeeAdvanceRequest = require('../models/employeeAdvanceRequestModel')
+const EmployeeAdvanceRequestModel = require('../models/EmployeeAdvanceRequestModel');
 
 const router = express.Router()
 
@@ -15,13 +15,13 @@ const router = express.Router()
 // Initialize change stream for Order collection
 const orderChangeStream = OrderModel.watch();
 
-
+// Set up listener for change events on Order collection
 orderChangeStream.on('change', async (change) => {
     if (change.operationType === 'insert') {
-        
+        // When a new document is inserted into Order collection
         try {
             const { _id, totalPrice } = change.fullDocument;
-            
+            // Insert new document into Income collection with formatted date and amount
             await IncomesModel.create({
                 detail: `Customer Order - Order ID: ${_id}`,
                 amount: totalPrice,
@@ -41,10 +41,10 @@ router.get('/totals', async (req, res) => {
     try {
         let filter = {};
 
-        
+        // Get the selected time frame from the query parameter
         const timeframe = req.query.timeframe || 'all';
 
-        
+        // Filter data based on the selected timeframe
         if (timeframe === 'thisMonth') {
             filter = {
                 date: {
@@ -93,10 +93,10 @@ router.get('/daily-totals', async (req, res) => {
     try {
         let pipeline = [];
 
-        
+        // Get the selected time frame from the query parameter
         const timeframe = req.query.timeframe || 'all';
 
-        
+        // Filter data based on the selected timeframe
         if (timeframe === 'thisMonth') {
             pipeline = [
                 {
@@ -310,7 +310,7 @@ router.post('/savecalculatedsalaries', async (req, res) => {
 
         for (const salary of calculatedSalaries) {
             // Check if a record with the same userId already exists
-            const existingSalary = await CalculatedSalaryModel.findOne({ userId: salary.userId });
+            const existingSalary = await CalculatedSalaryModel.findOne({ empId: salary.empId });
 
             if (!existingSalary) {
                 // If the record doesn't exist, save it
@@ -319,7 +319,7 @@ router.post('/savecalculatedsalaries', async (req, res) => {
                 savedSalaries.push(newCalculatedSalary);
             } else {
                 // If the record already exists, skip saving and continue to the next salary
-                console.log(`Salary with userId ${salary.userId} already exists.`);
+                console.log(`Salary with empId ${salary.empId} already exists.`);
             }
         }
 
@@ -342,10 +342,10 @@ router.get('/allempsal', async (req, res) => {
 });
 
 // Get Single Calculated Salary
-router.get('/calculatedsalary/:userId', async (req, res) => {
+router.get('/calculatedsalary/:empId', async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const salary = await CalculatedSalaryModel.findOne({ userId });
+        const empId = req.params.empId;
+        const salary = await CalculatedSalaryModel.findOne({ empId });
         res.status(200).json(salary);
     } catch (error) {
         console.error(error.message);
@@ -356,12 +356,12 @@ router.get('/calculatedsalary/:userId', async (req, res) => {
 // Update Calculated Salaries
 router.put('/updatecalculatedsalaries', async (req, res) => {
     try {
-        const { userIds, additionalBonuses, generalDeductions } = req.body;
+        const { empIds, additionalBonuses, generalDeductions } = req.body;
 
         // Update the salaries for the selected users
-        for (const userId of userIds) {
+        for (const empId of empIds) {
             // Find the calculated salary by userId
-            const calculatedSalary = await CalculatedSalaryModel.findOne({ userId });
+            const calculatedSalary = await CalculatedSalaryModel.findOne({ empId });
 
             if (calculatedSalary) {
                 // Update additional bonuses and general deductions
@@ -383,7 +383,7 @@ router.put('/updatecalculatedsalaries', async (req, res) => {
                 // Save the updated calculated salary
                 await calculatedSalary.save();
             } else {
-                console.log(`No calculated salary found for userId: ${userId}`);
+                console.log(`No calculated salary found for userId: ${empId}`);
             }
         }
 
@@ -416,7 +416,7 @@ router.post('/sendpayrolls', async (req, res) => {
 
             doc.fontSize(20).text(`Employee Pay Sheet`, { align: 'center', underline: true }).moveDown(1);
             doc.fontSize(13).text(`~ Username: ${userData.username}`).moveDown();
-            doc.fontSize(13).text(`~ Employee ID: ${userData.userId}`).moveDown();
+            doc.fontSize(13).text(`~ Employee ID: ${userData.empId}`).moveDown();
             doc.fontSize(13).text(`~ Email: ${userData.email}`).moveDown();
             doc.fontSize(13).text(`~ Employee Type: ${userData.employeeType}`).moveDown();
             doc.fontSize(13).text(`~ Month: ${userData.month}`).moveDown();
@@ -759,61 +759,60 @@ router.get('/report', async (req, res) => {
     }
 });
 
-// Add a new advance request
-router.post('/advance-request', async (req, res) => {
-    const { employeeName, employeeID, advanceAmount, detail } = req.body;
 
+// Save Employee Salary Advance Request
+router.post('/addsalaryadvancerequest', async (req, res) => {
     try {
-        const newRequest = await EmployeeAdvanceRequest.create({
-            employeeName,
-            employeeID,
-            advanceAmount,
-            detail
-        });
-        res.json(newRequest);
+        const { empId, name, amount, description } = req.body;
+        const newRequest = new EmployeeAdvanceRequestModel({ empId, name, amount, description });
+        await newRequest.save();
+        res.status(201).json({ message: 'Salary advance request saved successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error(error.message);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 
-router.get('/advance-request/:id', async (req, res) => {
-    const requestId = req.params.id;
-
+// Get All Pending Salary Advance Requests
+router.get('/pendingrequests', async (req, res) => {
     try {
-        const request = await EmployeeAdvanceRequest.findById(requestId);
+        const pendingRequests = await EmployeeAdvanceRequestModel.find({ status: 'pending' });
+        res.status(200).json(pendingRequests);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
+// Accept or Reject Salary Advance Request
+router.put('/updatesalaryadvancerequest/:requestId', async (req, res) => {
+    try {
+        const requestId = req.params.requestId;
+        const { status } = req.body;
+        const request = await EmployeeAdvanceRequestModel.findById(requestId);
+
         if (!request) {
-            return res.status(404).json({ error: 'Request not found' });
+            return res.status(404).json({ message: 'Request not found' });
         }
-        res.json(request);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
 
-// Get all advance requests
-router.get('/advance-requests', async (req, res) => {
-    try {
-        const requests = await EmployeeAdvanceRequest.find();
-        res.json(requests);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+        request.status = status;
+        await request.save();
 
-// Update the status of an advance request
-router.patch('/advance-request/:id', async (req, res) => {
-    const requestId = req.params.id;
-    const { status } = req.body;
+        // If request is accepted, deduct amount from employee's salary in the "calsal" collection
+        if (status === 'accepted') {
+            const calculatedSalary = await CalculatedSalaryModel.findOne({ empId: request.empId });
+            if (calculatedSalary) {
+                calculatedSalary.generalDeductions.push({ amount: request.amount, detail: 'Salary Advance' });
+                calculatedSalary.baseSalary -= request.amount;
+                await calculatedSalary.save();
+            }
+        }
 
-    try {
-        const updatedRequest = await EmployeeAdvanceRequest.findByIdAndUpdate(
-            requestId,
-            { status },
-            { new: true }
-        );
-        res.json(updatedRequest);
+        res.status(200).json({ message: 'Request updated successfully' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error(error.message);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 

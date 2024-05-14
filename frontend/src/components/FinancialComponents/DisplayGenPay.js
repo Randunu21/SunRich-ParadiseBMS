@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import AddPayrollModal from '../components/AddNewGenPay';
-import UpdatePayrollModal from '../components/UpdatePayrollModal';
+import AddPayrollModal from './AddNewGenPay';
+import UpdatePayrollModal from './UpdatePayrollModal';
 
 const DisplayGenPay = () => {
   const [payrolls, setPayrolls] = useState([]);
@@ -108,11 +108,7 @@ const DisplayGenPay = () => {
 
   return (
     <div>
-      <div className="main-content-container" style={{ marginTop: '50px', marginBottom: '30px', paddingTop: '40px' }}>
-        <div className=" d-flex shadow-sm container mb-4 mt-2 border rounded " style={{ width: '470px', background: '#fff', marginRight: '970px' }}>
-          <h2>Employee Salary Management</h2>
-        </div>
-        <hr style={{ width: '90%', borderColor: '#fff ', borderWidth: '5px', margin: '20px auto' }} />
+      <div className="main-content-container" style={{ marginTop: '1px', marginBottom: '30px', paddingTop: '40px' }}>
         <div className="d-flex" style={{ display: 'flex', justifyContent: 'center' }}>
           <div className=" d-flex " style={{  marginRight: '400px' }} >
             <h4 >Calculate Employee Salaries based on designation </h4>
@@ -135,12 +131,8 @@ const DisplayGenPay = () => {
       <div className="table-wrapper" style={{
         maxHeight: '530px',
         overflowY: 'auto',
-        WebkitOverflowScrolling: 'touch',
         paddingLeft:'80px',
         paddingRight: '8px',
-        WebkitScrollbarWidth: 'thin',
-        scrollbarWidth: 'thin', // For Firefox
-        scrollbarColor: '#f1f1f1 #888', // For Firefox
       }}>
         <table className="table table-striped"  >
           <thead class="table-dark" >
@@ -199,7 +191,7 @@ const DisplayGenPay = () => {
       }
 
       .table-wrapper::-webkit-scrollbar {
-        width: 12px;
+        width: 5px;
         background-color: #F5F5F5;
       }
 

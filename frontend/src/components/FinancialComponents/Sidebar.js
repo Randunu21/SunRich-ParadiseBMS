@@ -14,9 +14,9 @@ const Sidebar = () => {
         id="sidebar"
         style={{
             position: 'fixed',
-            top: '60px',
+            top: '55px',
             left: 0,
-            width: collapsed ? '70px' : '329px',
+            width: collapsed ? '50px' : '329px',
             zIndex: 1000,
             transition: 'left 0.5s ease-in-out',
             backgroundColor: '#fff',
@@ -28,7 +28,7 @@ const Sidebar = () => {
       >
         <div
           className="d-flex align-items-center justify-content-between"
-          style={{ paddingTop: '6px', paddingLeft: '20px', paddingRight: '70px', paddingBottom:'20px' }}
+          style={{ paddingTop: '6px', paddingLeft: '9px', paddingRight: '70px', paddingBottom:'20px' }}
         >
           <button style={{ backgroundColor: 'transparent', border: '1px solid #0B8735', borderRadius: '5px', color: '#0B8735', fontSize: '20px' }} onClick={toggleSidebar}>
             <i className="bi bi-justify"></i>
@@ -60,7 +60,7 @@ const Sidebar = () => {
               <>
                 <li className="sidebar-item">
                   <a
-                    href="/dash"
+                    href="/Financial/dash"
                     className="sidebar-link"
                     style={{
                       padding: "0.75rem 1.5rem",
@@ -91,7 +91,7 @@ const Sidebar = () => {
                 </li>
                 <li className="sidebar-item">
                   <a
-                    href="/"
+                    href="/Financial/trans"
                     className="sidebar-link"
                     style={{
                       padding: "0.75rem 1.5rem",
@@ -123,7 +123,7 @@ const Sidebar = () => {
 
                 <li className="sidebar-item">
                   <a
-                    href="/payroll"
+                    href="/Financial/payroll"
                     className="sidebar-link"
                     style={{
                       padding: "0.75rem 1.5rem",
@@ -153,69 +153,7 @@ const Sidebar = () => {
                   </a>
                 </li>
 
-                <li className="sidebar-item">
-                  <a
-                    href="/place"
-                    className="sidebar-link"
-                    style={{
-                      padding: "0.75rem 1.5rem",
-                      color: "#0B8735",
-                      display: "flex",
-                      alignItems: "center",
-                      fontSize: "16px",
-                      textDecoration: "none",
-                      border: "2px solid transparent",
-                      transition: "background-color 0.3s ease",
-                      borderRadius: "0.5rem"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.borderColor = "#0B8735";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.borderColor = "#fff";
-                      e.target.style.backgroundColor = "transparent";
-                      e.target.style.color = "#0B8735";
-                    }}
-                  >
-                    <i
-                      className="bi-graph-up"
-                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
-                    ></i>
-                    <span>Product Prices Handling</span>
-                  </a>
-                </li>
-
-                <li className="sidebar-item">
-                  <a
-                    href="/dummy"
-                    className="sidebar-link"
-                    style={{
-                      padding: "0.75rem 1.5rem",
-                      color: "#0B8735",
-                      display: "flex",
-                      alignItems: "center",
-                      fontSize: "16px",
-                      textDecoration: "none",
-                      border: "2px solid transparent",
-                      transition: "background-color 0.3s ease",
-                      borderRadius: "0.5rem"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.borderColor = "#0B8735";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.borderColor = "#fff";
-                      e.target.style.backgroundColor = "transparent";
-                      e.target.style.color = "#0B8735";
-                    }}
-                  >
-                    <i
-                      className="bi-clipboard-data"
-                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
-                    ></i>
-                    <span>Pl2</span>
-                  </a>
-                </li>
+                
               </>
             )}
           </ul>

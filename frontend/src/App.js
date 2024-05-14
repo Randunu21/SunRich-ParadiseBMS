@@ -1,29 +1,27 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Trans from './pages/IncomeExpense/Trans';
-import Dashboard from './pages/IncomeExpense/Dashboard';
-import LoginPage from './pages/Loginpage';
+import FinancialDashboard from './pages/IncomeExpense/Dashboard';
 import Emppayroll from './pages/IncomeExpense/Emppayroll';
-import Placeholder from './pages/IncomeExpense/Placeholder';
-import PayrollPortal from './pages/IncomeExpense/PayrollPortal';
-import DummyPage from './pages/IncomeExpense/DummyPage';
-
+import Placeholder from './pages/IncomeExpense/EmpAdvancePage';
 import AdminPage from './pages/adminPage';
+import Testp from './pages/IncomeExpense/EmployeeAdvanceReqPage';
+import EmpSalPage from './pages/IncomeExpense/EmpSalPage';
+import SalaryDetails from './pages/IncomeExpense/Payrollp';
 
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Trans/>}></Route>
-          <Route path='/dash' element={<Dashboard/>}></Route>
-          <Route path='/loginpage' element={<LoginPage/>}></Route>
-          <Route path='/payroll' element={<Emppayroll/>}></Route>
-          <Route path='/place' element={<Placeholder/>}></Route>
-          <Route path='/pportal' element={<PayrollPortal/>}></Route>
-          <Route path='/dummy' element={<DummyPage/>}></Route>
-          <Route path='/adminpage' element={<AdminPage/>}></Route>
-          <Route path='/test' element={<LoginPage/>}></Route>
+          <Route path='/Financial/trans' element={<Trans/>}></Route>
+          <Route path='/Financial/dash' element={<FinancialDashboard/>}></Route>
+          <Route path='/Financial/payroll' element={<Emppayroll/>}></Route>
+          <Route path='/Financial/place' element={<Placeholder/>}></Route>
+          <Route path='/Financial/empsal' element={<EmpSalPage/>}></Route>
+          <Route path='/Financial/adminpage' element={<AdminPage/>}></Route>
+          <Route path='/Financial/pp' element={<SalaryDetails/>}></Route>
+          <Route path='/Financial/tp' element={<Testp/>}></Route>
        </Routes>
       </BrowserRouter>
     </div>

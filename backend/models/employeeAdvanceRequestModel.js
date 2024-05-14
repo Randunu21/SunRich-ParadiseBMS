@@ -1,28 +1,32 @@
-// employeeAdvanceRequestModel.js
-
 const mongoose = require('mongoose');
 
-const employeeAdvanceRequestSchema = new mongoose.Schema({
-    employeeName: {
-        type: String,
-        required: true
-    },
-    employeeID: {
-        type: String,
-        required: true
-    },
-    advanceAmount: {
-        type: Number,
-        required: true
-    },
-    detail: {
-        type: String,
-        required: true
-    },
-    status: { 
-        type: String, 
-        default: 'Pending'
-    } // Accepted, Rejected, or Pending
+const EmployeeAdvanceRequestSchema = new mongoose.Schema({
+  empId: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'accepted', 'rejected'],
+    default: 'pending'
+  }
 });
 
-module.exports = mongoose.model('EmpAdvanceRequest', employeeAdvanceRequestSchema);
+module.exports = mongoose.model('EmployeeAdvanceRequest', EmployeeAdvanceRequestSchema);
+

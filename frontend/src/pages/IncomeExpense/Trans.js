@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
-import Sidebar from '../../components/Sidebar'
+import Navbar from '../../components/FinancialComponents/Navbar';
+import Sidebar from '../../components/FinancialComponents/Sidebar'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import UpdateIncomeModal from '../../components/UpdateIncomeModal';
-import AddTransactionModal from '../../components/AddTransactionModal';
-import DropdownMethod from '../../components/DropdownMethod';
+import UpdateIncomeModal from '../../components/FinancialComponents/UpdateIncomeModal';
+import AddTransactionModal from '../../components/FinancialComponents/AddTransactionModal';
+import DropdownMethod from '../../components/FinancialComponents/DropdownMethod';
+import backgroundImage from '../../images/b2.png'
 
 function Trans() {
     const [incomes, setIncomes] = useState([]);
@@ -73,7 +74,7 @@ function Trans() {
             }
         });
     }
-    
+
 
     const handleCloseModal = () => {
         setShowUpdateModal(false);
@@ -114,11 +115,24 @@ function Trans() {
     });
 
     return (
-        <div style={{ background: '#dbf8e3' }} >
+        <div>
+            <div style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1
+            }} />
+
             <Navbar />
             <Sidebar />
             <div className="main-content-container" style={{ marginTop: '50px', marginBottom: '30px', paddingTop: '40px' }}>
-                <div className=" d-flex shadow-sm container mb-4 mt-2 border rounded " style={{ width: '510px', background: '#fff', marginRight:'870px' }}>
+                <div className=" d-flex shadow-sm container mb-4 mt-2 border rounded " style={{ width: '510px', background: '#fff', marginRight: '870px' }}>
                     <h2>Income & Expenses Management</h2>
                 </div>
                 <hr style={{ width: '90%', borderColor: '#fff ', borderWidth: '5px', margin: '20px auto' }} />
@@ -179,7 +193,7 @@ function Trans() {
                     </div>
                 </div>
             </div>
-            <footer style={{ backgroundColor: "#333", color: "#fff", padding: "20px", textAlign: "center" }}>
+            <footer style={{ backgroundColor: "#333", color: "#fff", padding: "50px", textAlign: "center" }}>
                 <span style={{ left: '10px' }}>SunRich Paradise All rights Reserved</span>
             </footer>
 

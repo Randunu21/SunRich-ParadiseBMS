@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/Navbar';
-import ChartPage from '../../components/ChartPage';
-import Sidebar from '../../components/Sidebar';
-import RecentTransactions from '../../components/RecentTransactions';
-import LineBarSum from '../../components/LineBarSum';
+import Navbar from '../../components/FinancialComponents/Navbar';
+import ChartPage from '../../components/FinancialComponents/ChartPage';
+import Sidebar from '../../components/FinancialComponents/Sidebar';
+import RecentTransactions from '../../components/FinancialComponents/RecentTransactions';
+import LineBarSum from '../../components/FinancialComponents/LineBarSum';
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+import backgroundImage from '../../images/b2.png'
 
 function DashboardPage() {
     const [profitData, setProfitData] = useState([]);
@@ -56,7 +57,19 @@ function DashboardPage() {
     };
 
     return (
-        <div style={{ background: '#dcfce7' }} >
+        <div >
+            <div style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1
+            }} />
 
             <Navbar />
             <Sidebar />
@@ -67,7 +80,7 @@ function DashboardPage() {
                     </div>
                     <hr style={{ width: '630%', borderColor: '#fff ', borderWidth: '5px', margin: '20px auto' }} />
                     <div className="d-flex">
-                        <select className="shadow-sm form-select" style={{marginLeft:'15px'}} value={timeframe} onChange={handleTimeframeChange}>
+                        <select className="shadow-sm form-select" style={{ marginLeft: '15px' }} value={timeframe} onChange={handleTimeframeChange}>
                             <option value="" disabled hidden>Filter Analysis</option>
                             <option value="thisMonth">This Month</option>
                             <option value="lastMonth">Last Month</option>
@@ -75,47 +88,50 @@ function DashboardPage() {
                         </select>
                     </div>
                 </div>
-                <div className="d-flex justify-content-center" style={{ marginTop: '20px', marginLeft: '70px' }} >
-                    <div className="shadow p border rounded p-3 mr-3 d-flex align-items-center" style={{ marginRight: '70px', background: '#F4F6F5', width: '290px' }} >
-                        <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }} >
+
+                <div className="d-flex" style={{ marginTop: '50px', marginLeft: '120px', marginBottom:'40px' }}>
+                    <div className="shadow p border rounded p-3 mr-3 d-flex align-items-center" style={{ marginRight: '80px', background: '#51E552', color: 'white', width: '320px' }}>
+                        <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }}>
                             <i className="bi bi-graph-up-arrow fs-4"></i>
                             <div
-                            className="d-none d-lg-block"
-                            style={{ borderLeft: "3px solid #000", height: 40, marginTop:'3px', marginRight:'20px', marginLeft:'20px' }}
-                        ></div>
+                                className="d-none d-lg-block"
+                                style={{ borderLeft: "3px solid #000", height: 40, marginTop: '3px', marginRight: '20px', marginLeft: '20px' }}
+                            ></div>
                         </div>
                         <div>
                             <h5 className="text-muted">Total Income</h5>
-                            <h3 style={{ color: '#43CD24' }} >{totals.totalIncome} LKR</h3>
+                            <h3>{totals.totalIncome} LKR</h3>
                         </div>
                     </div>
-                    <div className="shadow p border rounded p-3 mr-3 d-flex align-items-center" style={{ marginRight: '70px', background: '#F4F6F5 ', width: '290px' }} >
-                        <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }} >
+                    <div className="shadow-lg border rounded p-3 mr-3 d-flex align-items-center" style={{ marginRight: '80px', background: '#EC1515', color: 'white', width: '320px' }}>
+                        <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }}>
                             <i className="bi bi-graph-down-arrow fs-4"></i>
                             <div
-                            className="d-none d-lg-block"
-                            style={{ borderLeft: "3px solid #000", height: 40, marginTop:'3px', marginRight:'20px', marginLeft:'20px' }}
-                        ></div>
+                                className="d-none d-lg-block"
+                                style={{ borderLeft: "3px solid #000", height: 40, marginTop: '3px', marginRight: '20px', marginLeft: '20px' }}
+                            ></div>
                         </div>
                         <div>
                             <h5 className="text-muted">Total Expense</h5>
-                            <h3 style={{ color: '#ED250A' }} >{totals.totalExpense} LKR</h3>
+                            <h3>{totals.totalExpense} LKR</h3>
                         </div>
                     </div>
-                    <div className="shadow p border rounded p-3 d-flex align-items-center" style={{ marginRight: '70px', background: '#F4F6F5', width: '290px' }} >
-                        <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }} >
+                    <div className="shadow-lg border rounded p-3 d-flex align-items-center" style={{ marginRight: '80px', background: '#3866C8', color: 'white', width: '320px' }}>
+                        <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }}>
                             <i className="bi bi-currency-dollar fs-4"></i>
                             <div
-                            className="d-none d-lg-block"
-                            style={{ borderLeft: "3px solid #000", height: 40, marginTop:'3px', marginRight:'20px', marginLeft:'20px' }}
-                        ></div>
+                                className="d-none d-lg-block"
+                                style={{ borderLeft: "3px solid #000", height: 40, marginTop: '3px', marginRight: '20px', marginLeft: '20px' }}
+                            ></div>
                         </div>
                         <div>
                             <h5 className="text-muted">Profit</h5>
-                            <h3 style={{ color: '#0A1EED' }} >{totals.profit} LKR</h3>
+                            <h3>{totals.profit} LKR</h3>
                         </div>
                     </div>
                 </div>
+
+
             </div>
 
             <div className="container mt-3" style={{ width: '1350px', marginBottom: '50px', marginLeft: '134px' }} >
@@ -207,7 +223,7 @@ function DashboardPage() {
                 </button>
             </div>
 
-            <footer style={{ backgroundColor: "#333", color: "#fff", padding: "20px", textAlign: "center" }}>
+            <footer style={{ backgroundColor: "#333", color: "#fff", padding: "50px", textAlign: "center" }}>
                 <span style={{ left: '10px' }}>SunRich Paradise All rights Reserved</span>
             </footer>
         </div>

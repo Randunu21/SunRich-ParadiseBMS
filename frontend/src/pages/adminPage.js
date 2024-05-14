@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 const AdminDashboard = () => {
   return (
     <div>
-
       <div>
         {/* Header */}
         <header className="bg-dark text-white p-3">
@@ -26,9 +25,7 @@ const AdminDashboard = () => {
       </div>
 
       <hr />
-      <div>
 
-      </div>
       {/* Page content */}
       <Container className="mt-3">
         <div>
@@ -44,76 +41,86 @@ const AdminDashboard = () => {
               </Link>
             </Col>
             <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }} >
-              <Card className="mb-3" onClick={() => {/* Handle click event for Employee Management */ }}>
-                <Card.Body>
-                  <Card.Title>Employee Management</Card.Title>
-                  <Card.Text>Manage employee information</Card.Text>
-                </Card.Body>
-              </Card>
-              </Link>       
-            </Col>
-          </Row>
-        </div>
-
-
-        <div>
-          <Row>
-            <Col md={6}>
-              <Card className="mb-3" onClick={() => {/* Handle click event for Customer Management */ }}>
-                <Card.Body>
-                  <Card.Title>Financial Management</Card.Title>
-                  <Card.Text>Manage Financial information</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={6}>
-              <Card className="mb-3" onClick={() => {/* Handle click event for Employee Management */ }}>
-                <Card.Body>
-                  <Card.Title>Product Management</Card.Title>
-                  <Card.Text>Manage Product information</Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to="#" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Employee Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Employee Management</Card.Title>
+                    <Card.Text>Manage employee information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
           </Row>
         </div>
         <div>
           <Row>
             <Col md={6}>
-              <Card className="mb-3" onClick={() => {/* Handle click event for Customer Management */ }}>
-                <Card.Body>
-                  <Card.Title>Inventory Management</Card.Title>
-                  <Card.Text>Manage Inventory information</Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to="/Financial/trans" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Financial Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Financial Management</Card.Title>
+                    <Card.Text>Manage Financial information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
             <Col md={6}>
-              <Card className="mb-3" onClick={() => {/* Handle click event for Employee Management */ }}>
-                <Card.Body>
-                  <Card.Title>Inquiry Management</Card.Title>
-                  <Card.Text>Manage Customer inquiry information</Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to="#" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Product Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Product Management</Card.Title>
+                    <Card.Text>Manage Product information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
           </Row>
         </div>
         <div>
           <Row>
             <Col md={6}>
-              <Card className="mb-3" onClick={() => {/* Handle click event for Customer Management */ }}>
-                <Card.Body>
-                  <Card.Title>Order Management</Card.Title>
-                  <Card.Text>Customer order information</Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to="#" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Inventory Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Inventory Management</Card.Title>
+                    <Card.Text>Manage Inventory information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
             <Col md={6}>
-              <Card className="mb-3" onClick={() => {/* Handle click event for Employee Management */ }}>
-                <Card.Body>
-                  <Card.Title>Supplier Management</Card.Title>
-                  <Card.Text>Manage supplier information</Card.Text>
-                </Card.Body>
-              </Card>
+              <Link to="#" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Inquiry Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Inquiry Management</Card.Title>
+                    <Card.Text>Manage Customer inquiry information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+          </Row>
+        </div>
+        <div>
+          <Row>
+            <Col md={6}>
+              <Link to="#" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Order Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Order Management</Card.Title>
+                    <Card.Text>Customer order information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+            <Col md={6}>
+              <Link to="#" style={{ textDecoration: 'none' }}>
+                <Card className="mb-3" onClick={() => {/* Handle click event for Supplier Management */ }}>
+                  <Card.Body>
+                    <Card.Title>Supplier Management</Card.Title>
+                    <Card.Text>Manage supplier information</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
           </Row>
         </div>
