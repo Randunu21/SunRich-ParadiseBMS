@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Dashboard from './dashbord'; // Import Dashboard component
+import Dashboard from './reportGen'; // Import Dashboard component
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function AdminLogin() {

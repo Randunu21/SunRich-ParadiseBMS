@@ -38,6 +38,11 @@ export default function RegPage() {
                 [name]: value
             }));
         }
+
+        // Reset password error when either password or confirm password changes
+        if (name === 'password' || name === 'confirmPassword') {
+            setPasswordError(false);
+        }
     }
 
     const handleSubmit = async e => {
@@ -59,6 +64,10 @@ export default function RegPage() {
             console.log(data);
             if (response.ok) {
                 toast.success('Registration successful!', { position: "top-center" });
+                // Delay page reload after 2 seconds
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             } else {
                 if (response.status === 400 && data.message === 'Email is already associated with an account') {
                     toast.error('This email is already associated with an account.', { position: "top-center" });
@@ -71,6 +80,7 @@ export default function RegPage() {
             toast.error('An error occurred. Please try again later.', { position: "top-center" });
         }
     };
+    
 
     return (
         <div style={{ 
@@ -102,17 +112,16 @@ export default function RegPage() {
                     <div className="mb-3">
                         <label className="form-label text-white">Gender</label>
                         <div className="d-flex">
-                        <div className="form-check me-3">
-                             <input className="form-check-input" type="radio" id="male" name="gender" value="male" checked={formData.gender === "male"} onChange={handleChange} />
-                             <label className="form-check-label text-white" htmlFor="male">Male</label>
-                        </div>
-                    <div className="form-check">
-                        <input className="form-check-input" type="radio" id="female" name="gender" value="female" checked={formData.gender === "female"} onChange={handleChange} />
-                         <label className="form-check-label text-white" htmlFor="female">Female</label>
+                            <div className="form-check me-3">
+                                <input className="form-check-input" type="radio" id="male" name="gender" value="male" checked={formData.gender === "male"} onChange={handleChange} />
+                                <label className="form-check-label text-white" htmlFor="male">Male</label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" id="female" name="gender" value="female" checked={formData.gender === "female"} onChange={handleChange} />
+                                <label className="form-check-label text-white" htmlFor="female">Female</label>
+                            </div>
                         </div>
                     </div>
-
-                                         </div>
                     <div className="mb-3">
                         <label htmlFor="address" className="form-label text-white">Address</label>
                         <textarea className="form-control" id="address" name="address" placeholder="Address" value={formData.address} onChange={handleChange} />
@@ -138,7 +147,6 @@ export default function RegPage() {
                         {passwordError && <small className="text-danger">Passwords do not match.</small>}
                     </div>
                     <button type="submit" className="btn btn-primary w-100" style={{ backgroundColor: '#00563B', border: '2px solid #00563B' }}>Register</button>
-                    {passwordError && <small className="text-danger">Passwords do not match.</small>}
                 </form>
             </div>
             <ToastContainer />

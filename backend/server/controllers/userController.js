@@ -123,3 +123,52 @@ exports.getRegisteredUsers = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+// userController.js
+
+exports.filterRegisteredUsers = async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+  
+      // Input validation (optional but recommended)
+      if (!startDate || !endDate) {
+        return res.status(400).json({ message: 'Please provide both startDate and endDate' });
+      }
+  
+      // Ensure valid date formats (optional but recommended)
+      const isValidStartDate = !isNaN(new Date(startDate));
+      const isValidEndDate = !isNaN(new Date(endDate));
+  
+      if (!isValidStartDate || !isValidEndDate) {
+        return res.status(400).json({ message: 'Invalid date format. Please use YYYY-MM-DD' });
+      }
+  
+      const users = await User.find({
+        createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+      });
+  
+      res.json(users);
+    } catch (error) {
+      console.error('Error filtering registered users:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  exports.AdmindeleteUser = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        // Find the user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Delete the user
+        await User.findByIdAndDelete(userId);
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};

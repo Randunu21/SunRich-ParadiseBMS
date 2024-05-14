@@ -7,7 +7,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleReportGenerationClick = () => {
-    navigate('/dashboard');
+    navigate('/report');
   };
 
   const handleUserManagementClick = () => {

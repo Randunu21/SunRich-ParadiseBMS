@@ -18,7 +18,15 @@ const userSchema = new mongoose.Schema({
     },
     gender: { type: String, enum: ['male', 'female'], required: true },
     address: { type: String, required: true },
-    contactNumber: { type: String, required: true }
+    contactNumber: { type: String, required: true },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+      updatedAt: {
+        type: Date,
+        default: Date.now,
+      }
 });
 
 module.exports = mongoose.model('User', userSchema);

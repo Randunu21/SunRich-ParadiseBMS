@@ -4,11 +4,12 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import Regpage from "./regpage/regpage";
 import Login from "./loginpage/loginpage";
 import Adminlogin from "./adminLogin/adminlogin";
-import Dashbord from "./adminLogin/dashbord";
+import Report from "./adminLogin/reportGen";
 import HomePage from "./first/fpage";
 import image from './img/logo.png';
 import Home from "./adminLogin/adminMain";
 import Profile from "./profile/profile";
+import RegUserMgmt from "./adminLogin/regUserMgmt"; 
 
 
 function App() {
@@ -35,10 +36,10 @@ function App() {
           <Route path="/reg" element={<Regpage />} />
           <Route path="/log" element={<Login />} />
           <Route path="/admin" element={<Adminlogin />} />
-          <Route path="/dashboard" element={<Dashbord />} />
-          <Route path="/dashboard" element={<Dashbord />} />
+          <Route path="/report" element={<Report />} />
           <Route path="/" element={<HomePage/>} />
           <Route path="/adminD" element={<Home/>} />
+          <Route path="/registered" element={<RegUserMgmt/>} />
         </Routes>
       </BrowserRouter>
     </div>
