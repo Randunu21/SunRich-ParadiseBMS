@@ -142,7 +142,7 @@ function EmployeeLeaveTable() {
   });
 
   return (
-    <div className="container mt-4" style={{ background: '#dcfce7' }}>
+    <div className="container mt-4" style={{ background: '#dcfce7', padding:'50px' }}>
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,

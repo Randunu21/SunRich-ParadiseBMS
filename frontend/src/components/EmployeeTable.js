@@ -98,7 +98,7 @@ function EmployeeTable() {
   };
 
   return (
-    <div className="container mt-4" style={{ backgroundColor: "#dcfce7" }}>
+    <div className="container mt-4" style={{ backgroundColor: "#dcfce7", padding:'50px' }}>
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
