@@ -1,12 +1,14 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 const AdminDashboard = () => {
   return (
     <div>
-      
+
       <div>
         {/* Header */}
         <header className="bg-dark text-white p-3">
@@ -31,19 +33,25 @@ const AdminDashboard = () => {
       {/* Page content */}
       <Container className="mt-3">
         <div>
-        <div 
-        style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: -1 }}/>
-                
+          <div
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: -1
+            }} />
+
+          <div>
+            <Navbar />
+            <Sidebar />
+          </div>
+
           <Row>
             <Col md={6}>
               <Link to="/cuspage" style={{ textDecoration: 'none' }}>
@@ -144,4 +152,4 @@ const AdminDashboard = () => {
   );
 }
 
-export default AdminDashboard;
+export default AdminDashboard;

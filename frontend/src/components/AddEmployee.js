@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
+
 
 
 export default function AddEmployee() {
@@ -21,7 +24,7 @@ export default function AddEmployee() {
         contactNo: '',
         address: '',
         joinedDate: '',
-        profilePhoto: null 
+        profilePhoto: null
     });
     const [error, setError] = useState('');
 
@@ -71,7 +74,7 @@ export default function AddEmployee() {
                 data.append(key, formData[key]);
             }
         });
-        
+
         try {
             const response = await axios.post("http://localhost:4000/api/employees/registerEmployee", data, {
                 headers: {
@@ -111,18 +114,26 @@ export default function AddEmployee() {
 
     return (
         <div className="container mt-4" style={{ backgroundColor: "#dcfce7", padding: "20px", borderRadius: "10px" }}>
-            <div 
-        style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: -1 }}/>
+            <div
+                style={{
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    zIndex: -1
+                }} />
+
+            <div>
+                <Navbar />
+                <Sidebar />
+            </div>
+
+
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <fieldset>
                     <legend>Employee Registration</legend>
@@ -178,9 +189,9 @@ export default function AddEmployee() {
                             </div>
 
                         </div>
-                        
+
                         <div className="col-md-6">
-                        <div className="mb-3">
+                            <div className="mb-3">
                                 <label htmlFor="NIC" className="form-label">NIC</label>
                                 <input type="text" id="NIC" className="form-control" placeholder="Enter Employee NIC"
                                     value={formData.NIC} onChange={handleChange} name="NIC" />

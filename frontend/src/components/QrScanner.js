@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import QrReader from 'jsqr';
 import Webcam from 'react-webcam';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 const QrScanner = () => {

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function EmployeeAttendanceTable() {
@@ -44,19 +46,25 @@ function EmployeeAttendanceTable() {
 
   return (
     <div className="container mt-4" style={{ background: '#dcfce7' }}>
-      <div 
+      <div
         style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: -1 }}/>
-         
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -1
+        }} />
+
+      <div>
+        <Navbar />
+        <Sidebar />
+      </div>
+
 
       <h2>Employee Attendance Table - Today's Attendance</h2>
       <table className="table table-striped table-bordered">

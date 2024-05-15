@@ -5,6 +5,8 @@ import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function EmployeeLeaveTable() {
@@ -29,7 +31,7 @@ function EmployeeLeaveTable() {
         console.error('Error fetching employee leave data:', error);
       });
   };
-  
+
 
   const filterLeavesByCategory = (category) => {
     setSelectedCategory(category);
@@ -49,26 +51,26 @@ function EmployeeLeaveTable() {
 
   const generateMonthReport = () => {
     axios.get(`http://localhost:4000/api/employees/leave/leaveReport/month/${selectedYear}/${selectedMonth}`)
-        .then((response) => {
-            displayReport(response.data);
-            renderChart(response.data);
-        })
-        .catch((error) => {
-            console.error('Error fetching month report:', error);
-        });
+      .then((response) => {
+        displayReport(response.data);
+        renderChart(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching month report:', error);
+      });
   };
 
   const displayReport = (reportData) => {
     Swal.fire({
-        title: 'Leave Report',
-        html: `
+      title: 'Leave Report',
+      html: `
             <p>Total Leaves: ${reportData.totalLeaves}</p>
             <p>Pending Leaves: ${reportData.pendingLeaves}</p>
             <p>Accepted Leaves: ${reportData.acceptedLeaves}</p>
             <p>Rejected Leaves: ${reportData.rejectedLeaves}</p>
         `,
-        icon: 'info',
-        confirmButtonText: 'OK'
+      icon: 'info',
+      confirmButtonText: 'OK'
     });
   };
 
@@ -140,20 +142,26 @@ function EmployeeLeaveTable() {
   });
 
   return (
-    <div className="container mt-4" style={{background:'#dcfce7'}}>
-      <div 
+    <div className="container mt-4" style={{ background: '#dcfce7' }}>
+      <div
         style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: -1 }}/>
-         
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -1
+        }} />
+
+      <div>
+        <Navbar />
+        <Sidebar />
+      </div>
+
 
       <h2>Employee Leave List</h2>
       <div className="mb-3">
@@ -186,7 +194,7 @@ function EmployeeLeaveTable() {
         <tbody>
           {filteredLeaves.map((leave) => (
             <tr key={leave._id}>
-              <td>{leave.empId}</td>  
+              <td>{leave.empId}</td>
               <td>{leave.firstName} {leave.lastName}</td>
               <td>{leave.role}</td>
               <td>{leave.leaveType}</td>

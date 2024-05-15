@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { useParams, useNavigate } from "react-router-dom";
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function AdminEditEmployee() {
@@ -99,20 +101,27 @@ function AdminEditEmployee() {
   };
 
 
- return (
-  <div className="container py-5" style={{ backgroundColor: "#dcfce7" }}> 
-    <div 
+  return (
+    <div className="container py-5" style={{ backgroundColor: "#dcfce7" }}>
+      <div
         style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: -1 }}/>
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -1
+        }} />
+
+      <div>
+        <Navbar />
+        <Sidebar />
+      </div>
+
 
       <h2>Edit Employee</h2>
       <form onSubmit={handleSubmit}>
@@ -185,7 +194,7 @@ function AdminEditEmployee() {
           <label htmlFor="profilePhoto" className="form-label">Profile Photo</label>
           <input type="file" id="profilePhoto" className="form-control" onChange={handleChange} name="profilePhoto" />
         </div>
-        
+
         <button type="submit" className="btn btn-primary">Update</button>
       </form>
     </div>
