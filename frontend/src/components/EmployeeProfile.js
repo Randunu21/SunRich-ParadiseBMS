@@ -10,10 +10,7 @@ function EmployeeProfile() {
   const [employee, setEmployee] = useState(null);
   const [leaves, setLeaves] = useState([]);
   const [qrCode, setQRCode] = useState('');
-  const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
-
-
 
 
   useEffect(() => {
@@ -22,15 +19,7 @@ function EmployeeProfile() {
         // Fetch employee data
         const empResponse = await axios.get(`http://localhost:4000/api/employees/getEmployee/${id}`);
         setEmployee(empResponse.data);
-
-        // Fetch profile photo if it exists
-        if (empResponse.data.profilePhoto) {
-          const photoResponse = await axios.get(`http://localhost:4000/api/employees/getEmployeePhoto/${empResponse.data.profilePhoto}`, {
-            responseType: 'arraybuffer'
-          });
-          const base64Image = Buffer.from(photoResponse.data, 'binary').toString('base64');
-          setProfilePhoto(`data:image/jpeg;base64,${base64Image}`);
-        }
+        setQRCode(empResponse.data.qrCode);
 
         // Fetch leaves data, using the empId from the fetched employee data
         if (empResponse.data && empResponse.data.empId) {
@@ -45,14 +34,17 @@ function EmployeeProfile() {
     fetchData();
   }, [id]); // Only re-run the effect if the id changes
 
-  const handleEdit = () => {
-    // Redirect or navigate to the edit page passing the employee id
-    // Example: history.push(`/edit/${id}`);
-  };
-
-
   const handleLeave = (id) => {
     navigate(`/employee-leave/${id}`, { state: { employee: employee } })
+  }
+
+  const downloadQRCode = () => {
+    const link = document.createElement('a');
+    link.href = qrCode;
+    link.download = 'qr_code.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   if (!employee) {
@@ -100,33 +92,48 @@ function EmployeeProfile() {
                   className="rounded-circle img-fluid"
                   style={{ width: "150px" }}
                 />
-                <h5 className="my-3">{employee.firstName} {employee.lastName}</h5>
+                <h4 className="my-3">{employee.firstName} {employee.lastName}</h4>
                 <p className="text-muted mb-1">{employee.empId}</p>
                 <p className="text-muted mb-1">{employee.role}</p>
                 <p className="text-muted mb-4"></p>
                 <div className="d-flex justify-content-center mb-2">
                   <Link to={`/employee-edit/${employee._id}`} className="btn btn-primary">Edit</Link>
-
-                </div>
+                </div><hr />
+                  <h5 className="card-title mb-4">Apply Leave</h5>
+                  <button onClick={() => handleLeave(id)} className="btn btn-primary">Apply Leave</button>
               </div>
             </div>
 
             <div className="card mb-4 mb-lg-0">
               <div className="card-body p-0">
-                <div className="col-lg-8">
+                <div className="container-fluid">
                   <div className="row">
-                    <div className="col-md-6">
-                      <div className="card-body">
-                        <h5 className="card-title mb-4">Apply Leave</h5>
-                        <button onClick={() => handleLeave(id)} className="btn btn-primary">Apply Leave</button>
+                    <div className="col-md-12"> 
+                      <div className="card-body text-center"> 
+                        <h5 className="card-title mb-4">QR Code</h5>
+                        <div className="d-flex flex-column align-items-center justify-content-center"> 
+                          {qrCode &&
+                          <div>
+                            <img
+                              src={qrCode}
+                              alt="QR Code"
+                              className="img-fluid"
+                              style={{ maxWidth: "200px", height: "200px" }}
+                            />
+                            <button onClick={downloadQRCode} className="btn btn-primary mt-3">Download QR Code</button>
+                            </div>
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
+
+          
+
           <div className="col-lg-8">
             <div className="card mb-4">
               <div className="card-body">
