@@ -20,6 +20,7 @@ const ShopContextProvider = (props) => {
   }, []);
 
   const contextValue = { products };
+  console.log("contexr", products);
 
   return (
     <ShopContext.Provider value={contextValue}>

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const ProductModal = mongoose.Schema({
   productID: {
-    type: Number,
+    type: String,
     required: true,
   },
   name: {

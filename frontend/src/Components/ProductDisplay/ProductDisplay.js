@@ -37,6 +37,7 @@ const ProductDisplay = ({ product }) => {
     setQuantity(value >= 1 ? value : 1); // Ensure quantity doesn't go below 0
   };
 
+  console.log("display", product);
   if (!product) {
     return <div>Loading product details...</div>;
   }
@@ -115,15 +116,11 @@ const ProductDisplay = ({ product }) => {
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
-        <div className="productdisplay-img-list">
-          {Array.from({ length: 4 }, (_, i) => (
-            <img key={i} src={product.image} alt="img" />
-          ))}
-        </div>
+        <div className="productdisplay-img-list">{product.image}</div>
         <div className="productdisplay-img">
           <img
             className="productdisplay-main-img"
-            src={product.image}
+            src={`http://localhost:4000/${product.image}`}
             alt="img"
           />
         </div>

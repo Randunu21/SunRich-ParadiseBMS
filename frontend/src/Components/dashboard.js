@@ -8,7 +8,14 @@ import axios from "axios";
 import Table from "react-bootstrap/Table";
 
 export default function Dashboard() {
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null);
+  //sss
   const [show, setShow] = useState(false);
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -74,20 +81,39 @@ export default function Dashboard() {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleSubmit = async () => {
-    try {
-      console.log("products", products);
-      const existingProduct = products.find((p) => p.id === product.id);
-      if (existingProduct) {
-        toast.error("Product with the same Product ID already exists!");
-        return;
-      }
+  const generateRandomNumbers = () => {
+    return Math.floor(10000000 + Math.random() * 90000000);
+  };
 
-      console.log("product:", product);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const productID = `PID${generateRandomNumbers()}`;
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("category", category);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("productImage", image);
+    formData.append("productID", productID);
+
+    console.log("this is formdata", formData);
+    try {
+      //   console.log("products", products);
+      //   const existingProduct = products.find((p) => p.id === product.id);
+      //   if (existingProduct) {
+      //     toast.error("Product with the same Product ID already exists!");
+      //     return;
+      //   }
 
       await axios.post(
         "http://localhost:4000/api/products/addproduct",
-        product
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       handleClose();
 
@@ -215,8 +241,8 @@ export default function Dashboard() {
               <Form.Control
                 type="text"
                 name="name"
-                value={product.name}
-                onChange={handleChange}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </Form.Group>
@@ -226,8 +252,8 @@ export default function Dashboard() {
                 as="textarea"
                 rows={3}
                 name="description"
-                value={product.description}
-                onChange={handleChange}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 required
               />
             </Form.Group>
@@ -236,18 +262,18 @@ export default function Dashboard() {
               <Form.Control
                 type="number"
                 name="price"
-                value={product.price}
-                onChange={handleChange}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="productType">
-              <Form.Label>Type</Form.Label>
+              <Form.Label>Category</Form.Label>
               <Form.Control
                 as="select"
                 name="category"
-                value={product.category}
-                onChange={handleChange}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
                 required
               >
                 <option value="">Select Category</option>
@@ -256,23 +282,12 @@ export default function Dashboard() {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="productDiscount">
-              <Form.Label>Discount</Form.Label>
-              <Form.Control
-                type="number"
-                name="discount"
-                value={product.discount}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
             <Form.Group className="mb-3" controlId="productImage">
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="file"
-                name="image"
-                onChange={handleImageChange}
+                onChange={(e) => setImage(e.target.files[0])}
+                accept="image/*"
                 required
               />
             </Form.Group>
@@ -282,7 +297,7 @@ export default function Dashboard() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button variant="primary" onClick={(e) => handleSubmit(e)}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -314,7 +329,7 @@ export default function Dashboard() {
                   <td>{product.description}</td>
                   <td>Rs : {product.price}</td>
                   <td>{product.discount} % </td>
-                  <td>{product.productId}</td>
+                  <td>{product.productID}</td>
                   <td>{product.category}</td>
                   <td>
                     {product.image && (

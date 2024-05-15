@@ -2,6 +2,20 @@ const express = require("express");
 const router = express.Router();
 const Rating = require("../models/rating");
 const Product = require("../models/products");
+const multer = require("multer");
+
+// Configure Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Specify destination directory for file uploads
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/allproducts", async (req, res) => {
   try {
@@ -34,53 +48,23 @@ router.get("/coconut", async (req, res) => {
   }
 });
 
-router.post("/addproduct", async (req, res) => {
+router.post("/addproduct", upload.single("productImage"), async (req, res) => {
   try {
-    let products = await Product.find({});
-    let id;
-    if (products.length > 0) {
-      let last_product_array = products.slice(-1);
-      let last_product = last_product_array[0];
-      id = last_product.productID + 1;
-    } else {
-      id = 1;
-    }
-
-    const product = new Product({
-      productID: id,
+    console.log(req.body);
+    const product = await new Product({
+      productID: req.body.productID,
       name: req.body.name,
-      image: req.body.image,
+      image: req.file.path, // Save the file path to the database
       category: req.body.category,
       price: req.body.price,
       description: req.body.description,
     });
-    console.log(product);
+
     await product.save();
-    console.log("Saved");
     res.json({ success: true, name: req.body.name });
   } catch (error) {
     console.log(error);
-  }
-});
-
-router.delete("/removeproduct/:id", async (req, res) => {
-  try {
-    const product = await Product.findByIdAndDelete(req.params.id);
-    console.log("Removed");
-    res.json({ success: true, name: req.body.name });
-  } catch (error) {
-    res.json(error);
-  }
-});
-
-//get a certain product
-router.get("/:id", async (req, res) => {
-  try {
-    const productID = req.params.id;
-    const product = await Product.findOne({ productID: productID });
-    res.json(product);
-  } catch (error) {
-    res.send(error);
+    res.status(500).json({ success: false, error: "Failed to add product" });
   }
 });
 

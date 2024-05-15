@@ -1,98 +1,112 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Feedback = require('../models/feedbackModel');
-const multer = require('multer');
+const Feedback = require("../models/feedbackModel");
+const multer = require("multer");
 
 // Configure Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Specify destination directory for file uploads
+    cb(null, "uploads/"); // Specify destination directory for file uploads
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix=Date.now();
-    cb(null,uniqueSuffix+file.originalname);
-  }
+    const uniqueSuffix = Date.now();
+    cb(null, uniqueSuffix + file.originalname);
+  },
 });
 
 const upload = multer({ storage: storage });
 
 // Add feedback route
-router.post("/add", upload.array('images', 5), (req, res) => {
+router.post("/add", upload.array("images", 5), (req, res) => {
   const { name, email, rating, reviewTitle } = req.body;
-  const images = req.files.map(file => file.path.replace(/\\/g, '/')); // Replace backslashes with forward slashes in paths
+  const images = req.files.map((file) => file.path.replace(/\\/g, "/")); // Replace backslashes with forward slashes in paths
 
   const newFeedback = new Feedback({
     name,
     email,
     rating,
     reviewTitle,
-    images // Assign image paths to the images field
+    images, // Assign image paths to the images field
   });
 
-  newFeedback.save()
+  newFeedback
+    .save()
     .then(() => {
       res.json("Feedback added successfully.");
     })
     .catch((err) => {
       console.error("Error adding feedback:", err);
-      res.status(500).json({ error: "An error occurred while adding feedback." });
+      res
+        .status(500)
+        .json({ error: "An error occurred while adding feedback." });
     });
 });
 
 // Retrieve feedback route
 router.get("/", (req, res) => {
-    const productId = req.query.product_id;
+  const productId = req.query.product_id;
 
-    Feedback.find({ productId })
-        .then((feedback) => {
-            res.json(feedback);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).json({ error: "Error fetching feedback." });
-        });
+  Feedback.find({ productId })
+    .then((feedback) => {
+      res.json(feedback);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: "Error fetching feedback." });
+    });
 });
 
 // Update feedback route
 router.put("/update/:id", async (req, res) => {
-    const feedbackId = req.params.id;
-  
-    const { name, email, rating, reviewTitle, userId } = req.body;
-  
-    const updateFeedback = {
-      name,
-      email,
-      rating,
-      reviewTitle,
-      userId
-    };
-  
-    try {
-      const updatedFeedback = await Feedback.findByIdAndUpdate(feedbackId, updateFeedback);
-      if (!updatedFeedback) {
-        return res.status(404).send({ status: "error", message: "Feedback not found" });
-      }
-  
-      res.status(200).send({ status: "Feedback updated", feedback: updatedFeedback });
-    } catch (err) {
-      console.error("Error updating feedback:", err);
-      res.status(500).send({ status: "error", message: "Error updating feedback" });
+  const feedbackId = req.params.id;
+
+  const { name, email, rating, reviewTitle, userId } = req.body;
+
+  const updateFeedback = {
+    name,
+    email,
+    rating,
+    reviewTitle,
+    userId,
+  };
+
+  try {
+    const updatedFeedback = await Feedback.findByIdAndUpdate(
+      feedbackId,
+      updateFeedback
+    );
+    if (!updatedFeedback) {
+      return res
+        .status(404)
+        .send({ status: "error", message: "Feedback not found" });
     }
+
+    res
+      .status(200)
+      .send({ status: "Feedback updated", feedback: updatedFeedback });
+  } catch (err) {
+    console.error("Error updating feedback:", err);
+    res
+      .status(500)
+      .send({ status: "error", message: "Error updating feedback" });
+  }
 });
 
 // Delete feedback route
 router.delete("/delete/:id", async (req, res) => {
-    const feedbackId = req.params.id;
-    try {
-        await Feedback.findByIdAndDelete(feedbackId);
-        res.status(200).send({ status: "Feedback deleted" });
-    } catch (err) {
-        console.error("Error deleting feedback:", err);
-        res.status(500).send({ status: "Error deleting feedback", error: err.message });
-    }
+  const feedbackId = req.params.id;
+  try {
+    await Feedback.findByIdAndDelete(feedbackId);
+    res.status(200).send({ status: "Feedback deleted" });
+  } catch (err) {
+    console.error("Error deleting feedback:", err);
+    res
+      .status(500)
+      .send({ status: "Error deleting feedback", error: err.message });
+  }
 });
 // Route to get feedback data with optional date range filtering
-router.get('/get-feedbacks', async (req, res) => {
+router.get("/get-feedbacks", async (req, res) => {
   try {
     let query = {}; // Define an empty query object
 
@@ -111,8 +125,7 @@ router.get('/get-feedbacks', async (req, res) => {
     res.json(feedbacks);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
 });
 module.exports = router;
-  

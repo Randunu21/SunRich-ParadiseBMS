@@ -11,7 +11,7 @@ const Product = () => {
   console.log("products:", products);
   const { productID } = useParams();
   console.log("productID:", productID);
-  const product = products.find((e) => e.productID === Number(productID));
+  const product = products.find((e) => e.productID === productID);
 
   const [showDescription, setShowDescription] = useState(true);
   const [showReviews, setShowReviews] = useState(false);
