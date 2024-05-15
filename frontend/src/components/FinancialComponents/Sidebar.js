@@ -1,66 +1,165 @@
 import React, { useState } from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);
 
-  const sidebarStyle = {
-    position: 'fixed',
-    top: 55,
-    left: 0,
-    height: '100%',
-    width: isCollapsed ? '60px' : '250px',
-    backgroundColor: '#343a40',
-    transition: 'width 0.3s',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    overflow: 'hidden',
-    zIndex: 1000,
-  };
-
-  const iconStyle = {
-    color: 'white',
-    padding: '20px',
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    cursor: 'pointer',
-    textDecoration: 'none',
-  };
-
-  const textStyle = {
-    marginLeft: '20px',
-    display: isCollapsed ? 'none' : 'inline',
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
   };
 
   return (
-    <div
-      style={sidebarStyle}
-      onMouseEnter={() => setIsCollapsed(false)}
-      onMouseLeave={() => setIsCollapsed(true)}
-    >
-      <a href="/Financial/dash" style={iconStyle} className="sidebar-link">
-        <i className="bi-clipboard-data"></i>
-        <span style={textStyle}>Financial Summary</span>
-      </a>
-      <a href="/Financial/trans" style={iconStyle} className="sidebar-link">
-        <i className="bi-currency-dollar"></i>
-        <span style={textStyle}>Income/Expense Management</span>
-      </a>
-      <a href="/Financial/payroll" style={iconStyle} className="sidebar-link">
-        <i className="bi-person-plus"></i>
-        <span style={textStyle}>Employee Payroll Management</span>
-      </a>
-      <style jsx>{`
-        .sidebar-link:hover {
-          background-color: #e0e0e0; // Light gray background
-          color: #343a40; // Dark text
-        }
+    <div>
+      <aside
+        id="sidebar"
+        style={{
+            position: 'fixed',
+            top: '55px',
+            left: 0,
+            width: collapsed ? '50px' : '329px',
+            zIndex: 1000,
+            transition: 'left 0.5s ease-in-out',
+            backgroundColor: '#fff',
+            display: 'flex',
+            flexDirection: 'column',
+            borderRadius: '5px',
+            height: '100vh'
+          }}
+      >
+        <div
+          className="d-flex align-items-center justify-content-between"
+          style={{ paddingTop: '6px', paddingLeft: '9px', paddingRight: '70px', paddingBottom:'20px' }}
+        >
+          <button style={{ backgroundColor: 'transparent', border: '1px solid #0B8735', borderRadius: '5px', color: '#0B8735', fontSize: '20px' }} onClick={toggleSidebar}>
+            <i className="bi bi-justify"></i>
+          </button>
 
-        .sidebar-link:hover i, .sidebar-link:hover span {
-          color: #343a40; // Dark text for icons and span on hover
-        }
-      `}</style>
+          {!collapsed && (
+            <div className="sidebar-logo">
+              <a
+                href="#"
+                style={{
+                  color: "#0B8735",
+                  fontSize: "17px",
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  marginLeft: '5px'
+                }}
+              >
+                Financial Management
+              </a>
+            </div>
+          )}
+        </div>
+
+        
+
+        <div className="bg-light border  rounded-3 p-1 h-100 sticky-top" style={{ margin: '10px'}} >
+          <ul class="nav nav-pills flex-sm-column flex-row mb-auto "  >
+            {!collapsed && (
+              <>
+                <li className="sidebar-item">
+                  <a
+                    href="/Financial/dash"
+                    className="sidebar-link"
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      color: "#0B8735",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "16px",
+                      textDecoration: "none",
+                      border: "2px solid transparent",
+                      transition: "background-color 0.3s ease",
+                      borderRadius: "0.5rem"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.borderColor = "#0B8735";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.borderColor = "#fff";
+                      e.target.style.backgroundColor = "transparent";
+                      e.target.style.color = "#0B8735";
+                    }}
+                  >
+                    <i
+                      className="bi-clipboard-data"
+                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
+                    ></i>
+                    <span>Financial Summary</span>
+                  </a>
+                </li>
+                <li className="sidebar-item">
+                  <a
+                    href="/Financial/trans"
+                    className="sidebar-link"
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      color: "#0B8735",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "16px",
+                      textDecoration: "none",
+                      border: "2px solid transparent",
+                      transition: "background-color 0.3s ease",
+                      borderRadius: "0.5rem"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.borderColor = "#0B8735";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.borderColor = "#fff";
+                      e.target.style.backgroundColor = "transparent";
+                      e.target.style.color = "#0B8735";
+                    }}
+                  >
+                    <i
+                      className="bi-currency-dollar"
+                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
+                    ></i>
+                    <span>Income/Expense Management</span>
+                  </a>
+                </li>
+
+                <li className="sidebar-item">
+                  <a
+                    href="/Financial/payroll"
+                    className="sidebar-link"
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      color: "#0B8735",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "16px",
+                      textDecoration: "none",
+                      border: "2px solid transparent",
+                      transition: "background-color 0.3s ease",
+                      borderRadius: "0.5rem"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.borderColor = "#0B8735";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.borderColor = "#fff";
+                      e.target.style.backgroundColor = "transparent";
+                      e.target.style.color = "#0B8735";
+                    }}
+                  >
+                    <i
+                      className="bi-person-plus"
+                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
+                    ></i>
+                    <span>Employee Payroll Management</span>
+                  </a>
+                </li>
+
+                
+              </>
+            )}
+          </ul>
+        </div>
+
+      </aside>
     </div>
   );
 };
