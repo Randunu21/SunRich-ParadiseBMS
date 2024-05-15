@@ -135,7 +135,7 @@ function Trans() {
                 <div className=" d-flex shadow-sm container mb-4 mt-2 border rounded " style={{ width: '510px', background: '#fff', marginRight: '870px' }}>
                     <h2>Income & Expenses Management</h2>
                 </div>
-                <hr style={{ width: '90%', borderColor: '#fff ', borderWidth: '5px', margin: '20px auto' }} />
+                <hr style={{ width: '86%', borderColor: '#000000 ', borderWidth: '3px',marginLeft: '140px', marginBottom:'40px' }} />
                 <div className="d-flex" style={{ display: 'flex', justifyContent: 'center' }}>
                     <span className="mx-3" style={{ marginLeft: '40px' }}></span>
                     <DropdownMethod
