@@ -17,6 +17,7 @@ import OrdersNavbar from "./Components/OrdersNavBar";
 import PaypalCheckoutButton from "./Components/PaypalCheckoutButton";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import SalesReport from "./Components/SalesReport";
 
 //products
 
@@ -53,6 +54,7 @@ function App() {
             {/*order Routes*/}
             <Route path="/orders/nav-bar" element={<OrdersNavbar />} />
             <Route path="/orders/dashboard" element={<OrderHome />} />
+            <Route path="/orders/sales-report" element={<SalesReport />} />
             <Route
               path="/orders/delivery-details"
               element={<DeliveryDetails />}

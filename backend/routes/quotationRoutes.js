@@ -139,4 +139,18 @@ router.get("/getQuotation/:id", async (req, res) => {
   }
 });
 
+// Backend Route for Total Orders
+router.get("/total-quotations", async (req, res) => {
+  try {
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1); // One month ago
+    const totalQuotation = await quotationModel.countDocuments({
+      dateOfQuotation: { $gte: startDate },
+    });
+    res.json({ totalQuotation });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

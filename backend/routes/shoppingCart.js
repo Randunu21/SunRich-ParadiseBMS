@@ -296,4 +296,51 @@ router.delete("/deleteItem/:cartID/:itemID", async (req, res) => {
   }
 });
 
+// Route to get top selling products
+router.get("/top-selling", async (req, res) => {
+  try {
+    const topSellingProducts = await CartItem.aggregate([
+      { $group: { _id: "$product", totalSales: { $sum: "$quantity" } } },
+      { $sort: { totalSales: -1 } },
+      { $limit: 5 },
+    ]).lookup({
+      from: "products",
+      localField: "_id",
+      foreignField: "_id",
+      as: "productDetails",
+    });
+
+    res.json({ topSellingProducts });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Route to get product sales by category
+router.get("/sales-by-category", async (req, res) => {
+  try {
+    const salesByCategory = await CartItem.aggregate([
+      {
+        $lookup: {
+          from: "products",
+          localField: "product",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+      { $unwind: "$productDetails" },
+      {
+        $group: {
+          _id: "$productDetails.category",
+          totalSales: { $sum: "$quantity" },
+        },
+      },
+    ]);
+
+    res.json({ salesByCategory });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

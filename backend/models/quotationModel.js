@@ -46,6 +46,7 @@ const quotationsSchema = new Schema({
 
   dateOfQuotation: {
     type: Date,
+    default: Date.now,
   },
 });
 
