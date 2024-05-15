@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
+import backgroundImage from '../images/b2.png';
 
 function AddEmployeeLeave() {
     const location = useLocation();
@@ -90,7 +91,19 @@ function AddEmployeeLeave() {
     };
     
     return (
-        <div className="container mt-4">
+        <div className="container mt-4" style={{background:'#dcfce7'}}>
+            <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
             <h2>Apply for Leave</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">

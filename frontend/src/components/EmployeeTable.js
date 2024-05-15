@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import backgroundImage from '../images/b2.png';
 
 function EmployeeTable() {
   const { id } = useParams();
@@ -96,6 +97,19 @@ function EmployeeTable() {
 
   return (
     <div className="container mt-4" style={{ backgroundColor: "#dcfce7" }}> 
+     <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
+     
       <h2>Employee Table</h2>
       <div className="mb-3">
         <input

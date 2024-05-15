@@ -5,7 +5,7 @@ import axios from "axios";
 import Swal from 'sweetalert2';
 import QRCode from 'qrcode';
 import { useNavigate } from "react-router-dom";
-
+import backgroundImage from '../images/b2.png';
 
 function EmployeeProfileAdmin() {
   const { id } = useParams();
@@ -157,6 +157,19 @@ const deleteQRCode = async () => {
 
   return (
     <section style={{ backgroundColor: "#dcfce7" }}> 
+    <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
+
       <div className="container py-5">
         <div className="row">
           <div className="col">

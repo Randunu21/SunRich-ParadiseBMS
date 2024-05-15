@@ -1,33 +1,71 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const EmployeeAttendance = require("../models/EmployeeAttendanceModel");
-const Employee = require("../models/EmployeeModel");
+const moment = require('moment');
+const Employee = require('../models/EmployeeAttendanceModel');
 
-// Route to mark attendance
-router.post("/mark-attendance", async (req, res) => {
+// Mark attendance
+router.post('/mark', async (req, res) => {
+  const { empId } = req.body;
+  const date = moment().format('YYYY-MM-DD');
+  const arrivaltime = moment().format('HH:mm:ss');
+
   try {
-    const { employeeId, fullName, NIC, Email } = req.body;
-    const existingAttendance = await EmployeeAttendance.findOne({ employeeId, date: new Date().toISOString().split('T')[0] });
+    let employee = await Employee.findOne({ empId });
 
-    if (existingAttendance) {
-      return res.status(400).json({ message: "Attendance already marked for today" });
+    if (!employee) {
+      employee = new Employee({ empId, attendance: [] });
     }
 
-    const newAttendance = new EmployeeAttendance({
-      employeeId,
-      fullName,
-      NIC,
-      Email,
-      date: new Date() // sets to current date
-    });
+    const existingRecord = employee.attendance.find((record) => record.date === date);
+    if (!existingRecord) {
+      employee.attendance.push({ arrivaltime, date, status: 'present' });
+    }
 
-    await newAttendance.save();
-    res.status(200).json({ message: "Attendance marked successfully" });
+    await employee.save();
+    res.status(200).json({ message: 'Attendance marked successfully' });
   } catch (error) {
-    res.status(500).json({ message: "Error in marking attendance", error });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+// Get today's attendance status
+router.get('/status/:empId', async (req, res) => {
+  const { empId } = req.params;
+  const date = moment().format('YYYY-MM-DD');
 
+  try {
+    const employee = await Employee.findOne({ empId });
+    if (!employee) {
+      return res.status(404).json({ status: 'absent' });
+    }
+
+    const record = employee.attendance.find((record) => record.date === date);
+    if (!record) {
+      return res.status(404).json({ status: 'absent' });
+    }
+
+    res.status(200).json({ status: record.status });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Get today's attendance status for all employees
+router.get('/all-today', async (req, res) => {
+  const date = moment().format('YYYY-MM-DD');
+  try {
+    const employees = await Employee.find();
+    const attendanceData = employees.map((employee) => {
+      const record = employee.attendance.find((record) => record.date === date);
+      return {
+        empId: employee.empId,
+        status: record ? record.status : 'absent',
+      };
+    });
+    res.status(200).json(attendanceData);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

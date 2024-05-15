@@ -16,6 +16,8 @@ import AdminDashboard from "./components/adminDashboard"
 import EmployeeProfileAdmin from "./components/EmployeeProfileAdmin";
 import EmployeeAttendance from "./components/EmployeeAttendance";
 import EmployeeAttendanceTable from "./components/EmployeeAttendanceTable";
+import QrScanner from "./components/QrScanner";
+
 import "bootstrap/dist/css/bootstrap.min.css"
 
 
@@ -43,6 +45,7 @@ function App() {
           <Route path="/employee-profile-admin/:id"element={<EmployeeProfileAdmin/>} />
           <Route path="/employee-attendance"element={<EmployeeAttendance/>} />
           <Route path="/employee-attendance-table"element={<EmployeeAttendanceTable/>} />
+          <Route path="/qr-scanner"element={<QrScanner/>} />
           
         </Routes>
       </div>

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import backgroundImage from '../images/b2.png';
+
 
 export default function AddEmployee() {
     const navigate = useNavigate();
@@ -109,6 +111,18 @@ export default function AddEmployee() {
 
     return (
         <div className="container mt-4" style={{ backgroundColor: "#dcfce7", padding: "20px", borderRadius: "10px" }}>
+            <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <fieldset>
                     <legend>Employee Registration</legend>

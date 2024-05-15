@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"; // Import Link component for navigation
+import backgroundImage from '../images/b2.png';
 
 function EmployeeAdminDashboard() {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -33,6 +34,19 @@ function EmployeeAdminDashboard() {
 
   return (
     <div className="container mt-4" style={{ backgroundColor: "#dcfce7" }}>
+      <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
+
       <h2>Employee Admin Dashboard</h2>
       <div className="dashboard-item-container">
         

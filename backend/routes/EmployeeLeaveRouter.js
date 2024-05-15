@@ -1,5 +1,5 @@
 const express = require("express");
-const { addEmployeeLeave, getAllEmployeeLeave, getEmployeeLeave, getLeavesByEmpId, deleteEmployeeLeave, updateEmployeeLeave, getLeaveReportByMonth, getLeaveReportByWeek } = require('../controller/EmployeeLeaveController.js');
+const { addEmployeeLeave, getAllEmployeeLeave, getEmployeeLeave, getLeavesByEmpId, deleteEmployeeLeave, updateEmployeeLeave, getLeaveReportByMonth } = require('../controller/EmployeeLeaveController.js');
 const EmployeeLeave = require('../models/EmployeeLeaveModel.js');
 
 const router = express.Router();
@@ -27,8 +27,6 @@ router.put('/updateEmployeeLeave/:id', updateEmployeeLeave);
 // Route to get report for leaves by month
 router.get('/leaveReport/month/:year/:month', getLeaveReportByMonth);
 
-// Route to get report for leaves by week
-router.get('/leaveReport/week/:year/:week', getLeaveReportByWeek);
 
 // Route to get total pending leave count
 router.get('/getPendingLeaveCount', async (req, res) => {

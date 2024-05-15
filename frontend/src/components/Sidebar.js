@@ -89,6 +89,39 @@ const Sidebar = () => {
                     <span>Employee Summary</span>
                   </a>
                 </li>
+
+                <li className="sidebar-item">
+                  <a
+                    href="/employee-attendance-table"
+                    className="sidebar-link"
+                    style={{
+                      padding: "0.75rem 1.5rem",
+                      color: "#0B8735",
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: "16px",
+                      textDecoration: "none",
+                      border: "2px solid transparent",
+                      transition: "background-color 0.3s ease",
+                      borderRadius: "0.5rem"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.borderColor = "#0B8735";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.borderColor = "#fff";
+                      e.target.style.backgroundColor = "transparent";
+                      e.target.style.color = "#0B8735";
+                    }}
+                  >
+                    <i
+                      className="bi-clipboard-data"
+                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
+                    ></i>
+                    <span>Employee Attendance Summary</span>
+                  </a>
+                </li>
+
                 <li className="sidebar-item">
                   <a
                     href="/employee-leave-table"
@@ -123,7 +156,7 @@ const Sidebar = () => {
 
                 <li className="sidebar-item">
                   <a
-                    href="/employee-attendence"
+                    href="/qr-scanner"
                     className="sidebar-link"
                     style={{
                       padding: "0.75rem 1.5rem",
@@ -149,7 +182,7 @@ const Sidebar = () => {
                       className="bi-person-plus"
                       style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
                     ></i>
-                    <span>Employee Attendance</span>
+                    <span>QR Scanner</span>
                   </a>
                 </li>
 
@@ -185,37 +218,7 @@ const Sidebar = () => {
                   </a>
                 </li>
 
-                <li className="sidebar-item">
-                  <a
-                    href="/dummy"
-                    className="sidebar-link"
-                    style={{
-                      padding: "0.75rem 1.5rem",
-                      color: "#0B8735",
-                      display: "flex",
-                      alignItems: "center",
-                      fontSize: "16px",
-                      textDecoration: "none",
-                      border: "2px solid transparent",
-                      transition: "background-color 0.3s ease",
-                      borderRadius: "0.5rem"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.borderColor = "#0B8735";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.borderColor = "#fff";
-                      e.target.style.backgroundColor = "transparent";
-                      e.target.style.color = "#0B8735";
-                    }}
-                  >
-                    <i
-                      className="bi-clipboard-data"
-                      style={{ fontSize: "1.1rem", marginRight: ".75rem" }}
-                    ></i>
-                    <span>Pl2</span>
-                  </a>
-                </li>
+                
               </>
             )}
           </ul>

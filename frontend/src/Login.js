@@ -55,7 +55,7 @@ function LoginForm() {
                                     {error && <p>{error}</p>}
                                     <p className="small mb-5 pb-lg-2"><a href="#!" className="text-muted">Forgot password?</a></p>
                                     
-                                    <p>Don't have an account?<a href="/add-employee" className="link-info">Register here</a></p>
+                            
                                 </form>
                             </div>
                         </div>

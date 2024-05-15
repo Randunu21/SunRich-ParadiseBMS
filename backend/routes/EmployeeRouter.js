@@ -236,7 +236,7 @@ router.put('/updateEmployeeQRCode/:id', async (req, res) => {
         }
 
         // Generate new QR code data
-        const qrCodeData = `Employee ID: ${employee.empId}\nFull Name: ${employee.firstName} ${employee.lastName}\nNIC: ${employee.NIC}\nEmail: ${employee.email}`;
+        const qrCodeData = `${employee.empId}`;
         const newQRCode = await QRCode.toDataURL(qrCodeData);
 
         // Update the QR code in the database
@@ -261,9 +261,7 @@ router.get('/generate-qr/:id', async (req, res) => {
         
         const qrData = JSON.stringify({
             employeeId: employee.empId,
-            fullName: `${employee.firstName} ${employee.lastName}`,
-            NIC: employee.NIC,
-            Email: employee.email
+            
         });
 
         const qrCodeURL = await QRCode.toDataURL(qrData);
@@ -350,28 +348,6 @@ router.get('/getTotalEmployees', async (req, res) => {
     }
 });
 
-// Route to mark attendance
-// Continued in routes/EmployeeRouter.js
-
-router.post('/mark-attendance', async (req, res) => {
-    const { employeeId } = req.body;
-    const existingAttendance = await EmployeeAttendance.findOne({
-        employeeId,
-        date: new Date().toISOString().split('T')[0]  // ensuring only date part is used
-    });
-
-    if (existingAttendance) {
-        return res.status(400).json({ error: "Attendance already marked for today" });
-    }
-
-    const attendanceRecord = new EmployeeAttendance({
-        employeeId,
-        date: new Date()
-    });
-
-    await attendanceRecord.save();
-    res.json({ message: "Attendance marked successfully" });
-});
 
 
 module.exports = router;

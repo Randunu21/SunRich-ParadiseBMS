@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import Chart from "chart.js/auto";
+import jsPDF from "jspdf";
+import 'jspdf-autotable';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import backgroundImage from '../images/b2.png';
 
 function EmployeeLeaveTable() {
   const [employeeLeaveList, setEmployeeLeaveList] = useState([]);
@@ -9,6 +13,7 @@ function EmployeeLeaveTable() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedWeek, setSelectedWeek] = useState(moment().week());
+  const chartRef = useRef(null);
 
 
   useEffect(() => {
@@ -24,6 +29,7 @@ function EmployeeLeaveTable() {
         console.error('Error fetching employee leave data:', error);
       });
   };
+  
 
   const filterLeavesByCategory = (category) => {
     setSelectedCategory(category);
@@ -45,19 +51,10 @@ function EmployeeLeaveTable() {
     axios.get(`http://localhost:4000/api/employees/leave/leaveReport/month/${selectedYear}/${selectedMonth}`)
         .then((response) => {
             displayReport(response.data);
+            renderChart(response.data);
         })
         .catch((error) => {
             console.error('Error fetching month report:', error);
-        });
-  };
-
-  const generateWeekReport = () => {
-    axios.get(`http://localhost:4000/api/employees/leave/leaveReport/week/${selectedYear}/${selectedWeek}`)
-        .then((response) => {
-            displayReport(response.data);
-        })
-        .catch((error) => {
-            console.error('Error fetching week report:', error);
         });
   };
 
@@ -73,6 +70,33 @@ function EmployeeLeaveTable() {
         icon: 'info',
         confirmButtonText: 'OK'
     });
+  };
+
+  const renderChart = (data) => {
+    const ctx = chartRef.current.getContext("2d");
+    new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Taken Leave", "No Leave"],
+        datasets: [
+          {
+            label: "Leave Data",
+            data: [data.totalLeaves, data.totalEmployees - data.totalLeaves],
+            backgroundColor: ["#36a2eb", "#ffcd56"],
+          },
+        ],
+      },
+    });
+  };
+
+  const generatePDFReport = () => {
+    const doc = new jsPDF();
+    const canvas = chartRef.current;
+    const imgData = canvas.toDataURL("image/png");
+
+    doc.text("Monthly Leave Report", 10, 10);
+    doc.addImage(imgData, "PNG", 10, 20, 180, 150);
+    doc.save("monthly_leave_report.pdf");
   };
 
   const handleAccept = (id) => {
@@ -117,6 +141,20 @@ function EmployeeLeaveTable() {
 
   return (
     <div className="container mt-4" style={{background:'#dcfce7'}}>
+      <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
+         
+
       <h2>Employee Leave List</h2>
       <div className="mb-3">
         <button onClick={() => filterLeavesByCategory("pending")} className={selectedCategory === "pending" ? "btn btn-primary me-2" : "btn btn-outline-primary me-2"}>Pending Leave</button>
@@ -129,10 +167,9 @@ function EmployeeLeaveTable() {
         <label className="me-2">Month:</label>
         <input type="number" value={selectedMonth} onChange={handleMonthChange} className="form-control me-2" />
         <button onClick={generateMonthReport} className="btn btn-primary me-2">Generate Month Report</button>
-        <label className="me-2">Week:</label>
-        <input type="number" value={selectedWeek} onChange={handleWeekChange} className="form-control me-2" />
-        <button onClick={generateWeekReport} className="btn btn-primary">Generate Week Report</button>
+        <button onClick={generatePDFReport} className="btn btn-primary">Download Report as PDF</button>
       </div>
+      <canvas ref={chartRef}></canvas>
       <table className="table">
         <thead>
           <tr>

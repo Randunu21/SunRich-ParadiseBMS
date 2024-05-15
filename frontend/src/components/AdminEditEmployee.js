@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { useParams, useNavigate } from "react-router-dom";
+import backgroundImage from '../images/b2.png';
 
 function AdminEditEmployee() {
   const { id } = useParams();
@@ -100,6 +101,18 @@ function AdminEditEmployee() {
 
  return (
   <div className="container py-5" style={{ backgroundColor: "#dcfce7" }}> 
+    <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
 
       <h2>Edit Employee</h2>
       <form onSubmit={handleSubmit}>

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
 // Middleware to log requests
 app.use((req, res, next) => {

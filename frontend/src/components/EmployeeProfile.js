@@ -2,17 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Swal from 'sweetalert2';
-import QRCode from 'qrcode';
 import { useNavigate } from "react-router-dom";
-
+import backgroundImage from '../images/b2.png';
 
 function EmployeeProfile() {
   const { id } = useParams();
   const [employee, setEmployee] = useState(null);
   const [leaves, setLeaves] = useState([]);
   const [qrCode, setQRCode] = useState('');
-  const [qrCodeData, setQRCodeData] = useState('');
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
 
@@ -25,8 +22,7 @@ function EmployeeProfile() {
         // Fetch employee data
         const empResponse = await axios.get(`http://localhost:4000/api/employees/getEmployee/${id}`);
         setEmployee(empResponse.data);
-        setQRCode(empResponse.data.qrCode);
-
+        
        // Fetch profile photo if it exists
        if (empResponse.data.profilePhoto) {
         const photoResponse = await axios.get(`http://localhost:4000/api/employees/getEmployeePhoto/${empResponse.data.profilePhoto}`, {
@@ -49,6 +45,12 @@ function EmployeeProfile() {
     fetchData();
   }, [id]); // Only re-run the effect if the id changes
 
+  const handleEdit = () => {
+    // Redirect or navigate to the edit page passing the employee id
+    // Example: history.push(`/edit/${id}`);
+  };
+
+
   const handleLeave = (id) => {
     navigate(`/employee-leave/${id}`, { state: { employee: employee } })
   }
@@ -61,6 +63,19 @@ function EmployeeProfile() {
 
   return (
     <section style={{ backgroundColor: "#dcfce7" }}> 
+    <div 
+        style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: -1 }}/>
+
       <div className="container py-5">
         <div className="row">
           <div className="col">

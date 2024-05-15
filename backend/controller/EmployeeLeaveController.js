@@ -145,32 +145,8 @@ const getLeaveReportByMonth = async (req, res) => {
     }
 };
 
-// Function to get leave report for a specific week
-const getLeaveReportByWeek = async (req, res) => {
-    const { year, week } = req.params;
-    try {
-        // Assuming your leaveFrom field is a Date object
-        const startOfWeek = moment().year(year).week(week).startOf('week');
-        const endOfWeek = moment().year(year).week(week).endOf('week');
-        const leaves = await EmployeeLeaveModel.find({
-            leaveFrom: {
-                $gte: startOfWeek,
-                $lte: endOfWeek
-            }
-        });
-        const leaveCount = {
-            totalLeaves: leaves.length,
-            pendingLeaves: leaves.filter(leave => leave.leaveStatus === 'Pending').length,
-            acceptedLeaves: leaves.filter(leave => leave.leaveStatus === 'Accepted').length,
-            rejectedLeaves: leaves.filter(leave => leave.leaveStatus === 'Rejected').length
-        };
-        res.status(200).json(leaveCount);
-    } catch (error) {
-        console.error('Error fetching leave report by week:', error);
-        res.status(500).json({ error: 'Error fetching leave report by week' });
-    }
-};
+
 
 
 // Export all the controller functions as an object
-module.exports = { addEmployeeLeave, getAllEmployeeLeave, getEmployeeLeave, getLeavesByEmpId, deleteEmployeeLeave, updateEmployeeLeave, acceptLeave, getLeaveReportByMonth, getLeaveReportByWeek   };
+module.exports = { addEmployeeLeave, getAllEmployeeLeave, getEmployeeLeave, getLeavesByEmpId, deleteEmployeeLeave, updateEmployeeLeave, acceptLeave, getLeaveReportByMonth };

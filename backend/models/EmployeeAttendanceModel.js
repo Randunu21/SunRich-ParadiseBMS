@@ -1,30 +1,20 @@
 const mongoose = require('mongoose');
 
-const employeeAttendanceSchema = new mongoose.Schema({
-
-   employeeId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Employee',
-    required: true
-  },
-  fullName: {
-    type: String,
-    required: true
-  },
-  NIC: {
-    type: String,
-    required: true
-  },
-  Email: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  }
+const attendanceSchema = new mongoose.Schema({
+  arrivaltime: String,
+  date: String,
+  status: String,
 });
 
-const EmployeeAttendance = mongoose.model('EmployeeAttendance', employeeAttendanceSchema);
+const employeeAttendanceSchema = new mongoose.Schema({
+  empId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  attendance: [attendanceSchema],
+});
+
+const EmployeeAttendance = mongoose.model('employeeattendance', employeeAttendanceSchema);
 
 module.exports = EmployeeAttendance;
