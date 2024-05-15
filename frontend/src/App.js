@@ -22,6 +22,8 @@ import EmployeeProfileAdmin from "./components/EmployeeProfileAdmin";
 import EmployeeAttendance from "./components/EmployeeAttendance";
 import EmployeeAttendanceTable from "./components/EmployeeAttendanceTable";
 import QrScanner from "./components/QrScanner";
+import SupplierForm from './pages/suppliers/suppliers';
+import OrderComponent from './pages/suppliers/orderPage';
 
 function App() {
   return (
@@ -50,7 +52,9 @@ function App() {
           <Route path="/employee-attendance" element={<EmployeeAttendance />} />
           <Route path="/employee-attendance-table" element={<EmployeeAttendanceTable />} />
           <Route path="/qr-scanner" element={<QrScanner />} />
-        </Routes>
+          <Route path='/suppliers/home' element={<SupplierForm/>}></Route>
+          <Route path='/suppliers/order' element={<OrderComponent/>}></Route>
+       </Routes>
       </BrowserRouter>
     </div>
   );

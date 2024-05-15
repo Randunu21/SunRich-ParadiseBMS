@@ -9,8 +9,10 @@ const routesAtemp = require('./routes/EmployeeRouter')
 const routesEmployee = require('./routes/EmployeeRouter')
 const routesEmployeeLeave = require('./routes/EmployeeLeaveRouter')
 const routesEmployeeAttendance = require('./routes/EmployeeAttendanceRouter')
+const supplierRoutes = require('./routes/supplierRoutes')
 
 const cors = require("cors")
+
 const app = express();
 app.use(cors())
 app.use(bodyParser.json());
@@ -28,6 +30,7 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads
 
 //routes
 
+app.use('/api/supplier', supplierRoutes)
 app.use('/api/incomes', incomesRoutes)
 app.use('/api/employees', routesAtemp);
 app.use('/api/employees/leave', routesEmployeeLeave);
