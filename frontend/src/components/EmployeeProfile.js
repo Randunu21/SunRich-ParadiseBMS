@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function EmployeeProfile() {
@@ -78,11 +76,6 @@ function EmployeeProfile() {
           height: '100%',
           zIndex: -1
         }} />
-
-      <div>
-        <Navbar />
-        <Sidebar />
-      </div>
 
 
       <div className="container py-5">
