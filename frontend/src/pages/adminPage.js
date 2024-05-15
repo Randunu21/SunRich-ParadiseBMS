@@ -76,7 +76,7 @@ const AdminDashboard = () => {
           >
             <div className="card-body">
               <h2 style={{ marginTop: '15px' }}>Employee Management</h2>
-              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+              <a href="/employee-admin-dashboard" className="hidden-link" style={hiddenLinkStyle}>
                 Go to Employee Management System
               </a>
             </div>
