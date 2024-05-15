@@ -7,7 +7,6 @@ import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 
-
 export default function AddEmployee() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
