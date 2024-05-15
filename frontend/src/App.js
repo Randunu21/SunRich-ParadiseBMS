@@ -8,7 +8,6 @@ import Report from "./adminLogin/reportGen";
 import HomePage from "./first/fpage";
 import image from './img/logo.png';
 import Home from "./adminLogin/adminMain";
-import Profile from "./profile/profile";
 import RegUserMgmt from "./adminLogin/regUserMgmt"; 
 
 

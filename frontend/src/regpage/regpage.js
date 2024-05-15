@@ -134,7 +134,7 @@ export default function RegPage() {
                         <label htmlFor="email" className="form-label text-white">Email</label>
                         <div className="input-group">
                             <input type="text" className="form-control" id="emailPart" name="emailPart" placeholder="Email" value={formData.emailPart} onChange={handleChange} />
-                            <span className="input-group-text text-white">@gmail.com</span>
+                            <span className="input-group-text text-black">@gmail.com</span>
                         </div>
                     </div>
                     <div className="mb-3">

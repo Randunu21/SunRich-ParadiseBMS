@@ -142,7 +142,23 @@ export default function Profile({ user }) {
                 </Modal>
 
                 <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-                    {/* Delete confirmation modal content */}
+                    <Modal.Header closeButton>
+                        <Modal.Title>Reason for Account Deletion</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form.Group controlId="deleteReason">
+                            <Form.Label>Please provide a reason for deleting your account:</Form.Label>
+                            <Form.Control as="textarea" rows={3} value={deleteReason} onChange={(e) => setDeleteReason(e.target.value)} />
+                        </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                            Close
+                        </Button>
+                        <Button variant="danger" onClick={handleDeleteConfirmation}>
+                            Delete Account
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         </div>
