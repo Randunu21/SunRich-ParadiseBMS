@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function EditEmployee() {

@@ -18,9 +18,6 @@ function EmployeeProfileAdmin() {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
 
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,14 +27,6 @@ function EmployeeProfileAdmin() {
         setQRCode(empResponse.data.qrCode);
 
 
-        // Fetch profile photo if it exists
-        if (empResponse.data.profilePhoto) {
-          const photoResponse = await axios.get(`http://localhost:4000/api/employees/getEmployeePhoto/${empResponse.data.profilePhoto}`, {
-            responseType: 'arraybuffer'
-          });
-          const base64Image = Buffer.from(photoResponse.data, 'binary').toString('base64');
-          setProfilePhoto(`data:image/jpeg;base64,${base64Image}`);
-        }
 
         // Fetch leaves data, using the empId from the fetched employee data
         if (empResponse.data && empResponse.data.empId) {
@@ -86,6 +75,14 @@ function EmployeeProfileAdmin() {
     }
   };
 
+  const downloadQRCode = () => {
+    const link = document.createElement('a');
+    link.href = qrCode;
+    link.download = 'qr_code.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
 
   const handleEdit = () => {
@@ -216,10 +213,10 @@ function EmployeeProfileAdmin() {
               <div className="card-body p-0">
                 <div className="container-fluid">
                   <div className="row">
-                    <div className="col-md-12"> {/* Adjust the column to take full width if needed */}
-                      <div className="card-body text-center"> {/* Added text-center for horizontal centering */}
+                    <div className="col-md-12"> 
+                      <div className="card-body text-center"> 
                         <h5 className="card-title mb-4">QR Code</h5>
-                        <div className="d-flex flex-column align-items-center justify-content-center"> {/* Already correctly set for vertical centering */}
+                        <div className="d-flex flex-column align-items-center justify-content-center"> 
                           {qrCode &&
                             <img
                               src={qrCode}
@@ -229,6 +226,7 @@ function EmployeeProfileAdmin() {
                             />
                           }
                           <div className="mt-2">
+                            <button className="btn btn-primary mt-3" onClick={downloadQRCode}>Download</button>
                             <button className="btn btn-danger" onClick={deleteQRCode}>Delete</button>
                             <button className="btn btn-primary ms-2" onClick={regenerateQRCode}>Regenerate</button>
                           </div>
@@ -240,14 +238,6 @@ function EmployeeProfileAdmin() {
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
 
           <div className="col-lg-8">
             <div className="card mb-4">
