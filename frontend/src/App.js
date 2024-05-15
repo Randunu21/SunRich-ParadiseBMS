@@ -11,6 +11,7 @@ import AdminReport from "./QualityManager/AdminReport";
 import AdminInquiryReport from "./QualityManager/AdminInquiryReport";
 import FeedbackList from "./QualityManager/AdminFeedbackList";
 import ReportGenerationModel from "./QualityManager/ReportGenerationModel";
+import AdminStockDamages from "./QualityManager/AdminStockDamages";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/quality-manager/inquiry-reports" element={<AdminInquiryReport />} />
           <Route path="/quality-manager/feedback-list" element={<FeedbackList />} />
           <Route path="/quality-manager/reportGenerationOptions" element={<ReportGenerationModel />} />
+          <Route path="/quality-manager/stock-damages" element={<AdminStockDamages />} />
         </Routes>
       </div>
     </BrowserRouter>

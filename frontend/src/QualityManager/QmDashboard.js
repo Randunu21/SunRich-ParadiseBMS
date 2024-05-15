@@ -1,26 +1,28 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BsChatDots, BsFillFileEarmarkTextFill, BsGraphUp } from "react-icons/bs";
+import { BsChatDots, BsFillFileEarmarkTextFill, BsGraphUp, BsExclamationTriangleFill } from "react-icons/bs"; // Added BsExclamationTriangleFill
 import "../Components/QmDashboard.css";
 import ReportGenerationModel from "./ReportGenerationModel";
 
 const QmDashboard = () => {
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
   const handleFeedbackReportClick = () => {
-    // Redirect to feedback report page
     navigate("/quality-manager/reports");
   };
 
   const handleInquiryReportClick = () => {
-    // Redirect to inquiry report page
     navigate("/quality-manager/inquiry-reports");
+  };
+
+  const handleStockDamagesClick = () => {
+    navigate("/quality-manager/stock-damages");
   };
 
   return (
@@ -33,10 +35,7 @@ const QmDashboard = () => {
       <nav className="qm-nav row justify-content-center">
         <ul className="nav col-md-8 d-flex flex-wrap justify-content-between custom-nav">
           <li className="nav-item">
-            <Link
-              to="/quality-manager/inquiries"
-              className="nav-link text-white"
-            >
+            <Link to="/quality-manager/inquiries" className="nav-link text-white">
               <div className="dashboard-button">
                 <BsChatDots className="dashboard-icon" />
                 <span className="dashboard-text">Inquiry Management</span>
@@ -44,10 +43,7 @@ const QmDashboard = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link
-              to="/quality-manager/feedback-list"
-              className="nav-link text-white"
-            >
+            <Link to="/quality-manager/feedback-list" className="nav-link text-white">
               <div className="dashboard-button">
                 <BsFillFileEarmarkTextFill className="dashboard-icon" />
                 <span className="dashboard-text">Feedback Management</span>
@@ -59,6 +55,14 @@ const QmDashboard = () => {
               <BsGraphUp className="dashboard-icon" />
               <span className="dashboard-text">Report Generation</span>
             </button>
+          </li>
+          <li className="nav-item">
+            <Link to="/quality-manager/stock-damages" className="nav-link text-white">
+              <div className="dashboard-button" onClick={handleStockDamagesClick}>
+                <BsExclamationTriangleFill className="dashboard-icon" /> 
+                <span className="dashboard-text">Stock Damages</span>
+              </div>
+            </Link>
           </li>
         </ul>
       </nav>
