@@ -112,7 +112,7 @@ export default function AddEmployee() {
     };
 
     return (
-        <div className="container mt-4" style={{ backgroundColor: "#dcfce7", padding: "20px", borderRadius: "10px" }}>
+        <div className="container mt-4" style={{ backgroundColor: "#dcfce7", padding: "60px", borderRadius: "10px"}}>
             <div
                 style={{
                     backgroundImage: `url(${backgroundImage})`,
