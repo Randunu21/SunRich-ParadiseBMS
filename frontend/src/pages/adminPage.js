@@ -1,132 +1,202 @@
 import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import backgroundImage from '../images/b2.png'
 
 const AdminDashboard = () => {
+  const cardStyle = {
+    height: '200px',
+    textAlign: 'center',
+    padding: '20px',
+    borderRadius: '10px',
+    marginBottom: '20px',
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
+  const hiddenLinkStyle = {
+    position: 'absolute',
+    top: 0,
+    right: '-100%',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#333',
+    color: '#fff',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'right 0.5s',
+    textDecoration: 'none',
+    borderRadius: '10px',
+  };
+
+  const handleMouseEnter = (e) => {
+    e.currentTarget.querySelector('.hidden-link').style.right = '0';
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.querySelector('.hidden-link').style.right = '-100%';
+  };
+
   return (
-    <div>
-      <div>
-        {/* Header */}
-        <header className="bg-dark text-white p-3">
-          <Container>
-            <Row>
-              <Col xs={4}>
-                <img src="placeholder_logo.png" alt="Company Logo" />
-              </Col>
-              <Col xs={4} className="text-center">
-                <h3>Sunrich Paradise Admin Dashboard</h3>
-              </Col>
-              <Col xs={4} className="text-right">
-                <i className="bi bi-person"></i>
-              </Col>
-            </Row>
-          </Container>
-        </header>
+    <div className="container">
+      <div style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -1
+      }} />
+
+      <div className="col-md-6" style={{ marginTop:'30px', marginLeft:'0px', marginBottom:'30px', width:'1290px'}} >
+        <div className="card bg-dark text-white">
+          <div className="card-body">
+            <h1 className="card-title text-center mb-4">Admin Dashboard</h1>
+          </div>
+        </div>
       </div>
 
-      <hr />
+      <hr style={{ width: '100%', borderColor: '#000000 ', borderWidth: '5px' }} />
 
-      {/* Page content */}
-      <Container className="mt-3">
-        <div>
-          <Row>
-            <Col md={6}>
-              <Link to="/cuspage" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3">
-                  <Card.Body>
-                    <Card.Title>Customer Management</Card.Title>
-                    <Card.Text>Manage customer information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-            <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Employee Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Employee Management</Card.Title>
-                    <Card.Text>Manage employee information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-          </Row>
+      <div className="row justify-content-center" style={{ marginTop: '55px' }} >
+        {/* Employee Management Card */}
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#3AF462' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Employee Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Employee Management System
+              </a>
+            </div>
+          </div>
         </div>
-        <div>
-          <Row>
-            <Col md={6}>
-              <Link to="/Financial/trans" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Financial Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Financial Management</Card.Title>
-                    <Card.Text>Manage Financial information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-            <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Product Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Product Management</Card.Title>
-                    <Card.Text>Manage Product information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-          </Row>
+
+        {/* Customer Management Card */}
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#28B045' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Customer Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Customer Management System
+              </a>
+            </div>
+          </div>
         </div>
-        <div>
-          <Row>
-            <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Inventory Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Inventory Management</Card.Title>
-                    <Card.Text>Manage Inventory information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-            <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Inquiry Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Inquiry Management</Card.Title>
-                    <Card.Text>Manage Customer inquiry information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-          </Row>
+
+        {/* Financial Management Card */}
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#3AF462' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Financial Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Financial Management System
+              </a>
+            </div>
+          </div>
         </div>
-        <div>
-          <Row>
-            <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Order Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Order Management</Card.Title>
-                    <Card.Text>Customer order information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-            <Col md={6}>
-              <Link to="#" style={{ textDecoration: 'none' }}>
-                <Card className="mb-3" onClick={() => {/* Handle click event for Supplier Management */ }}>
-                  <Card.Body>
-                    <Card.Title>Supplier Management</Card.Title>
-                    <Card.Text>Manage supplier information</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </Col>
-          </Row>
+
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#28B045' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Order Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Order Management System
+              </a>
+            </div>
+          </div>
         </div>
-      </Container>
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#28B045' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Product Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Product Management System
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#3AF462' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Quality Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Quality Management System
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#28B045' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Supplier Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Supplier Management System
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div
+            className="card financial-management shadow-lg"
+            style={{ ...cardStyle, backgroundColor: '#3AF462' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="card-body">
+              <h2 style={{ marginTop: '15px' }}>Inventory Management</h2>
+              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+                Go to Inventory Management System
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
-}
+};
 
 export default AdminDashboard;
