@@ -14,7 +14,9 @@ import CustomerQuotations from "./Components/CustomerQuotations";
 import AdminQuotationReply from "./Components/AdminQuotationReply";
 import AdminQuotationList from "./Components/AdminQuotationList";
 import OrdersNavbar from "./Components/OrdersNavBar";
+import PaypalCheckoutButton from "./Components/PaypalCheckoutButton";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 //products
 
@@ -39,73 +41,85 @@ import AdminReport from "./QualityManager/AdminReport";
 function App() {
   return (
     <div>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          {/*order Routes*/}
-          <Route path="/orders/nav-bar" element={<OrdersNavbar />} />
-          <Route path="/orders/dashboard" element={<OrderHome />} />
-          <Route
-            path="/orders/delivery-details"
-            element={<DeliveryDetails />}
-          />
-          <Route path="/orders/pending-orders" element={<PendingOrder />} />
-          <Route path="/orders/ongoing-orders" element={<OngoingOrders />} />
-          <Route path="/orders/past-orders" element={<PastOrders />} />
-          <Route path="/orders/shopping-cart" element={<ShoppingCart />} />
-          <Route
-            path="/orders/customer-order-history"
-            element={<CustomerOrderHistory />}
-          />
-          <Route
-            path="/orders/customer-order-track"
-            element={<CustomerOrderTracking />}
-          />
-          <Route
-            path="/orders/customer-quotations"
-            element={<CustomerQuotations />}
-          />
-          <Route
-            path="/orders/admin-quotation-reply"
-            element={<AdminQuotationReply />}
-          />
-          <Route
-            path="/orders/admin-quotation-list"
-            element={<AdminQuotationList />}
-          />
-          {/*products*/}
-          <Route path="/products/home" element={<Home />} />
-          <Route
-            path="/products/coconutrelated"
-            element={<HomeCategory category="Coconut Product" />}
-          />
-          <Route path="/products/rating" element={<Ratings />} />
-          <Route
-            path="/products/spices"
-            element={<HomeCategory category="Spices Product" />}
-          />
-          <Route path="/products/dashboard" element={<Dashboard />} />
-          <Route path="product" element={<Product />}>
-            <Route path=":productID" element={<Product />} />
-          </Route>
-          <Route path="/quality/dashboard" element={<QmDashboard />} />
-          <Route
-            path="/quality-manager/inquiries"
-            element={<QualityManagerTable />}
-          />
-          <Route
-            path="/quality-manager/feedbacks"
-            element={<DisplayFeedback />}
-          />{" "}
-          <Route path="/quality/inquiry" element={<AddInquiry />} />
-          <Route path="/quality/inquiry-list" element={<InquiriesTable />} />
-          <Route
-            path="/quality/quality-manager/reports"
-            element={<AdminReport />}
-          />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+      <PayPalScriptProvider
+        options={{
+          "client-id":
+            "AWw2oafpWLEzaeTqAhgw9VZYy8W06api38yC1cY8gQ5RQA-SWmgo5kbo312eUHDd7hsQCGgtrWEpwa3u",
+        }}
+      >
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            {/*order Routes*/}
+            <Route path="/orders/nav-bar" element={<OrdersNavbar />} />
+            <Route path="/orders/dashboard" element={<OrderHome />} />
+            <Route
+              path="/orders/delivery-details"
+              element={<DeliveryDetails />}
+            />
+            <Route path="/orders/pending-orders" element={<PendingOrder />} />
+            <Route path="/orders/ongoing-orders" element={<OngoingOrders />} />
+            <Route path="/orders/past-orders" element={<PastOrders />} />
+            <Route path="/orders/shopping-cart" element={<ShoppingCart />} />
+            <Route
+              path="/orders/customer-order-history"
+              element={<CustomerOrderHistory />}
+            />
+            <Route
+              path="/orders/customer-order-track"
+              element={<CustomerOrderTracking />}
+            />
+            <Route
+              path="/orders/customer-quotations"
+              element={<CustomerQuotations />}
+            />
+            <Route
+              path="/orders/admin-quotation-reply"
+              element={<AdminQuotationReply />}
+            />
+            <Route
+              path="/orders/admin-quotation-list"
+              element={<AdminQuotationList />}
+            />
+            <Route
+              path="/paypal/button"
+              exact
+              component={PaypalCheckoutButton}
+            />
+            {/*products*/}
+            <Route path="/products/home" element={<Home />} />
+            <Route
+              path="/products/coconutrelated"
+              element={<HomeCategory category="Coconut Product" />}
+            />
+            <Route path="/products/rating" element={<Ratings />} />
+            <Route
+              path="/products/spices"
+              element={<HomeCategory category="Spices Product" />}
+            />
+            <Route path="/products/dashboard" element={<Dashboard />} />
+            <Route path="product" element={<Product />}>
+              <Route path=":productID" element={<Product />} />
+            </Route>
+            <Route path="/quality/dashboard" element={<QmDashboard />} />
+            <Route
+              path="/quality-manager/inquiries"
+              element={<QualityManagerTable />}
+            />
+            <Route
+              path="/quality-manager/feedbacks"
+              element={<DisplayFeedback />}
+            />{" "}
+            <Route path="/quality/inquiry" element={<AddInquiry />} />
+            <Route path="/quality/inquiry-list" element={<InquiriesTable />} />
+            <Route
+              path="/quality/quality-manager/reports"
+              element={<AdminReport />}
+            />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </PayPalScriptProvider>
     </div>
   );
 }

@@ -231,6 +231,7 @@ router.patch("/updateCart/status/:id", async (req, res) => {
   try {
     const updatedCart = await Cart.findByIdAndUpdate(cartID, {
       status: req.body.status,
+      type: req.body.type,
     });
 
     if (updatedCart) {

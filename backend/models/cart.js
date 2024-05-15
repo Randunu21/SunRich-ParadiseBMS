@@ -23,6 +23,9 @@ const cart = new Schema({
     type: String,
     default: "current",
   },
+  type: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("cart", cart);

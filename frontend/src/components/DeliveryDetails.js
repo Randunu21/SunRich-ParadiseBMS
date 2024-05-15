@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Routes, useLocation } from "react-router-dom"; //get details from order history
 //import useHistory from "react-router-dom";
-import PaymentModal from "./PaymentModal";
-import { Route, Link } from "react-router-dom";
-
+import PaypalCheckoutButton from "./PaypalCheckoutButton";
 import swal from "sweetalert2";
 
 const DeliveryDetails = () => {
   const location = useLocation();
   //const history = useHistory();
 
-  const userID = 6;
+  const userID = 44;
 
   const { orderDetails = {} } = location.state || { orderDetails: {} };
   const { cart = {} } = location.state || { cart: {} };
@@ -33,6 +31,9 @@ const DeliveryDetails = () => {
   const [country, setCountry] = useState(orderDetails.country || "");
   const [phoneNumber, setPhoneNumber] = useState(orderDetails.phone || "");
   const [totalPrice, setTotalPrice] = useState(1200);
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [payStatus, setPayStatus] = useState("");
+  const [showButton, setShowButton] = useState("");
 
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
@@ -69,71 +70,56 @@ const DeliveryDetails = () => {
       }
     });
   };
-
-  const orderData = {
-    cartID: cartID,
-    firstName: firstName,
-    secondName: secondName,
-    shippingAddress1: shippingAddress1,
-    shippingAddress2: shippingAddress2,
-    city: city,
-    postalCode: postalCode,
-    email: email,
-    country: country,
-    phoneNumber: phoneNumber,
-    userID: userID,
-    totalPrice: totalPrice,
+  const newOrder = {
+    cartID,
+    firstName,
+    secondName,
+    shippingAddress1,
+    shippingAddress2,
+    city,
+    postalCode,
+    email,
+    country,
+    phoneNumber,
+    userID,
   };
 
-  const saveToLocalStroage = (e) => {
-    e.preventDefault();
-    localStorage.setItem("orderDetails", JSON.stringify(orderData));
-  };
+  function proceedToCheckout() {
+    //create object to send as props to PayPalCheckoutButton component
 
-  const checkOut = (e) => {
-    e.preventDefault();
-
-    const newOrder = {
-      cartID,
-      firstName,
-      secondName,
-      shippingAddress1,
-      shippingAddress2,
-      city,
-      postalCode,
-      email,
-      country,
-      phoneNumber,
-      userID,
-    };
-
-    swal
-      .fire({
-        title: "Are you sure?",
-        text: "Do you want to proceed with the checkout?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, proceed!",
+    axios
+      .post("http://localhost:4000/api/orders/addOrder", newOrder)
+      .then((res) => {
+        console.log(res);
+        axios.patch(
+          `http://localhost:4000/api/cart/updateCart/status/${newOrder.cartID}`,
+          { status: "Completed", type: "quotationCart" }
+        );
+        swal.fire("Order Successful", "", "success");
+        window.location.replace("http://localhost:3000/products/home");
       })
-      .then((result) => {
-        if (result.isConfirmed) {
-          axios
-            .post("http://localhost:4000/api/orders/addOrder", newOrder)
-            .then(() => {
-              axios.patch(
-                `http://localhost:4000/api/cart/updateCart/status/${cartID}`,
-                { status: "Completed" }
-              );
-              swal.fire("Order Successful", "", "success");
-            })
-            .catch((err) => {
-              swal.fire("Error", "Failed to place the order", "error");
-            });
-        }
+      .catch((err) => {
+        swal.fire("Error", "Failed to place the order", "error");
       });
-  };
+  }
+
+  function enableCard(res) {
+    if (res === "Online Payment") {
+      console.log("card");
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  }
+
+  //method to set status
+  function setStatusValue(paymentMethod) {
+    if (paymentMethod === "Online Payment") {
+      setPayStatus("Paid. Not Delivered.");
+    } else {
+      setPayStatus("Not Paid. Not Delivered.");
+    }
+  }
 
   const addQuotes = (e) => {
     e.preventDefault();
@@ -323,14 +309,24 @@ const DeliveryDetails = () => {
               </div>
 
               <div className="col-12 d-flex justify-content-between">
-                <button
-                  type="submit"
-                  className="btn btn-success"
-                  onClick={(e) => saveToLocalStroage(e)}
+                <b>Payment method</b> <br />
+                <select
+                  name="paymentMethod"
+                  id="paymentMethod"
+                  A
+                  onChange={(e) => {
+                    setPaymentMethod(e.target.value);
+                    enableCard(e.target.value);
+                    setStatusValue(e.target.value);
+                  }}
                 >
-                  save
-                </button>
-                <PaymentModal orderData={orderData} />
+                  <option value="Cash on Delivery" id="cash" selected>
+                    Cash on Delivery
+                  </option>
+                  <option value="Online Payment" id="card">
+                    Online Payment
+                  </option>
+                </select>
                 <div style={{ width: "5px" }}></div>{" "}
                 <button
                   type="submit"
@@ -347,6 +343,43 @@ const DeliveryDetails = () => {
           </div>
         </div>
       </div>
+      {showButton ? (
+        <PaypalCheckoutButton
+          obj={{
+            newOrder: {
+              cartID,
+              firstName,
+              secondName,
+              shippingAddress1,
+              shippingAddress2,
+              city,
+              postalCode,
+              email,
+              country,
+              phoneNumber,
+              userID,
+            },
+            totalPrice,
+            email,
+          }}
+        />
+      ) : (
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12 d-flex justify-content-center">
+              <button
+                className="btn btn-success"
+                onClick={() => proceedToCheckout()}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <br />
+      <br />
+      <br />
     </div>
   );
 };

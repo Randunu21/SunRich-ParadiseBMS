@@ -19,7 +19,7 @@ function ShoppingCart() {
   useEffect(() => {
     const loadCart = async () => {
       await axios
-        .get("http://localhost:4000/api/cart/userCart/69")
+        .get("http://localhost:4000/api/cart/userCart/44")
         .then((res) => {
           console.log(res.data);
           setShoppingCart(res.data);

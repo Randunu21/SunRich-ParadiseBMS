@@ -12,7 +12,7 @@ const ProductDisplay = ({ product }) => {
   const [currentCart, setCurrentCart] = useState("");
   const [ratingValue, setRatingValue] = useState("");
   const [show, setShow] = useState(false);
-  const userID = 69;
+  const userID = 44;
 
   useEffect(() => {
     axios

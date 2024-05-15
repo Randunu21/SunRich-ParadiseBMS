@@ -249,4 +249,18 @@ router.post("/send-email", async (req, res) => {
   }
 });
 
+// Route to get total number of orders in a month
+router.get("/total-orders", async (req, res) => {
+  try {
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1); // One month ago
+    const totalOrders = await Order.countDocuments({
+      dateOfOrder: { $gte: startDate },
+    });
+    res.json({ totalOrders });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
