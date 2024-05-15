@@ -30,7 +30,7 @@ function LoginForm() {
 
 
     return (
-        <div style={{ backgroundColor: '#dcfce7' }}> 
+        <div style={{ backgroundColor: '#dcfce7' }}>
             <section className="vh-100">
                 <div className="container-fluid">
                     <div className="row">
@@ -54,19 +54,18 @@ function LoginForm() {
                                     </div>
                                     {error && <p>{error}</p>}
                                     <p className="small mb-5 pb-lg-2"><a href="#!" className="text-muted">Forgot password?</a></p>
-                                    
-                            
+
+
                                 </form>
                             </div>
                         </div>
 
                         <div class="col-md-9 col-lg-6 col-xl-5">
 
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-  className="img-fluid" alt="Sample image" />
+                            <img src="https://i.postimg.cc/B6hgkTFj/sunrich-logo.png"
+                                className="img-fluid" alt="Sample image" />
 
-
-      </div>
+                        </div>
 
 
 

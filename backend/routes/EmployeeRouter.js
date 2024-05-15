@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
                 let redirectTo = '';
                 switch (employee.role) {
                     case 'Admin':
-                        redirectTo = '/employee-admin-dashboard';
+                        redirectTo = '/Financial/adminpage';
                         break;
                     case 'Product Manager':
                         redirectTo = '/pmanagerpage';
