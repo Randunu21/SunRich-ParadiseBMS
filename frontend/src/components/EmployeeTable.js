@@ -155,7 +155,7 @@ function EmployeeTable() {
               <td>{employee.email}</td>
               <td>{employee.role}</td>
               <td>
-                <Link to={`/employee-edit/${employee._id}`} className="btn btn-primary">Edit</Link>
+                <Link to={`/admin-employee-edit/${employee._id}`} className="btn btn-primary">Edit</Link>
                 <Link to={`/employee-profile-admin/${employee._id}`} className="btn btn-info ms-2">View</Link>
                 <button className="btn btn-danger ms-2" onClick={() => handleDelete(employee._id)}>Delete</button>
               </td>
