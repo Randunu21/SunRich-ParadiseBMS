@@ -8,7 +8,6 @@ import EmployeeTable from "./components/EmployeeTable";
 import AdminEditEmployee from "./components/AdminEditEmployee";
 import EditEmployee from "./components/EditEmployee";
 import EmployeeAdminDashboard from "./components/EmployeeAdminDashboard";
-import EmployeeLeaveForm from "./components/AddEmployeeLeave";
 import AddEmployeeLeave from "./components/AddEmployeeLeave";
 import EmployeeLeaveTable from "./components/EmployeeLeaveTable";
 import LoginForm from "./Login";
