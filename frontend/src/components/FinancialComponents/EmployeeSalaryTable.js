@@ -24,7 +24,7 @@ const EmployeeSalaryTable = () => {
 
   const fetchEmployeeSalaries = async () => {
     try {
-      const employeeResponse = await axios.get('http://localhost:4000/api/users/getEmployees');
+      const employeeResponse = await axios.get('http://localhost:4000/api/employees/getEmployees');
       const payrollsResponse = await axios.get('http://localhost:4000/api/incomes/allpayrolls');
 
       const employee = employeeResponse.data;
