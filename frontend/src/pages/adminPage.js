@@ -172,7 +172,7 @@ const AdminDashboard = () => {
           >
             <div className="card-body">
               <h2 style={{ marginTop: '15px' }}>Supplier Management</h2>
-              <a href="/financial-management" className="hidden-link" style={hiddenLinkStyle}>
+              <a href="/suppliers/home" className="hidden-link" style={hiddenLinkStyle}>
                 Go to Supplier Management System
               </a>
             </div>
