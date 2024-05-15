@@ -101,6 +101,9 @@ function EmployeeProfile() {
                 </div><hr />
                   <h5 className="card-title mb-4">Apply Leave</h5>
                   <button onClick={() => handleLeave(id)} className="btn btn-primary">Apply Leave</button>
+                  <hr/>
+                  <h5 className="card-title mb-4">Salary Details and Salary Advance</h5>
+                  <Link to={`/Financial/pp`} className="btn btn-primary">Portal</Link>
               </div>
             </div>
 

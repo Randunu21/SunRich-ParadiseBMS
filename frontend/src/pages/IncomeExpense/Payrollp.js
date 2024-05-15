@@ -40,8 +40,6 @@ const SalaryDetails = () => {
                 zIndex: -1
             }} />
 
-            <Navbar />
-
             <div style={{ width: '1410px', marginLeft: '80px', marginTop:'80px' , border: '1px solid #ccc', borderRadius: '5px' }}>
                 <ul className="nav nav-tabs" style={{ backgroundColor: '#60c294', borderBottom: '1px solid #ccc', borderRadius: '5px 5px 0 0' }}>
                     

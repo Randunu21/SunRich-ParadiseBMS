@@ -89,6 +89,8 @@ function DashboardPage() {
                     </div>
                 </div>
 
+                <hr style={{ width: '100%', borderColor: '#000000 ', borderWidth: '3px',marginLeft: '34px' }} />
+
                 <div className="d-flex" style={{ marginTop: '50px', marginLeft: '120px', marginBottom:'40px' }}>
                     <div className="shadow p border rounded p-3 mr-3 d-flex align-items-center" style={{ marginRight: '80px', background: '#51E552', color: 'white', width: '320px' }}>
                         <div className="d-flex p-2 mr-2" style={{ marginRight: '10px' }}>
@@ -131,6 +133,7 @@ function DashboardPage() {
                     </div>
                 </div>
 
+                
 
             </div>
 
