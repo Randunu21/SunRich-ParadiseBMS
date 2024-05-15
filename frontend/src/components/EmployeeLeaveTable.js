@@ -17,7 +17,6 @@ function EmployeeLeaveTable() {
   const [selectedWeek, setSelectedWeek] = useState(moment().week());
   const chartRef = useRef(null);
 
-
   useEffect(() => {
     fetchEmployeeLeaveData();
   }, []);
@@ -31,7 +30,6 @@ function EmployeeLeaveTable() {
         console.error('Error fetching employee leave data:', error);
       });
   };
-
 
   const filterLeavesByCategory = (category) => {
     setSelectedCategory(category);
@@ -75,21 +73,46 @@ function EmployeeLeaveTable() {
   };
 
   const renderChart = (data) => {
+    const totalLeaves = data.totalLeaves;
+    const pendingLeaves = data.pendingLeaves;
+    const acceptedLeaves = data.acceptedLeaves;
+    const rejectedLeaves = data.rejectedLeaves;
+    const totalEmployees = data.totalEmployees;
+
     const ctx = chartRef.current.getContext("2d");
     new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: ["Taken Leave", "No Leave"],
-        datasets: [
-          {
-            label: "Leave Data",
-            data: [data.totalLeaves, data.totalEmployees - data.totalLeaves],
-            backgroundColor: ["#36a2eb", "#ffcd56"],
-          },
-        ],
-      },
+        type: "pie",
+        data: {
+            labels: ["Pending", "Accepted", "Rejected", "Total"],
+            datasets: [{
+                data: [pendingLeaves, acceptedLeaves, rejectedLeaves, totalLeaves],
+                backgroundColor: [
+                    'yellow', // Pending Leaves
+                    'green', // Accepted Leaves
+                    'red', // Rejected Leaves
+                    'blue' // Total Leaves
+                ],
+            }],
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Monthly Leave Report',
+                    font: {
+                        size: 20
+                    }
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                }
+            },
+            aspectRatio: 1, 
+        }
     });
-  };
+};
+
 
   const generatePDFReport = () => {
     const doc = new jsPDF();
@@ -162,7 +185,6 @@ function EmployeeLeaveTable() {
         <Sidebar />
       </div>
 
-
       <h2>Employee Leave List</h2>
       <div className="mb-3">
         <button onClick={() => filterLeavesByCategory("pending")} className={selectedCategory === "pending" ? "btn btn-primary me-2" : "btn btn-outline-primary me-2"}>Pending Leave</button>
@@ -177,7 +199,7 @@ function EmployeeLeaveTable() {
         <button onClick={generateMonthReport} className="btn btn-primary me-2">Generate Month Report</button>
         <button onClick={generatePDFReport} className="btn btn-primary">Download Report as PDF</button>
       </div>
-      <canvas ref={chartRef}></canvas>
+      <canvas ref={chartRef} style={{ width: '300px', height: '300px' }}></canvas> 
       <table className="table">
         <thead>
           <tr>

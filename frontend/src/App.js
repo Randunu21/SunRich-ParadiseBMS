@@ -16,6 +16,7 @@ import EditEmployee from "./components/EditEmployee";
 import EmployeeAdminDashboard from "./components/EmployeeAdminDashboard";
 import AddEmployeeLeave from "./components/AddEmployeeLeave";
 import EmployeeLeaveTable from "./components/EmployeeLeaveTable";
+import LeaveReportPage from './components/LeaveReportPage';
 import LoginForm from "./Login";
 import AdminDashboard from "./components/adminDashboard"
 import EmployeeProfileAdmin from "./components/EmployeeProfileAdmin";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/employee-admin-dashboard" element={<EmployeeAdminDashboard />} />
           <Route path="/employee-leave/:id" element={<AddEmployeeLeave />} />
           <Route path="/employee-leave-table" element={<EmployeeLeaveTable />} />
+          <Route path="/leave-report" element={<LeaveReportPage/>} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/adminpage" element={<AdminDashboard />} />
           <Route path="/employee-profile-admin/:id" element={<EmployeeProfileAdmin />} />
