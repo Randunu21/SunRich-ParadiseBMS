@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import NavBar from '../../Components/supplier components/Navbar';
-import Sidebar from '../../Components/supplier components/Sidebar';
-import OrderDetailsModal from '../../Components/supplier components/OrderDetailsModal';
+import NavBar from '../../components/supplier components/Navbar';
+import Sidebar from '../../components/supplier components/Sidebar';
+import OrderDetailsModal from '../../components/supplier components/OrderDetailsModal';
 
 const OrderComponent = () => {
     const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);

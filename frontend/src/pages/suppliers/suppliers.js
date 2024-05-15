@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import AddSupplierModal from '../../Components/supplier components/addSupplierModal';
-import Navbar from '../../Components/supplier components/Navbar';
-import Sidebar from '../../Components/supplier components/Sidebar';
-import UpdateSupplierModal from '../../Components/supplier components/UpdateSupplierModal';
+import AddSupplierModal from '../../components/supplier components/addSupplierModal';
+import Navbar from '../../components/supplier components/Navbar';
+import Sidebar from '../../components/supplier components/Sidebar';
+import UpdateSupplierModal from '../../components/supplier components/UpdateSupplierModal';
 
 const SupplierList = () => {
     const [suppliers, setSuppliers] = useState([]);
