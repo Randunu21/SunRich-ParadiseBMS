@@ -60,8 +60,8 @@ function LoginForm() {
                             </div>
                         </div>
 
-                        <div className="col-md-9 col-lg-6 col-xl-5 d-flex flex-column justify-content-center align-items-center"> {/* Center content vertically and horizontally */}
-                        <img src="https://i.postimg.cc/V6S4C75z/hero-image.png" className="img-fluid" alt="Sample image" style={{ maxHeight: '80vh', maxWidth: '100%', width: 'auto', height: 'auto' }} /> {/* Ensure image doesn't exceed container's height */}
+                        <div className="col-md-6 col-lg-6 col-xl-6 d-flex justify-content-end ">
+                        <img src="https://i.postimg.cc/V6S4C75z/hero-image.png" className="img-fluid" alt="Sample image" style={{ maxWidth: '100%', maxHeight: '90vh' }} />
                     </div>
 
 
