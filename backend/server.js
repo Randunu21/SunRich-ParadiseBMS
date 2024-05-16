@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const userRoutes = require('./server/routes/userRoutes');
 const incomesRoutes = require('./routes/incomes')
 const routesAtemp = require('./routes/EmployeeRouter')
 const routesEmployee = require('./routes/EmployeeRouter')
@@ -29,7 +30,7 @@ app.use((req, res, next) => {
 app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
 
 //routes
-
+app.use('/api/users', userRoutes);
 app.use('/api/supplier', supplierRoutes)
 app.use('/api/incomes', incomesRoutes)
 app.use('/api/employees', routesAtemp);

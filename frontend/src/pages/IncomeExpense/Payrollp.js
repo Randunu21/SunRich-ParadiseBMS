@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import backgroundImage from '../../images/b2.png'
-import Navbar from '../../components/FinancialComponents/Navbar';
+import Navbar from '../../Components/FinancialComponents/Navbar';
 
 const SalaryDetails = () => {
     const [empId, setEmpId] = useState('');

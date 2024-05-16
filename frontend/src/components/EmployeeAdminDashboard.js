@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"; // Import Link component for navigation
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
+import Navbar from '../Components/Navbar';
+import Sidebar from '../Components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function EmployeeAdminDashboard() {

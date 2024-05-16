@@ -1,6 +1,6 @@
 import React from 'react'
-import EmployeeAdvanceForm from '../../components/FinancialComponents/EmployeeAdvanceForm'
-import Navbar from '../../components/FinancialComponents/Navbar';
+import EmployeeAdvanceForm from '../../Components/FinancialComponents/EmployeeAdvanceForm'
+import Navbar from '../../Components/FinancialComponents/Navbar';
 import backgroundImage from '../../images/b2.png'
 
 function testp() {

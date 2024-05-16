@@ -1,7 +1,7 @@
 import React from 'react'
-import EmployeeSalaryTable from '../../components/FinancialComponents/EmployeeSalaryTable'
-import Navbar from '../../components/FinancialComponents/Navbar';
-import Sidebar from '../../components/FinancialComponents/Sidebar';
+import EmployeeSalaryTable from '../../Components/FinancialComponents/EmployeeSalaryTable'
+import Navbar from '../../Components/FinancialComponents/Navbar';
+import Sidebar from '../../Components/FinancialComponents/Sidebar';
 import backgroundImage from '../../images/b2.png'
 
 function EmpSalPage() {

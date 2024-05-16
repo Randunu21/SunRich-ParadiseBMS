@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Trans from './pages/IncomeExpense/Trans';
 import FinancialDashboard from './pages/IncomeExpense/Dashboard';
@@ -8,23 +9,31 @@ import AdminPage from './pages/adminPage';
 import Testp from './pages/IncomeExpense/EmployeeAdvanceReqPage';
 import EmpSalPage from './pages/IncomeExpense/EmpSalPage';
 import SalaryDetails from './pages/IncomeExpense/Payrollp';
-import AddEmployee from "./components/AddEmployee";
-import EmployeeProfile from "./components/EmployeeProfile";
-import EmployeeTable from "./components/EmployeeTable";
-import AdminEditEmployee from "./components/AdminEditEmployee";
-import EditEmployee from "./components/EditEmployee";
-import EmployeeAdminDashboard from "./components/EmployeeAdminDashboard";
-import AddEmployeeLeave from "./components/AddEmployeeLeave";
-import EmployeeLeaveTable from "./components/EmployeeLeaveTable";
-import LeaveReportPage from './components/LeaveReportPage';
+import AddEmployee from "./Components/AddEmployee";
+import EmployeeProfile from "./Components/EmployeeProfile";
+import EmployeeTable from "./Components/EmployeeTable";
+import AdminEditEmployee from "./Components/AdminEditEmployee";
+import EditEmployee from "./Components/EditEmployee";
+import EmployeeAdminDashboard from "./Components/EmployeeAdminDashboard";
+import AddEmployeeLeave from "./Components/AddEmployeeLeave";
+import EmployeeLeaveTable from "./Components/EmployeeLeaveTable";
+import LeaveReportPage from './Components/LeaveReportPage';
 import LoginForm from "./Login";
-import AdminDashboard from "./components/adminDashboard"
-import EmployeeProfileAdmin from "./components/EmployeeProfileAdmin";
-import EmployeeAttendance from "./components/EmployeeAttendance";
-import EmployeeAttendanceTable from "./components/EmployeeAttendanceTable";
-import QrScanner from "./components/QrScanner";
+import AdminDashboard from "./Components/adminDashboard"
+import EmployeeProfileAdmin from "./Components/EmployeeProfileAdmin";
+import EmployeeAttendance from "./Components/EmployeeAttendance";
+import EmployeeAttendanceTable from "./Components/EmployeeAttendanceTable";
+import QrScanner from "./Components/QrScanner";
 import SupplierForm from './pages/suppliers/suppliers';
 import OrderComponent from './pages/suppliers/orderPage';
+import Regpage from "./regpage/regpage";
+import Login from "./loginpage/loginpage";
+import Adminlogin from "./adminLogin/adminlogin";
+import Report from "./adminLogin/reportGen";
+import HomePage from "./first/fpage";
+import image from './img/logo.png';
+import Home from "./adminLogin/adminMain";
+import RegUserMgmt from "./adminLogin/regUserMgmt"; 
 
 function App() {
   return (
@@ -56,9 +65,16 @@ function App() {
           <Route path="/qr-scanner" element={<QrScanner />} />
           <Route path='/suppliers/home' element={<SupplierForm/>}></Route>
           <Route path='/suppliers/order' element={<OrderComponent/>}></Route>
+          <Route path="/reg" element={<Regpage />} />
+          <Route path="/log" element={<Login />} />
+          <Route path="/admin" element={<Adminlogin />} />
+          <Route path="/report" element={<Report />} />
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/adminD" element={<Home/>} />
+          <Route path="/registered" element={<RegUserMgmt/>} />
        </Routes>
       </BrowserRouter>
-    </div>
+      </div>
   );
 }
 

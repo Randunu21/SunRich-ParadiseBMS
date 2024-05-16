@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../../components/FinancialComponents/Navbar';
-import ChartPage from '../../components/FinancialComponents/ChartPage';
-import Sidebar from '../../components/FinancialComponents/Sidebar';
-import RecentTransactions from '../../components/FinancialComponents/RecentTransactions';
-import LineBarSum from '../../components/FinancialComponents/LineBarSum';
+import Navbar from '../../Components/FinancialComponents/Navbar';
+import ChartPage from '../../Components/FinancialComponents/ChartPage';
+import Sidebar from '../../Components/FinancialComponents/Sidebar';
+import RecentTransactions from '../../Components/FinancialComponents/RecentTransactions';
+import LineBarSum from '../../Components/FinancialComponents/LineBarSum';
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import backgroundImage from '../../images/b2.png'

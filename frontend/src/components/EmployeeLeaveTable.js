@@ -5,8 +5,8 @@ import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import Swal from 'sweetalert2';
 import moment from 'moment';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
+import Navbar from '../Components/Navbar';
+import Sidebar from '../Components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function EmployeeLeaveTable() {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/FinancialComponents/Navbar';
-import Sidebar from '../../components/FinancialComponents/Sidebar'
+import Navbar from '../../Components/FinancialComponents/Navbar';
+import Sidebar from '../../Components/FinancialComponents/Sidebar'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import UpdateIncomeModal from '../../components/FinancialComponents/UpdateIncomeModal';
-import AddTransactionModal from '../../components/FinancialComponents/AddTransactionModal';
-import DropdownMethod from '../../components/FinancialComponents/DropdownMethod';
+import UpdateIncomeModal from '../../Components/FinancialComponents/UpdateIncomeModal';
+import AddTransactionModal from '../../Components/FinancialComponents/AddTransactionModal';
+import DropdownMethod from '../../Components/FinancialComponents/DropdownMethod';
 import backgroundImage from '../../images/b2.png'
 
 function Trans() {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/FinancialComponents/Navbar';
-import SideNavbarFin from '../../components/FinancialComponents/SideNavbarFin';
-import DisplayGenPay from '../../components/FinancialComponents/DisplayGenPay'
-import EmployeeSalaryTable from '../../components/FinancialComponents/EmployeeSalaryTable';
-import Sidebar from '../../components/FinancialComponents/Sidebar';
+import Navbar from '../../Components/FinancialComponents/Navbar';
+import SideNavbarFin from '../../Components/FinancialComponents/SideNavbarFin';
+import DisplayGenPay from '../../Components/FinancialComponents/DisplayGenPay'
+import EmployeeSalaryTable from '../../Components/FinancialComponents/EmployeeSalaryTable';
+import Sidebar from '../../Components/FinancialComponents/Sidebar';
 import backgroundImage from '../../images/b2.png'
 
 function Emppayroll() {

@@ -1,7 +1,7 @@
 import React from 'react'
-import AdminSalaryAdvanceRequests from '../../components/FinancialComponents/AdvanceAdmin'
-import Navbar from '../../components/FinancialComponents/Navbar';
-import Sidebar from '../../components/FinancialComponents/Sidebar';
+import AdminSalaryAdvanceRequests from '../../Components/FinancialComponents/AdvanceAdmin'
+import Navbar from '../../Components/FinancialComponents/Navbar';
+import Sidebar from '../../Components/FinancialComponents/Sidebar';
 import backgroundImage from '../../images/b2.png'
 
 function EmpAdvancePage() {

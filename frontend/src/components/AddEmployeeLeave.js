@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
+import Navbar from '../Components/Navbar';
+import Sidebar from '../Components/Sidebar';
 import backgroundImage from '../images/b2.png';
 
 function AddEmployeeLeave() {
