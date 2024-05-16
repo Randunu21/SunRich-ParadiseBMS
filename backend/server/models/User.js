@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    userID: {
+        type: Number,
+        required: true
+
+    },
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
-    age: { 
-        type: Number, 
+    age: {
+        type: Number,
         required: true,
         validate: {
-            validator: function(value) {
+            validator: function (value) {
                 // Check if value is a positive integer
                 return Number.isInteger(value) && value >= 0;
             },
@@ -22,11 +27,11 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-      },
-      updatedAt: {
+    },
+    updatedAt: {
         type: Date,
-        default: Date.now,
-      }
+        default: Date.now,
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);
