@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Customer = require("../models/User");
+const Customer = require("../server/models/User");
 const Employee = require("../models/EmployeeModel");
 
 // Function to generate JWT token

@@ -18,7 +18,7 @@ import EmployeeAdminDashboard from "./Components/EmployeeAdminDashboard";
 import AddEmployeeLeave from "./Components/AddEmployeeLeave";
 import EmployeeLeaveTable from "./Components/EmployeeLeaveTable";
 import LeaveReportPage from './Components/LeaveReportPage';
-import LoginForm from "./Login";
+import EmpLoginForm from "./Login";
 import AdminDashboard from "./Components/adminDashboard"
 import EmployeeProfileAdmin from "./Components/EmployeeProfileAdmin";
 import EmployeeAttendance from "./Components/EmployeeAttendance";
@@ -32,7 +32,6 @@ import Adminlogin from "./adminLogin/adminlogin";
 import Report from "./adminLogin/reportGen";
 import HomePage from "./first/fpage";
 import image from './img/logo.png';
-import Home from "./adminLogin/adminMain";
 import RegUserMgmt from "./adminLogin/regUserMgmt"; 
 
 //orders
@@ -56,9 +55,9 @@ import SalesReport from "./Components/SalesReport";
 
 //products
 
-import Home from "./Pages/Home";
-import HomeCategory from "./Pages/HomeCategory";
-import Product from "./Pages/Product";
+import Home from "./pages/Home";
+import HomeCategory from "./pages/HomeCategory";
+import Product from "./pages/Product";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import Ratings from "./Components/ratings";
@@ -106,7 +105,7 @@ function App() {
           <Route path="/employee-leave/:id" element={<AddEmployeeLeave />} />
           <Route path="/employee-leave-table" element={<EmployeeLeaveTable />} />
           <Route path="/leave-report" element={<LeaveReportPage/>} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/login" element={<EmpLoginForm />} />
           <Route path="/adminpage" element={<AdminDashboard />} />
           <Route path="/employee-profile-admin/:id" element={<EmployeeProfileAdmin />} />
           <Route path="/employee-attendance" element={<EmployeeAttendance />} />
