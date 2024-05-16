@@ -31,8 +31,9 @@ import Login from "./loginpage/loginpage";
 import Adminlogin from "./adminLogin/adminlogin";
 import Report from "./adminLogin/reportGen";
 import HomePage from "./first/fpage";
+import CusAdmin from "./adminLogin/adminMain"
 import image from './img/logo.png';
-import RegUserMgmt from "./adminLogin/regUserMgmt"; 
+import RegUserMgmt from "./adminLogin/regUserMgmt";
 
 //orders
 import DeliveryDetails from "./Components/DeliveryDetails";
@@ -76,6 +77,48 @@ import AdminReport from "./QualityManager/AdminReport";
 //login
 import LoginForm from "./Components/Login";
 
+function shouldShowNavbar() {
+  const noNavbarRoutes = [
+    '/Financial/trans',
+    '/Financial/dash',
+    '/Financial/payroll',
+    '/Financial/place',
+    '/Financial/empsal',
+    '/Financial/adminpage',
+    '/Financial/pp',
+    '/Financial/tp',
+    '/add-employee',
+    '/employee-profile/:id',
+    '/employee-table',
+    '/employee-edit/:id',
+    '/admin-employee-edit/:id',
+    '/employee-admin-dashboard',
+    '/employee-leave/:id',
+    '/employee-leave-table',
+    '/leave-report',
+    '/login',
+    '/adminpage',
+    '/employee-profile-admin/:id',
+    '/employee-attendance',
+    '/employee-attendance-table',
+    '/qr-scanner',
+    '/suppliers/home',
+    '/suppliers/order',
+    '/reg',
+    '/log',
+    '/admin',
+    '/report',
+    '/',
+    '/adminD',
+    '/registered'
+
+
+  ];
+
+  return !noNavbarRoutes.includes(window.location.pathname);
+}
+
+
 function App() {
   return (
     <div>
@@ -86,42 +129,42 @@ function App() {
         }}
       >
         <BrowserRouter>
-          <Navbar />
+          {shouldShowNavbar() && <Navbar />}
           <Routes>
-          <Route path='/Financial/trans' element={<Trans />}></Route>
-          <Route path='/Financial/dash' element={<FinancialDashboard />}></Route>
-          <Route path='/Financial/payroll' element={<Emppayroll />}></Route>
-          <Route path='/Financial/place' element={<Placeholder />}></Route>
-          <Route path='/Financial/empsal' element={<EmpSalPage />}></Route>
-          <Route path='/Financial/adminpage' element={<AdminPage />}></Route>
-          <Route path='/Financial/pp' element={<SalaryDetails />}></Route>
-          <Route path='/Financial/tp' element={<Testp />}></Route>
-          <Route path="/add-employee" element={<AddEmployee />} />
-          <Route path="/employee-profile/:id" element={<EmployeeProfile />} />
-          <Route path="/employee-table" element={<EmployeeTable />} />
-          <Route path="/employee-edit/:id" element={<EditEmployee />} />
-          <Route path="/admin-employee-edit/:id" element={<AdminEditEmployee />} />
-          <Route path="/employee-admin-dashboard" element={<EmployeeAdminDashboard />} />
-          <Route path="/employee-leave/:id" element={<AddEmployeeLeave />} />
-          <Route path="/employee-leave-table" element={<EmployeeLeaveTable />} />
-          <Route path="/leave-report" element={<LeaveReportPage/>} />
-          <Route path="/login" element={<EmpLoginForm />} />
-          <Route path="/adminpage" element={<AdminDashboard />} />
-          <Route path="/employee-profile-admin/:id" element={<EmployeeProfileAdmin />} />
-          <Route path="/employee-attendance" element={<EmployeeAttendance />} />
-          <Route path="/employee-attendance-table" element={<EmployeeAttendanceTable />} />
-          <Route path="/qr-scanner" element={<QrScanner />} />
-          <Route path='/suppliers/home' element={<SupplierForm/>}></Route>
-          <Route path='/suppliers/order' element={<OrderComponent/>}></Route>
-          <Route path="/reg" element={<Regpage />} />
-          <Route path="/log" element={<Login />} />
-          <Route path="/admin" element={<Adminlogin />} />
-          <Route path="/report" element={<Report />} />
-          <Route path="/" element={<HomePage/>} />
-          <Route path="/adminD" element={<Home/>} />
-          <Route path="/registered" element={<RegUserMgmt/>} />
+            <Route path='/Financial/trans' element={<Trans />}></Route>
+            <Route path='/Financial/dash' element={<FinancialDashboard />}></Route>
+            <Route path='/Financial/payroll' element={<Emppayroll />}></Route>
+            <Route path='/Financial/place' element={<Placeholder />}></Route>
+            <Route path='/Financial/empsal' element={<EmpSalPage />}></Route>
+            <Route path='/Financial/adminpage' element={<AdminPage />}></Route>
+            <Route path='/Financial/pp' element={<SalaryDetails />}></Route>
+            <Route path='/Financial/tp' element={<Testp />}></Route>
+            <Route path="/add-employee" element={<AddEmployee />} />
+            <Route path="/employee-profile/:id" element={<EmployeeProfile />} />
+            <Route path="/employee-table" element={<EmployeeTable />} />
+            <Route path="/employee-edit/:id" element={<EditEmployee />} />
+            <Route path="/admin-employee-edit/:id" element={<AdminEditEmployee />} />
+            <Route path="/employee-admin-dashboard" element={<EmployeeAdminDashboard />} />
+            <Route path="/employee-leave/:id" element={<AddEmployeeLeave />} />
+            <Route path="/employee-leave-table" element={<EmployeeLeaveTable />} />
+            <Route path="/leave-report" element={<LeaveReportPage />} />
+            <Route path="/login" element={<EmpLoginForm />} />
+            <Route path="/adminpage" element={<AdminDashboard />} />
+            <Route path="/employee-profile-admin/:id" element={<EmployeeProfileAdmin />} />
+            <Route path="/employee-attendance" element={<EmployeeAttendance />} />
+            <Route path="/employee-attendance-table" element={<EmployeeAttendanceTable />} />
+            <Route path="/qr-scanner" element={<QrScanner />} />
+            <Route path='/suppliers/home' element={<SupplierForm />}></Route>
+            <Route path='/suppliers/order' element={<OrderComponent />}></Route>
+            <Route path="/reg" element={<Regpage />} />
+            <Route path="/log" element={<Login />} />
+            <Route path="/admin" element={<Adminlogin />} />
+            <Route path="/report" element={<Report />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/adminD" element={<CusAdmin />} />
+            <Route path="/registered" element={<RegUserMgmt />} />
 
-          
+
             {/*login*/}
             <Route path="/Login" element={<LoginForm />} />
             {/*order Routes*/}
