@@ -114,5 +114,18 @@ router.get('/get-feedbacks', async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 });
+//retrieve feedback relevant for one user
+router.get("/feedbacklist", async (req, res) => {
+  const predefinedUserId = "234"; // Predefined user ID
+
+  try {
+      const feedbacks = await Feedback.find({ userId: predefinedUserId });
+      res.json(feedbacks);
+  } catch (err) {
+      console.error(err);
+      res.status(500).send({ status: "Error fetching feedbacks", error: err.message });
+  }
+});
+
 module.exports = router;
   

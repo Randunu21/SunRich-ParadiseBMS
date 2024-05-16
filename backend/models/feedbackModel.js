@@ -2,6 +2,11 @@
 const mongoose = require('mongoose');
 
 const feedbackSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    default: "234", 
+    required: true
+},
   name: {
     type: String,
     required: true,
