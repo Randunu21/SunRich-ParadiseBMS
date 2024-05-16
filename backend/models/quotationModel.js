@@ -51,6 +51,9 @@ const quotationsSchema = new Schema({
   totalPrice: {
     type: Number,
   },
+  shippingCost: {
+    type: Number,
+  },
 });
 
 module.exports = mongoose.model("quotation", quotationsSchema);

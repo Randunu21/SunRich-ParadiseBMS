@@ -189,7 +189,7 @@ const CustomerQuotations = () => {
                       {quotations.cartID.cartItems &&
                         quotations.cartID.cartItems.map((item, index) => (
                           <tr key={item.id}>
-                            <th scope="row">{index}</th>
+                            <th scope="row">{index + 1}</th>
                             <td>{item.product}</td>
                             <td>{item.quantity}</td>
                             <td>{item.product.price}</td>

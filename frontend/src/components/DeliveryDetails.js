@@ -40,7 +40,7 @@ const DeliveryDetails = () => {
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyC0feLo3pgS6e3RVDextDAIqH1QI-Ay8Vk&libraries=places`;
     script.defer = true;
     script.async = true;
     document.head.appendChild(script);
@@ -307,7 +307,7 @@ const DeliveryDetails = () => {
                   className="btn btn-primary"
                   onClick={() => handleGeocode()}
                 >
-                  Geocode Address
+                  loacte me
                 </button>
               </div>
 

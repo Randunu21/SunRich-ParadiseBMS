@@ -89,6 +89,11 @@ const OrderHome = () => {
               text: "Manage Customer Quotations",
               to: "/orders/admin-quotation-list",
             },
+            {
+              title: "Sales Report",
+              text: "Generate Monthly Sales Report",
+              to: "/orders/sales-report",
+            },
           ].map((item, idx) => (
             <Col md={6} key={idx} className="mb-4">
               <Link to={item.to || "#"} style={{ textDecoration: "none" }}>

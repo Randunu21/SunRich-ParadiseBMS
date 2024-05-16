@@ -57,6 +57,7 @@ const AdminQuotationReply = () => {
                   cartItems: updatedCartItems,
                 },
                 totalPrice: calculateTotal(),
+                shippingCost: shippingCost,
               }
             )
             .then((res) => {
