@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const feedbackRouter = require("./routes/feedbackroute.js");
 const inquiryRouter = require("./routes/inquiryRoute.js");
 const replyRouter = require("./routes/replyRoute.js");
+const authRoute = require("./routes/auth.js");
 
 const path = require("path"); // Import path module
 
@@ -35,6 +36,7 @@ app.use("/reply", replyRouter);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/quotations", quotationRoutes);
+app.use("/api/auth", authRoute);
 
 mongoose
   .connect(process.env.MONGO_URI, {})

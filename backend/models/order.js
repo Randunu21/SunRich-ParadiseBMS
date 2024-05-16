@@ -43,7 +43,7 @@ const orderSchema = new Schema({
     type: Number,
   },
   userID: {
-    type: Number,
+    type: String,
   },
   email: {
     type: String,

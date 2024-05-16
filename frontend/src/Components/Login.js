@@ -13,6 +13,8 @@ function LoginForm() {
         "http://localhost:4000/api/auth/login",
         { email, password }
       );
+
+      console.log(response.data);
       const { token, redirectTo, userId } = response.data;
       localStorage.setItem("token", token); // Store the token in localStorage
       localStorage.setItem("userId", userId);

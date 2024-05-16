@@ -150,7 +150,12 @@ const ProductDisplay = ({ product }) => {
             />
           </div>
         </div>
-        <button onClick={() => addToCartDebounce(product._id)}>
+        <button
+          onClick={() => {
+            addToCartDebounce(product._id);
+            console.log("meka product", product._id);
+          }}
+        >
           ADD TO CART
         </button>
         <button

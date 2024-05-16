@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Customer = require("../models/customerModel");
-const Employee = require("../models/employeeModel");
+const Customer = require("../models/User");
+const Employee = require("../models/EmployeeModel");
 
 // Function to generate JWT token
 const generateAuthToken = (user) => {
@@ -17,14 +17,16 @@ router.post("/login", async (req, res) => {
 
     // Check if the email exists in customers
     const customer = await Customer.findOne({ email });
+    console.log(customer);
     if (customer) {
-      const isPasswordMatch = await bcrypt.compare(password, customer.password);
-      if (isPasswordMatch) {
+      console.log(customer);
+      //const isPasswordMatch = await bcrypt.compare(password, customer.password);
+      if (password == customer.password) {
         const token = generateAuthToken(customer);
         return res.json({
           token,
-          userId: customer._id,
-          redirectTo: "/cuspage",
+          userId: customer.userID,
+          redirectTo: "/products/home",
         }); // Redirect to '/cuspage' for customers
       }
     }
