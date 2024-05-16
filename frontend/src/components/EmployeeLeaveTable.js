@@ -81,37 +81,37 @@ function EmployeeLeaveTable() {
 
     const ctx = chartRef.current.getContext("2d");
     new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: ["Pending", "Accepted", "Rejected", "Total"],
-            datasets: [{
-                data: [pendingLeaves, acceptedLeaves, rejectedLeaves, totalLeaves],
-                backgroundColor: [
-                    'yellow', // Pending Leaves
-                    'green', // Accepted Leaves
-                    'red', // Rejected Leaves
-                    'blue' // Total Leaves
-                ],
-            }],
+      type: "pie",
+      data: {
+        labels: ["Pending", "Accepted", "Rejected", "Total"],
+        datasets: [{
+          data: [pendingLeaves, acceptedLeaves, rejectedLeaves, totalLeaves],
+          backgroundColor: [
+            'yellow', // Pending Leaves
+            'green', // Accepted Leaves
+            'red', // Rejected Leaves
+            'blue' // Total Leaves
+          ],
+        }],
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Monthly Leave Report',
+            font: {
+              size: 20
+            }
+          },
+          legend: {
+            display: true,
+            position: 'bottom',
+          }
         },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Monthly Leave Report',
-                    font: {
-                        size: 20
-                    }
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                }
-            },
-            aspectRatio: 1, 
-        }
+        aspectRatio: 1,
+      }
     });
-};
+  };
 
 
   const generatePDFReport = () => {
@@ -165,7 +165,7 @@ function EmployeeLeaveTable() {
   });
 
   return (
-    <div className="container mt-4" style={{ background: '#dcfce7', padding:'50px' }}>
+    <div className="container mt-4" style={{ background: '#dcfce7', padding: '50px' }}>
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -199,7 +199,13 @@ function EmployeeLeaveTable() {
         <button onClick={generateMonthReport} className="btn btn-primary me-2">Generate Month Report</button>
         <button onClick={generatePDFReport} className="btn btn-primary">Download Report as PDF</button>
       </div>
-      <canvas ref={chartRef} style={{ width: '300px', height: '300px' }}></canvas> 
+      <div className="monthly-report-container"> {/* New container for the monthly leave report */}
+        <h2></h2>
+        <div className="monthly-report">
+          {/* Monthly leave report content goes here */}
+          <canvas ref={chartRef} style={{ width: '300px', height: '300px' }}></canvas> {/* Pie chart */}
+        </div>
+      </div>
       <table className="table">
         <thead>
           <tr>
