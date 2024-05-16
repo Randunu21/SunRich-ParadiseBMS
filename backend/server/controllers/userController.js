@@ -1,27 +1,18 @@
 // userController.js
 const User = require('../models/User');
-const DeletionReason = require('../models/DeletionReason')
+const DeletionReason = require('../models/DeletionReason');
+const bcrypt = require('bcrypt');
 
 
 exports.register = async (req, res) => {
-
-
-    // Helper function to generate 'EID' prefixed employee ID
-    const generateRandomNumbers = () => {
-        const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
-        return randomNumber;
-    };
-
-    const userID = generateRandomNumbers()
-
     try {
         const { username, email, password, name, age, gender, address, contactNumber } = req.body;
-
+   
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email is already associated with an account' });
         }
-        const user = await User.create({ username, email, password, name, age, gender, address, contactNumber , userID});
+        const user = await User.create({ username, email, password, name, age, gender, address, contactNumber });
         console.log(user);
         res.status(201).json({ user });
     } catch (err) {
@@ -29,8 +20,6 @@ exports.register = async (req, res) => {
     }
 };
 
-
-const bcrypt = require('bcrypt');
 
 
 exports.login = async (req, res) => {
@@ -41,14 +30,14 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(400).json({ message: "Invalid Credentials" });
         }
-
+        
         if (user.password !== password) {
             return res.status(400).json({ message: "Invalid Credentials" });
         }
 
         res.status(200).json({ message: "Login successful", user });
     } catch (err) {
-        console.error("Error during login:", err);
+        console.error("Error during login:", err); 
         res.status(500).json({ message: err.message });
     }
 };
@@ -101,17 +90,27 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 
-}
+};
 
 exports.getDeletedUsers = async (req, res) => {
     try {
-        const deletedUsers = await DeletionReason.find().populate('userId');
-        res.status(200).json(deletedUsers);
+      const { startDate, endDate } = req.query;
+      let query = {};
+  
+      if (startDate && endDate) {
+        query.createdAt = {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        };
+      }
+  
+      const deletedUsers = await DeletionReason.find(query).populate('userId', 'username email');
+      res.status(200).json(deletedUsers);
     } catch (error) {
-        console.error('Error fetching deleted users:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error fetching deleted users:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-};
+  };
 
 
 exports.getTotalRegisteredUsers = async (req, res) => {
@@ -126,7 +125,17 @@ exports.getTotalRegisteredUsers = async (req, res) => {
 
 exports.getRegisteredUsers = async (req, res) => {
     try {
-        const registeredUsers = await User.find({}, { password: 0 });
+        const { startDate, endDate } = req.query;
+        let query = {};
+
+        if (startDate && endDate) {
+            query.createdAt = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate),
+            };
+        }
+
+        const registeredUsers = await User.find(query, { password: 0 });
         res.status(200).json(registeredUsers);
     } catch (error) {
         console.error('Error fetching registered users:', error);
@@ -134,18 +143,14 @@ exports.getRegisteredUsers = async (req, res) => {
     }
 };
 
-// userController.js
-
 exports.filterRegisteredUsers = async (req, res) => {
     try {
         const { startDate, endDate } = req.query;
 
-        // Input validation (optional but recommended)
         if (!startDate || !endDate) {
             return res.status(400).json({ message: 'Please provide both startDate and endDate' });
         }
 
-        // Ensure valid date formats (optional but recommended)
         const isValidStartDate = !isNaN(new Date(startDate));
         const isValidEndDate = !isNaN(new Date(endDate));
 
@@ -163,7 +168,8 @@ exports.filterRegisteredUsers = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
-exports.AdmindeleteUser = async (req, res) => {
+
+  exports.AdmindeleteUser = async (req, res) => {
     try {
         const { userId } = req.params;
 
@@ -179,6 +185,6 @@ exports.AdmindeleteUser = async (req, res) => {
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
         console.error('Error deleting user:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
 };
