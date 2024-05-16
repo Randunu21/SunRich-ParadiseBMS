@@ -96,13 +96,17 @@ router.get('/get-feedbacks', async (req, res) => {
   try {
     let query = {}; // Define an empty query object
 
+    // Check if startDate and endDate query parameters are provided
     if (req.query.startDate && req.query.endDate) {
-      // Existing logic for parsing dates and building query
-    } else {
-      console.log("No start or end date provided for filtering"); // Optional log message
-      // Optionally handle this case differently on the backend
+      // Parse startDate and endDate from query parameters
+      const startDate = new Date(req.query.startDate);
+      const endDate = new Date(req.query.endDate);
+
+      // Add createdAt field to the query to filter by date range
+      query.createdAt = { $gte: startDate, $lte: endDate };
     }
 
+    // Fetch feedbacks based on the query
     const feedbacks = await Feedback.find(query);
     res.json(feedbacks);
   } catch (err) {
