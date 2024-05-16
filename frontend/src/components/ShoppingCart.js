@@ -11,6 +11,7 @@ function ShoppingCart() {
   const [shoppingCart, setShoppingCart] = useState({ cartItems: [] });
   const [numOfMainProducts, setNumOfMainProducts] = useState(0);
 
+  const userID = localStorage.getItem("userId");
   //const [product, setProduct] = useState("");
   //const [quantity, setQuantity] = useState("");
 
@@ -19,7 +20,7 @@ function ShoppingCart() {
   useEffect(() => {
     const loadCart = async () => {
       await axios
-        .get("http://localhost:4000/api/cart/userCart/44")
+        .get(`http://localhost:4000/api/cart/userCart/${userID}`)
         .then((res) => {
           console.log(res.data);
           setShoppingCart(res.data);

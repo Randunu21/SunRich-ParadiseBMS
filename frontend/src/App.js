@@ -39,6 +39,9 @@ import InquiriesTable from "./Components/InquiryList";
 import DisplayFeedback from "./Components/DisplayFeedback";
 import AdminReport from "./QualityManager/AdminReport";
 
+//login
+import LoginForm from "./Components/Login";
+
 function App() {
   return (
     <div>
@@ -51,6 +54,8 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Routes>
+            {/*login*/}
+            <Route path="/Login" element={<LoginForm />} />
             {/*order Routes*/}
             <Route path="/orders/nav-bar" element={<OrdersNavbar />} />
             <Route path="/orders/dashboard" element={<OrderHome />} />
