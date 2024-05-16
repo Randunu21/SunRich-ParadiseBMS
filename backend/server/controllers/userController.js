@@ -4,14 +4,24 @@ const DeletionReason = require('../models/DeletionReason')
 
 
 exports.register = async (req, res) => {
+
+
+    // Helper function to generate 'EID' prefixed employee ID
+    const generateRandomNumbers = () => {
+        const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
+        return randomNumber;
+    };
+
+    const userID = generateRandomNumbers()
+
     try {
         const { username, email, password, name, age, gender, address, contactNumber } = req.body;
-   
+
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email is already associated with an account' });
         }
-        const user = await User.create({ username, email, password, name, age, gender, address, contactNumber });
+        const user = await User.create({ username, email, password, name, age, gender, address, contactNumber , userID});
         console.log(user);
         res.status(201).json({ user });
     } catch (err) {
@@ -20,7 +30,7 @@ exports.register = async (req, res) => {
 };
 
 
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt');
 
 
 exports.login = async (req, res) => {
@@ -31,14 +41,14 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(400).json({ message: "Invalid Credentials" });
         }
-        
+
         if (user.password !== password) {
             return res.status(400).json({ message: "Invalid Credentials" });
         }
 
         res.status(200).json({ message: "Login successful", user });
     } catch (err) {
-        console.error("Error during login:", err); 
+        console.error("Error during login:", err);
         res.status(500).json({ message: err.message });
     }
 };
@@ -128,32 +138,32 @@ exports.getRegisteredUsers = async (req, res) => {
 
 exports.filterRegisteredUsers = async (req, res) => {
     try {
-      const { startDate, endDate } = req.query;
-  
-      // Input validation (optional but recommended)
-      if (!startDate || !endDate) {
-        return res.status(400).json({ message: 'Please provide both startDate and endDate' });
-      }
-  
-      // Ensure valid date formats (optional but recommended)
-      const isValidStartDate = !isNaN(new Date(startDate));
-      const isValidEndDate = !isNaN(new Date(endDate));
-  
-      if (!isValidStartDate || !isValidEndDate) {
-        return res.status(400).json({ message: 'Invalid date format. Please use YYYY-MM-DD' });
-      }
-  
-      const users = await User.find({
-        createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
-      });
-  
-      res.json(users);
+        const { startDate, endDate } = req.query;
+
+        // Input validation (optional but recommended)
+        if (!startDate || !endDate) {
+            return res.status(400).json({ message: 'Please provide both startDate and endDate' });
+        }
+
+        // Ensure valid date formats (optional but recommended)
+        const isValidStartDate = !isNaN(new Date(startDate));
+        const isValidEndDate = !isNaN(new Date(endDate));
+
+        if (!isValidStartDate || !isValidEndDate) {
+            return res.status(400).json({ message: 'Invalid date format. Please use YYYY-MM-DD' });
+        }
+
+        const users = await User.find({
+            createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) }
+        });
+
+        res.json(users);
     } catch (error) {
-      console.error('Error filtering registered users:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error filtering registered users:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  };
-  exports.AdmindeleteUser = async (req, res) => {
+};
+exports.AdmindeleteUser = async (req, res) => {
     try {
         const { userId } = req.params;
 
