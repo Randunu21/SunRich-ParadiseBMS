@@ -57,8 +57,7 @@ const EmployeeSchema = new Schema({
   },
   joinedDate: {
     type: String,
-    required: true,
-    
+    required: true,    
   },
   resignationDate: {
     type: Date,

@@ -12,6 +12,16 @@ const routesEmployeeLeave = require('./routes/EmployeeLeaveRouter')
 const routesEmployeeAttendance = require('./routes/EmployeeAttendanceRouter')
 const supplierRoutes = require('./routes/supplierRoutes')
 
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orders");
+const cartRoutes = require("./routes/shoppingCart");
+const quotationRoutes = require("./routes/quotationRoutes");
+
+const feedbackRouter = require("./routes/feedbackroute.js");
+const inquiryRouter = require("./routes/inquiryRoute.js");
+const replyRouter = require("./routes/replyRoute.js");
+const authRoute = require("./routes/auth.js");
+
 const cors = require("cors")
 
 const app = express();
@@ -27,7 +37,7 @@ app.use((req, res, next) => {
 });
 
 // Serve uploaded profile photos statically
-app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
+app.use('/empuploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
 
 //routes
 app.use('/api/users', userRoutes);
@@ -37,7 +47,19 @@ app.use('/api/employees', routesAtemp);
 app.use('/api/employees/leave', routesEmployeeLeave);
 app.use('/api/employees/delete', routesEmployee);
 app.use('/api/employees/attendance', routesEmployeeAttendance);
-app.use('/uploads', express.static('public/uploads'))
+app.use('/empuploads', express.static('public/uploads'))
+
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/products", productRoutes);
+app.use("/feedback", feedbackRouter);
+app.use("/inquiry", inquiryRouter);
+app.use("/reply", replyRouter);
+//order-routes
+app.use("/api/orders", orderRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/quotations", quotationRoutes);
+app.use("/api/auth", authRoute);
 
 // Handling unmatched routes or methods
 app.use((req, res, next) => {
