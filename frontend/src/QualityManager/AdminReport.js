@@ -38,13 +38,18 @@ export default function AdminReport() {
   const fetchFilteredFeedbackData = async () => {
     try {
       const response = await axios.get("http://localhost:4000/feedback/get-feedbacks", {
-        params: { startDate, endDate }
+        params: {
+          startDate: startDate,
+          endDate: endDate
+        }
       });
       setFilteredFeedbackData(response.data);
     } catch (error) {
       console.error("Error fetching filtered feedback data:", error);
     }
   };
+  
+  
 
   const ComponentsRef = useRef();
   const handlePrint = useReactToPrint({
@@ -79,9 +84,11 @@ export default function AdminReport() {
   const { positiveCount, negativeCount, neutralCount, positiveAverage, negativeAverage, neutralAverage } = calculateTotalsAndAverages(filterApplied ? filteredFeedbackData : feedbackData);
 
   const handleFilterSubmit = () => {
+    console.log("Before applying filter - Start Date:", startDate, "End Date:", endDate);
     setFilterApplied(true);
+    console.log("After applying filter - Start Date:", startDate, "End Date:", endDate);
   };
-
+  
   useEffect(() => {
     const ctx = document.getElementById('feedbackChart').getContext('2d');
     const ratings = ['Extremely Disappointed', 'Disappointed', 'Neutral', 'Satisfied', 'Extremely Satisfied'];
@@ -200,7 +207,6 @@ export default function AdminReport() {
           <div className="total-feedbacks-label">Total Feedbacks</div>
         </div>
       </div>
-      
       <div ref={ComponentsRef} className="table-container">
         <table className="feedback-table">
           <thead>
@@ -228,12 +234,11 @@ export default function AdminReport() {
             </tr>
           </tbody>
         </table>
-      
-      <div className="chart-container">
-        <canvas id="feedbackChart" width="400" height="200"></canvas>
-      </div>
+        <div className="chart-container">
+          <canvas id="feedbackChart" width="400" height="200"></canvas>
+        </div>
       </div>
       <button className="print-button" onClick={handlePrint}>Print</button>
     </div>
   );
-}
+}  
