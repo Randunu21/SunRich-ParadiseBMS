@@ -38,18 +38,13 @@ export default function AdminReport() {
   const fetchFilteredFeedbackData = async () => {
     try {
       const response = await axios.get("http://localhost:4000/feedback/get-feedbacks", {
-        params: {
-          startDate: startDate,
-          endDate: endDate
-        }
+        params: { startDate, endDate }
       });
       setFilteredFeedbackData(response.data);
     } catch (error) {
       console.error("Error fetching filtered feedback data:", error);
     }
   };
-  
-  
 
   const ComponentsRef = useRef();
   const handlePrint = useReactToPrint({
@@ -84,105 +79,92 @@ export default function AdminReport() {
   const { positiveCount, negativeCount, neutralCount, positiveAverage, negativeAverage, neutralAverage } = calculateTotalsAndAverages(filterApplied ? filteredFeedbackData : feedbackData);
 
   const handleFilterSubmit = () => {
-    console.log("Before applying filter - Start Date:", startDate, "End Date:", endDate);
     setFilterApplied(true);
-    console.log("After applying filter - Start Date:", startDate, "End Date:", endDate);
   };
-  
+
   useEffect(() => {
     const ctx = document.getElementById('feedbackChart').getContext('2d');
     const ratings = ['Extremely Disappointed', 'Disappointed', 'Neutral', 'Satisfied', 'Extremely Satisfied'];
 
-    let feedbackChart = null; // Initialize the chart variable
+    const ratingCounts = [0, 0, 0, 0, 0]; // Initialize counts for each rating
 
-    const updateChart = () => {
-      if (feedbackChart) {
-        feedbackChart.destroy(); // Destroy the existing chart if it exists
+    (filterApplied ? filteredFeedbackData : feedbackData).forEach((feedback) => {
+      switch (feedback.rating) {
+        case 'very-disappointed':
+          ratingCounts[0]++;
+          break;
+        case 'disappointed':
+          ratingCounts[1]++;
+          break;
+        case 'neutral':
+          ratingCounts[2]++;
+          break;
+        case 'satisfied':
+          ratingCounts[3]++;
+          break;
+        case 'very-satisfied':
+          ratingCounts[4]++;
+          break;
+        default:
+          break;
       }
+    });
 
-      const ratingCounts = [0, 0, 0, 0, 0]; // Initialize counts for each rating
-
-      (filterApplied ? filteredFeedbackData : feedbackData).forEach((feedback) => {
-        switch (feedback.rating) {
-          case 'very-disappointed':
-            ratingCounts[0]++;
-            break;
-          case 'disappointed':
-            ratingCounts[1]++;
-            break;
-          case 'neutral':
-            ratingCounts[2]++;
-            break;
-          case 'satisfied':
-            ratingCounts[3]++;
-            break;
-          case 'very-satisfied':
-            ratingCounts[4]++;
-            break;
-          default:
-            break;
-        }
-      });
-
-      feedbackChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ratings,
-          datasets: [{
-            label: 'Number of Feedbacks',
-            data: ratingCounts,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(255, 205, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(255, 205, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-              stepSize: 5,
-              title: {
-                display: true,
-                text: 'Number of Feedbacks' // Add label for Y-axis
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Ratings' // Add label for X-axis
-              }
+    const feedbackChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ratings,
+        datasets: [{
+          label: 'Number of Feedbacks',
+          data: ratingCounts,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(255, 205, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(54, 162, 235, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            stepSize: 5,
+            title: {
+              display: true,
+              text: 'Number of Feedbacks' // Add label for Y-axis
             }
           },
-          plugins: {
+          x: {
             title: {
-              display: false
-            },
-            legend: {
-              display: false
+              display: true,
+              text: 'Ratings' // Add label for X-axis
             }
           }
+        },
+        plugins: {
+          title: {
+            display: false
+          },
+          legend: {
+            display: false
+          }
         }
-      });
-    };
-
-    updateChart(); // Call the function to initialize the chart
+      }
+    });
+    
 
     return () => {
-      if (feedbackChart) {
-        feedbackChart.destroy(); // Destroy the chart when the component unmounts
-      }
+      feedbackChart.destroy();
     };
   }, [filterApplied, feedbackData, filteredFeedbackData]);
 
@@ -207,6 +189,7 @@ export default function AdminReport() {
           <div className="total-feedbacks-label">Total Feedbacks</div>
         </div>
       </div>
+      
       <div ref={ComponentsRef} className="table-container">
         <table className="feedback-table">
           <thead>
@@ -234,11 +217,12 @@ export default function AdminReport() {
             </tr>
           </tbody>
         </table>
-        <div className="chart-container">
-          <canvas id="feedbackChart" width="400" height="200"></canvas>
-        </div>
+      
+      <div className="chart-container">
+        <canvas id="feedbackChart" width="400" height="200"></canvas>
+      </div>
       </div>
       <button className="print-button" onClick={handlePrint}>Print</button>
     </div>
   );
-}  
+}
