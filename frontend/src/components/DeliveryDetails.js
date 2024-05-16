@@ -9,7 +9,7 @@ const DeliveryDetails = () => {
   const location = useLocation();
   //const history = useHistory();
 
-  const userID = 44;
+  const userID = localStorage.getItem("userId");
 
   const { orderDetails = {} } = location.state || { orderDetails: {} };
   const { cart = {} } = location.state || { cart: {} };
@@ -30,10 +30,12 @@ const DeliveryDetails = () => {
   const [email, setEmail] = useState(orderDetails.email || "");
   const [country, setCountry] = useState(orderDetails.country || "");
   const [phoneNumber, setPhoneNumber] = useState(orderDetails.phone || "");
-  const [totalPrice, setTotalPrice] = useState(1200);
+
   const [paymentMethod, setPaymentMethod] = useState("");
   const [payStatus, setPayStatus] = useState("");
   const [showButton, setShowButton] = useState("");
+
+  const totalPrice = localStorage.getItem("totalPrice");
 
   useEffect(() => {
     // Load Google Maps JavaScript API asynchronously
@@ -134,6 +136,7 @@ const DeliveryDetails = () => {
       postalCode,
       email,
       country,
+      userID,
     };
     axios
       .post("http://localhost:4000/api/quotations/addQuotation", newQuotation)

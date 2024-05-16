@@ -15,13 +15,6 @@ const CustomerOrderTracking = () => {
       .then((res) => {
         setOrders(res.data);
         console.log(res.data);
-
-        axios
-          .get(`http://localhost:4000/api/cart/getCart/${res.data.cartID.id}`)
-          .then((res) => {
-            console.log(res.data);
-            setCart(res.data);
-          });
       })
       .catch((err) => {
         alert(err);
@@ -95,12 +88,22 @@ const CustomerOrderTracking = () => {
                       >
                         <div className="row">
                           <div className="col-md-8 col-lg-9">
-                            {cart.cartItems.map((cartItem) => (
-                              <p>{cartItem.product.name}</p>
+                            {order.cartID.cartItems.map((cartItem) => (
+                              <div key={cartItem._id} className="row mb-2">
+                                <div className="col-md-6">
+                                  <p>{cartItem.product}</p>
+                                </div>
+                                <div className="col-md-3">
+                                  <p>Price: ${cartItem.price}</p>
+                                </div>
+                                <div className="col-md-3">
+                                  <p>Quantity: {cartItem.quantity}</p>
+                                </div>
+                              </div>
                             ))}
                           </div>
                           <div className="col-md-4 col-lg-3">
-                            <p>${cart.totalPrice}</p>
+                            <p>${order.totalPrice}</p>
                           </div>
                         </div>
                         <div className="row">
@@ -108,7 +111,15 @@ const CustomerOrderTracking = () => {
                             <p className="mb-0">Shipping</p>
                           </div>
                           <div className="col-md-4 col-lg-3">
-                            <p className="mb-0">£33.00</p>
+                            <p className="mb-0">500.00</p>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-md-8 col-lg-9">
+                            <p className="mb-0">Total Price</p>
+                          </div>
+                          <div className="col-md-4 col-lg-3">
+                            <p className="mb-0">{order.totalPrice}</p>
                           </div>
                         </div>
                       </div>
@@ -119,7 +130,7 @@ const CustomerOrderTracking = () => {
                             className="lead fw-bold mb-0"
                             style={{ color: "#f37a27" }}
                           >
-                            £262.99
+                            {order.totalPrice}
                           </p>
                         </div>
                       </div>

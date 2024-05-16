@@ -22,8 +22,10 @@ router.get("/getAllQuotations", async (req, res) => {
 //Read quotations of a user
 
 router.get("/getQuotations/user/:userID", async (req, res) => {
+  const userID = req.params.userID;
+
   const specQuotations = await quotationModel
-    .find({ userID: req.body.userID })
+    .findOne({ userID: userID })
     .populate({
       path: "cartID",
       populate: { path: "cartItems", model: "cartitem" },
@@ -127,10 +129,12 @@ router.delete("/deleteQuotation/:id", async (req, res) => {
 router.get("/getQuotation/:id", async (req, res) => {
   const quotationID = req.params.id;
 
-  const specQuotations = await quotationModel.findById(quotationID).populate({
-    path: "cartID",
-    populate: { path: "cartItems", model: "cartitem" },
-  });
+  const specQuotations = await quotationModel
+    .findOne({ _id: quotationID })
+    .populate({
+      path: "cartID",
+      populate: { path: "cartItems", model: "cartitem" },
+    });
 
   if (!specQuotations) {
     res.json({ msg: "quotation not found" });

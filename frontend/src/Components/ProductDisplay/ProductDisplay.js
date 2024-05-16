@@ -13,6 +13,7 @@ const ProductDisplay = ({ product }) => {
   const [ratingValue, setRatingValue] = useState("");
   const [show, setShow] = useState(false);
   const userID = localStorage.getItem("userId");
+  console.log("userID", userID);
 
   useEffect(() => {
     axios

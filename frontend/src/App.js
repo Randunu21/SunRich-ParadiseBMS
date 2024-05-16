@@ -73,7 +73,7 @@ function App() {
               element={<CustomerOrderHistory />}
             />
             <Route
-              path="/orders/customer-order-track"
+              path="/orders/customer-order-tracking"
               element={<CustomerOrderTracking />}
             />
             <Route

@@ -46,7 +46,7 @@ router.post("/addOrder", async (req, res) => {
     city: req.body.city,
     postalCode: req.body.postalCode,
     status: req.body.status,
-    totlaPrice: req.body.totlaPrice,
+    totalPrice: req.body.totalPrice,
     userID: req.body.userID,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
@@ -190,7 +190,7 @@ router.get("/past-orders/user/:id", async (req, res) => {
 
   try {
     const userPastOrders = await OrderModel.find({
-      status: "completed",
+      status: "Completed",
       userID: user,
     }).populate({
       path: "cartID",

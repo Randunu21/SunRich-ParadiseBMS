@@ -19,7 +19,7 @@ router.post("/login", async (req, res) => {
     const customer = await Customer.findOne({ email });
     console.log(customer);
     if (customer) {
-      console.log(customer);
+      console.log(customer.age);
       //const isPasswordMatch = await bcrypt.compare(password, customer.password);
       if (password == customer.password) {
         const token = generateAuthToken(customer);

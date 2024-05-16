@@ -34,6 +34,9 @@ function ShoppingCart() {
     loadCart();
   }, []);
 
+  const orderTotalPrice = shoppingCart.totalPrice + 500;
+  localStorage.setItem("totalPrice", orderTotalPrice);
+
   /*const addToCart = () => {
     const newItem = {
       cartItems: {
@@ -260,7 +263,7 @@ function ShoppingCart() {
                           <h5 className="text-uppercase">Items</h5>
                           <h5>{shoppingCart.totalPrice}</h5>
                         </div>
-                        <h5 className="text-uppercase mb-3">Shipping</h5>
+                        <h5 className="text-uppercase mb-3">Shipping - 500</h5>
                         <div className="mb-4 pb-2">Shipping -</div>
                         <h5 className="text-uppercase mb-3">Give code</h5>
                         <div className="mb-5">

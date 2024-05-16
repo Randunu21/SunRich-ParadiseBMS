@@ -8,11 +8,14 @@ const CustomerOrderHistory = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigate = useNavigate();
 
+  const userID = localStorage.getItem("userId");
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/orders/past-orders/user/122")
+      .get(`http://localhost:4000/api/orders/past-orders/user/${userID}`)
       .then((res) => {
         setOrders(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         alert(err);

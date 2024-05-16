@@ -12,7 +12,7 @@ const CustomerQuotations = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/quotations/user/getQuotations/${userID}`)
+      .get(`http://localhost:4000/api/quotations/getQuotations/user/${userID}`)
       .then((res) => {
         setQuotations(res.data);
         console.log(res.data);
@@ -87,7 +87,7 @@ const CustomerQuotations = () => {
               <div className="row d-flex align-items-baseline">
                 <div className="col-xl-9">
                   <p style={{ color: "#7e8d9f", fontSize: "20px" }}>
-                    Invoice <strong>{quotations.id}</strong>
+                    Invoice <strong>#{quotations._id}</strong>
                   </p>
                 </div>
                 <div className="col-xl-3 float-end">
@@ -190,7 +190,7 @@ const CustomerQuotations = () => {
                         quotations.cartID.cartItems.map((item, index) => (
                           <tr key={item.id}>
                             <th scope="row">{index}</th>
-                            <td>{item.product.productID}</td>
+                            <td>{item.product}</td>
                             <td>{item.quantity}</td>
                             <td>{item.product.price}</td>
                             <td>{item.totalPrice}</td>
