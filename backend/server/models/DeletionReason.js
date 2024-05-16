@@ -10,7 +10,7 @@ const deletionReasonSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-});
+}, { timestamps: true });
 
 const DeletionReason = mongoose.model('DeletionReason', deletionReasonSchema);
 

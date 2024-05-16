@@ -32,7 +32,7 @@ export default function Profile({ user }) {
 
     const handleDeleteConfirmation = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/users/${user._id}`, {
+            const response = await fetch(`http://localhost:5000/api/users/${user._id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ export default function Profile({ user }) {
 
     const handleSaveChanges = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/users/${user._id}`, {
+            const response = await fetch(`http://localhost:5000/api/users/${user._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

@@ -40,6 +40,7 @@ export default function Report() {
     }
   };
 
+
   const fetchTotalRegisteredUsers = async () => {
     try {
       const response = await fetch('http://localhost:4000/api/users/total-registered-users');
@@ -121,7 +122,7 @@ export default function Report() {
         <div className="col-md-4">
           <label htmlFor="endDate" className="form-label">End Date:</label>
           <input type="date" className="form-control" id="endDate" value={endDate ? endDate.toISOString().substr(0, 10) : ''} onChange={(e) => setEndDate(new Date(e.target.value))} />
-          </div>
+        </div>
         <div className="col-md-2 d-flex align-items-end">
           <button className="btn btn-primary mt-3" onClick={handleRegisteredUsersFilter}>Filter Users</button>
         </div>
@@ -166,16 +167,14 @@ export default function Report() {
         <table className='table table-primary'>
           <thead>
             <tr>
-              <th>Username</th>
-              <th>Email</th>
+              <th>User Id</th>
               <th>Reason</th>
             </tr>
           </thead>
           <tbody>
             {filteredDeletedUsers.map(deletion => (
               <tr key={deletion._id}>
-                <td>{deletion.userId ? deletion.userId.username : 'User data not available'}</td>
-                <td>{deletion.userId ? deletion.userId.email : 'User data not available'}</td>
+                <td>{deletion._id}</td>
                 <td>{deletion.reason}</td>
               </tr>
             ))}
@@ -187,6 +186,6 @@ export default function Report() {
         <button className="btn btn-primary me-2 no-print" onClick={handlePrint}>Print</button>
         <button className="btn btn-primary no-print" onClick={handleDownload}>Download</button>
       </div>
-    </div>
-  );
+    </div>
+  );
 }
