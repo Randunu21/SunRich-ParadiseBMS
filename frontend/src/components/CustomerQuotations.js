@@ -8,9 +8,11 @@ import swal from "sweetalert2";
 const CustomerQuotations = () => {
   const [quotations, setQuotations] = useState("");
 
+  const userID = localStorage.getItem("userId");
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/quotations/user/getQuotations/33")
+      .get(`http://localhost:4000/api/quotations/user/getQuotations/${userID}`)
       .then((res) => {
         setQuotations(res.data);
         console.log(res.data);
@@ -153,7 +155,7 @@ const CustomerQuotations = () => {
                           style={{ color: "#84B0CA" }}
                         ></i>{" "}
                         <span className="fw-bold">Creation Date: </span>
-                        {quotations.dateOfOrder}
+                        {quotations.dateOfQuotation}
                       </li>
                       <li className="text-muted">
                         <i
@@ -188,10 +190,10 @@ const CustomerQuotations = () => {
                         quotations.cartID.cartItems.map((item, index) => (
                           <tr key={item.id}>
                             <th scope="row">{index}</th>
-                            <td>{item.product}</td>
+                            <td>{item.product.productID}</td>
                             <td>{item.quantity}</td>
                             <td>{item.product.price}</td>
-                            <td>{item.price}</td>
+                            <td>{item.totalPrice}</td>
                           </tr>
                         ))}
                     </tbody>

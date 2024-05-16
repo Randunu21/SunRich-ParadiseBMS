@@ -1,48 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import "../css/ordersNavBar.css"; // Import the CSS file for styles
 
 function OrdersNavbar() {
-  const [activeLink, setActiveLink] = useState("");
-
-  const handleClick = (link) => {
-    setActiveLink(link);
-  };
-
   return (
     <nav className="navbar">
-      <a href="#" className="navbar-brand" style={{ color: "white" }}>
+      <NavLink
+        to="/orders/customer-order-tracking"
+        className="navbar-brand"
+        style={{ color: "white" }}
+      >
         Orders
-      </a>
+      </NavLink>
       <div className="navbar-collapse">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a
-              href="/orders/customer-order-tracking"
-              className={`nav-link ${activeLink === "home" ? "active" : ""}`}
-              onClick={() => handleClick("home")}
+            <NavLink
+              to="/orders/customer-order-tracking"
+              className="nav-link"
+              activeClassName="active"
             >
               Ongoing
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a
-              href="/orders/customer-order-history"
-              className={`nav-link ${
-                activeLink === "features" ? "active" : ""
-              }`}
-              onClick={() => handleClick("features")}
+            <NavLink
+              to="/orders/customer-order-history"
+              className="nav-link"
+              activeClassName="active"
             >
               Completed
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a
-              href="/orders/customer-quotations"
-              className={`nav-link ${activeLink === "pricing" ? "active" : ""}`}
-              onClick={() => handleClick("pricing")}
+            <NavLink
+              to="/orders/customer-quotations"
+              className="nav-link"
+              activeClassName="active"
             >
               Quotations
-            </a>
+            </NavLink>
           </li>
         </ul>
       </div>

@@ -7,7 +7,7 @@ const Employee = require("../models/employeeModel");
 
 // Function to generate JWT token
 const generateAuthToken = (user) => {
-  return jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+  return jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 };
 
 // Combined login route for both customers and employees
@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
         const token = generateAuthToken(customer);
         return res.json({
           token,
-          userId: customer.useId,
+          userId: customer._id,
           redirectTo: "/cuspage",
         }); // Redirect to '/cuspage' for customers
       }

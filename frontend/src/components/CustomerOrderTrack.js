@@ -7,9 +7,11 @@ const CustomerOrderTracking = () => {
   const [orders, setOrders] = useState("");
   const [cart, setCart] = useState("");
 
+  const userID = localStorage.getItem("userId");
+
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/orders/current-orders/user/6")
+      .get(`http://localhost:4000/api/orders/current-orders/user/${userID}`)
       .then((res) => {
         setOrders(res.data);
         console.log(res.data);
